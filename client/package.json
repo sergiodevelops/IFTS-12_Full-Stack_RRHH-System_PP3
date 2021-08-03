@@ -23,7 +23,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "repository": "https://github.com/sergioarieljuarez/rrhh-react",
+  "repository": "https://github.com/sergioarieljuarez/rrhh-express-react",
   "eslintConfig": {
     "extends": [
       "react-app",

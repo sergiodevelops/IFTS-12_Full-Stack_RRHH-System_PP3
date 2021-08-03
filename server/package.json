@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "rrhh express server",
   "main": "server.js",
-  "repository": "https://github.com/sergioarieljuarez/rrhh-api",
+  "repository": "https://github.com/sergioarieljuarez/rrhh-express-react",
   "author": "Sergio Ariel Juárez",
   "license": "MIT",
   "private": true,
