@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "rrhh express server",
+  "main": "server.js",
+  "repository": "https://github.com/sergioarieljuarez/rrhh-api",
+  "author": "Sergio Ariel Juárez",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "test": "echo \"Error, no test especified\" && exit 1",
+    "start": "node server",
+    "dev": "nodemon server"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
