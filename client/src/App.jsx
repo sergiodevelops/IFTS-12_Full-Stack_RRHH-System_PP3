@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
-
+import Login from "./entrypoint/presenters/web/sections/Login/Login";
 
 function App() {
-    const [backendData, setBackendData] = useState([{}])
+    // const [backendData, setBackendData] = useState([{}])
+
+    /*
     useEffect(() => {
         fetch("/api")
             .then(res => res.json())
@@ -10,8 +12,11 @@ function App() {
                 setBackendData(data);
             })
     }, [])
+    */
     return (
-        <div>
+        <Login></Login>
+
+        /*<div>
             {
                 (typeof backendData.users === 'undefined')
                     ?
@@ -21,7 +26,7 @@ function App() {
                         (<p key={`user${index}`}>{user}</p>)
                     ))
             }
-        </div>
+        </div>*/
     )
 }
 
