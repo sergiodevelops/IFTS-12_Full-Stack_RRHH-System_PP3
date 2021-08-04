@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import Login from "./entrypoint/presenters/web/sections/Login/Login";
+import PaginaLogin from "./entrypoint/presenters/web/pages/PaginaLogin/PaginaLogin";
 
 function App() {
     // const [backendData, setBackendData] = useState([{}])
@@ -14,7 +14,7 @@ function App() {
     }, [])
     */
     return (
-        <Login></Login>
+        <PaginaLogin></PaginaLogin>
 
         /*<div>
             {
