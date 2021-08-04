@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import PaginaLogin from "./entrypoint/presenters/web/pages/PaginaLogin/PaginaLogin";
+import Principal from "./entrypoint/presenters/web/pages/Principal/Principal";
 
 function App() {
     // const [backendData, setBackendData] = useState([{}])
@@ -14,8 +14,7 @@ function App() {
     }, [])
     */
     return (
-        <PaginaLogin></PaginaLogin>
-
+        <Principal/>
         /*<div>
             {
                 (typeof backendData.users === 'undefined')
