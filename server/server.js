@@ -1,10 +1,46 @@
-const express = require("express");
-const app = express();
+const express = require("express"); // API Rest
+const bodyParser = require("body-parser"); //analiza la solicitud y crea req.body object
+const cors = require("cors"); // middleware Express que habilita CORS con varias opciones
 
-app.get("/api",(req,res)=>{
-    res.json({"users":["user1", "user2", "user3"]})
-})
+const app = express(); // para usar express
+const db = require("./app/models");
 
-app.listen(5000, ()=>{
-    console.log("server started on port 5000")
-})
+// db.sequelize.sync(); //modo prod
+db.sequelize.sync({force: true})
+    .then(() => { //modo dev
+        console.log("Drop and re-sync db.");
+    })
+    .catch((error) => {
+        console.log('el error es:', error)
+    });
+/*
+    Express es para construir las API Rest
+    body-parser ayuda a analizar la solicitud y crear el req.bodyobjeto
+    cors proporciona middleware Express para habilitar CORS con varias opciones.
+* */
+
+
+// https://www.bezkoder.com/react-node-express-mysql/#Nodejs_Express_Back-end
+
+let corsOptions = {
+    origin: "http://localhost:8081"
+};
+
+app.use(cors(corsOptions));
+
+// parse requests of content-type - application/json
+app.use(bodyParser.json());
+
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: true}));
+
+// simple route
+app.get("/", (req, res) => {
+    res.json({message: "Chekos API."});
+});
+
+// set port, listen for requests
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}.`);
+});

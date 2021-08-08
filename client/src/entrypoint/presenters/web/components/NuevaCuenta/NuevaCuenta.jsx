@@ -35,9 +35,9 @@ function NuevaCuenta() {
     };
 
     const userTypes = [
-        { title: 'Administrativo' },
-        { title: 'Solicitante' },
-        { title: 'Postulante' },
+        {title: 'Administrativo'},
+        {title: 'Solicitante'},
+        {title: 'Postulante'},
     ];
 
     return (
@@ -49,26 +49,27 @@ function NuevaCuenta() {
             </Grid>
             <Grid item xs={12}>
                 <Grid container spacing={2}>
-                    <FormControl variant="outlined" className={classes.formControl}>
-                        <Grid item xs={12}>
+                    <Grid item xs={12}>
+                        <FormControl variant="outlined" className={classes.formControl}>
                             <Autocomplete
                                 id="combo-box-demo"
                                 options={userTypes}
                                 getOptionLabel={(option) => option.title}
                                 value={selectedUserType}
                                 onChange={(event, newValue) => setSelectedUserType(newValue)}
-                                style={{ width: 300 }}
-                                renderInput={(params) => <TextField {...params} error={!selectedUserType} label="Seleccionar una opción" variant="outlined" />}
+                                style={{width: 300}}
+                                renderInput={(params) => <TextField {...params} error={!selectedUserType}
+                                                                    label="Seleccionar una opción" variant="outlined"/>}
                             />
-                        </Grid>
-                    </FormControl>
+                        </FormControl>
+                    </Grid>
                     <Grid item xs={12}>
                         <TextField
                             fullWidth
                             // inputRef={register}
                             value={nombre}
                             error={!nombre}
-                            onChange={(e)=>setNombre(e.target.value)}
+                            onChange={(e) => setNombre(e.target.value)}
                             label="Nombre"
                             name="Nombre"
                             size="small"
@@ -81,7 +82,7 @@ function NuevaCuenta() {
                             fullWidth
                             // inputRef={register}
                             error={!usuario}
-                            onChange={(e)=>setUsuario(e.target.value)}
+                            onChange={(e) => setUsuario(e.target.value)}
                             label="Usuario"
                             name="Usuario"
                             size="small"
@@ -93,7 +94,7 @@ function NuevaCuenta() {
                             fullWidth
                             // inputRef={register}
                             error={!password1 || password1 !== password2}
-                            onChange={(e)=>setPassword1(e.target.value)}
+                            onChange={(e) => setPassword1(e.target.value)}
                             label="Contraseña"
                             name="Contraseña"
                             size="small"
@@ -106,7 +107,7 @@ function NuevaCuenta() {
                             fullWidth
                             // inputRef={register}
                             error={!password2 || password1 !== password2}
-                            onChange={(e)=>setPassword2(e.target.value)}
+                            onChange={(e) => setPassword2(e.target.value)}
                             label="Confirmar contraseña"
                             name="Confirmar contraseña"
                             size="small"
@@ -120,7 +121,7 @@ function NuevaCuenta() {
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <Button color={"secondary"} fullWidth type="submit" variant="contained"
-                    disabled={!selectedUserType || !nombre  || !usuario || !password1 || !password1 || !(password1 === password2)}
+                            disabled={!selectedUserType || !nombre || !usuario || !password1 || !password1 || !(password1 === password2)}
                     >
                         {"crear cuenta"}
                     </Button>
