@@ -27,7 +27,56 @@ User.sync({force: true});
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
+    const formatoFecha=(fecha,formato)=>{
+        return formato
+            .replace('YYYY', fecha.getFullYear())
+            .replace('MM', fecha.getMonth()+1)
+            .replace('DD', fecha.getDate());
+    }
+    const today = new Date();
+    const formato = "YYYY-MM-DD";
+    const fechaActual = formatoFecha(today, formato);
+    console.log("fecha actual", fechaActual);
 
+    // Validate request
+    // if (!req.body.type) {
+    //     res.status(400).send({
+    //         message: "Debe enviar un TIPO para crear el User!"
+    //     });
+    //     return;
+    // }
+    // if (!req.body.name) {
+    //     res.status(400).send({
+    //         message: "Debe enviar un NOMBRE para crear el User!"
+    //     });
+    //     return;
+    // }
+    // if (!req.body.password) {
+    //     res.status(400).send({
+    //         message: "Debe enviar un PASSWORD para crear el User!"
+    //     });
+    //     return;
+    // }
+
+    // Create a User
+    const users = {
+        type: req.body.type,
+        name: req.body.name,
+        password: req.body.password,
+        date: fechaActual,
+    };
+
+    // Save Tutorial in the database
+    User.create(users)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the USER."
+            });
+        });
 };
 
 // Retrieve all Users from the database.

@@ -5,6 +5,17 @@ const cors = require("cors"); // middleware Express que habilita CORS con varias
 const app = express(); // para usar express
 const db = require("./app/models");
 
+const formatoFecha=(fecha,formato)=>{
+    return formato
+        .replace('YYYY', fecha.getFullYear())
+        .replace('MM', fecha.getMonth()+1)
+        .replace('DD', fecha.getDate());
+}
+const fechaActual = formatoFecha(new Date(), 'YYYY-MM-DD');
+console.log("fecha actual", fechaActual);
+
+
+
 // db.sequelize.sync(); //modo prod
 db.sequelize.sync({force: true})
     .then(() => { //modo dev
@@ -23,7 +34,7 @@ db.sequelize.sync({force: true})
 // https://www.bezkoder.com/react-node-express-mysql/#Nodejs_Express_Back-end
 
 let corsOptions = {
-    origin: "http://localhost:8081"
+    origin: "http://localhost:8080"
 };
 
 app.use(cors(corsOptions));
@@ -38,6 +49,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.get("/", (req, res) => {
     res.json({message: "Chekos API."});
 });
+
+require("./app/routes/user.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

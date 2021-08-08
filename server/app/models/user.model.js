@@ -16,18 +16,28 @@ encontrar todos los tutoriales por título: findAll({ where: { title: ... } })
 
 //metodos que usara nuestro controlador
 
+
 module.exports = (sequelize, Sequelize) => {
-    const User = sequelize.define("user", {
-        type: {
-            type: Sequelize.INTEGER
+    const User = sequelize.define(
+        "user",
+        {
+            type: {
+                type: Sequelize.INTEGER
+            },
+            name: {
+                type: Sequelize.STRING
+            },
+            password: {
+                type: Sequelize.STRING
+            },
+            date: {
+                type: Sequelize.STRING
+            },
         },
-        name: {
-            type: Sequelize.STRING
+        {
+            timestamps: false,
         },
-        password: {
-            type: Sequelize.STRING
-        },
-    });
+    );
 
     return User;
 };
