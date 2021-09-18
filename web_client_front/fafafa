@@ -1,6 +1,6 @@
 version: '3.2'
 services:
-    rrhh-frontend:
+    web_client_front:
         container_name: rrhh-frontend
         env_file:
             - .env
