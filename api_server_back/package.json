@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "rrhh express server",
-  "main": "server.js",
+  "main": "",
   "repository": "https://github.com/sergioarieljuarez/rrhh-express-react",
   "author": "Sergio Ariel Juárez",
   "license": "MIT",
@@ -12,7 +12,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mysql2": "^2.2.5",
-    "sequelize": "^6.6.5"
+    "sequelize": "^6.6.5",
+    "sequelize-cli": "^6.2.0"
   },
   "scripts": {
     "test": "echo \"Error, no test especified\" && exit 1",

@@ -20,10 +20,10 @@ encontrar todos los tutoriales por título: findAll({ where: { title: ... } })
 
 const db = require("../models");
 const User = db.usuarios;
-const Op = db.Sequelize.Op;
+// const Op = db.Sequelize.Op;
 
 
-User.sync({force: true});
+// User.sync({force: true});
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -36,34 +36,38 @@ exports.create = (req, res) => {
     const today = new Date();
     const formato = "YYYY-MM-DD";
     const fechaActual = formatoFecha(today, formato);
-    console.log("fecha actual", fechaActual);
+
+    console.log("req.body.tipo_usuario", req.body.tipo_usuario);
+    console.log("req.body.nombre_usuario", req.body.nombre_usuario);
+    console.log("req.body.password", req.body.password);
+    console.log("req.body.fecha_alta", fechaActual);
 
     // Validate request
-    // if (!req.body.type) {
-    //     res.status(400).send({
-    //         message: "Debe enviar un TIPO para crear el User!"
-    //     });
-    //     return;
-    // }
-    // if (!req.body.name) {
-    //     res.status(400).send({
-    //         message: "Debe enviar un NOMBRE para crear el User!"
-    //     });
-    //     return;
-    // }
-    // if (!req.body.password) {
-    //     res.status(400).send({
-    //         message: "Debe enviar un PASSWORD para crear el User!"
-    //     });
-    //     return;
-    // }
+    if (!req.body.tipo_usuario) {
+        res.status(400).send({
+            message: "Debe enviar un TIPO para crear el User!"
+        });
+        return;
+    }
+    if (!req.body.nombre_usuario) {
+        res.status(400).send({
+            message: "Debe enviar un NOMBRE para crear el User!"
+        });
+        return;
+    }
+    if (!req.body.password) {
+        res.status(400).send({
+            message: "Debe enviar un PASSWORD para crear el User!"
+        });
+        return;
+    }
 
     // Create a User
     const users = {
-        type: req.body.type,
-        name: req.body.name,
+        tipo_usuario: req.body.tipo_usuario,
+        nombre_usuario: req.body.nombre_usuario,
         password: req.body.password,
-        date: fechaActual,
+        fecha_alta: fechaActual,
     };
 
     // Save Tutorial in the database

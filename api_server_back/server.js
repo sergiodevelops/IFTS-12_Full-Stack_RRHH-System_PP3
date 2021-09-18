@@ -39,15 +39,15 @@ let corsOptions = {
 
 app.use(cors(corsOptions));
 
-// parse requests of content-type - application/json
+// parse requests of content-tipo_usuario - application/json
 app.use(bodyParser.json());
 
-// parse requests of content-type - application/x-www-form-urlencoded
+// parse requests of content-tipo_usuario - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
 
 // simple route
 app.get("/", (req, res) => {
-    res.json({message: "Chekos API."});
+    res.json({message: "Chek@s API."});
 });
 
 require("./app/routes/user.routes")(app);
