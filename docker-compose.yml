@@ -24,7 +24,7 @@ services:
       - db_mysql
     image: adminer
     ports:
-      - 8080:8080
+      - "8080:8080"
     restart: always
 
   # servidor API BACKend --> puerto 3005 del pc
@@ -42,7 +42,7 @@ services:
       - 8.8.8.8
       - 8.8.4.4
     ports:
-      - 4005:4005
+      - "4000:4000"
     tty: true
     command: bash -c "yarn && yarn start"
     restart: always
@@ -62,8 +62,7 @@ services:
       - 8.8.8.8
       - 8.8.4.4
     ports:
-      - 3005:3005
+      - "3000:3000"
     tty: true
     command: bash -c "yarn && yarn start"
     restart: always
-
