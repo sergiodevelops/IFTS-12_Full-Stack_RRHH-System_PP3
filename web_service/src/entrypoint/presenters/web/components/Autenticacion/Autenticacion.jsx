@@ -35,7 +35,7 @@ function Autenticacion() {
             {/*<form onSubmit={onSubmit}>*/}
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <h1>Ingresar a mi cuenta</h1>
+                    <h1 className={classes.titulo}>Iniciar sesión</h1>
                 </Grid>
                 <Grid item xs={12}>
                     <Grid container spacing={2}>

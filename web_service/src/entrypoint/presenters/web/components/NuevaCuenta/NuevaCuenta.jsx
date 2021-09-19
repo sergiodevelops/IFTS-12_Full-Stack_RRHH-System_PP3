@@ -45,7 +45,7 @@ function NuevaCuenta() {
             {/*<form onSubmit={onSubmit}>*/}
             {/*<Grid container spacing={3}>*/}
             <Grid item xs={12}>
-                <h1>Crear nueva cuenta</h1>
+                <h1 className={classes.titulo}>Crea tu nueva cuenta</h1>
             </Grid>
             <Grid item xs={12}>
                 <Grid container spacing={2}>
