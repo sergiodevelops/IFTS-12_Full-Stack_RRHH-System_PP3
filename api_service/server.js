@@ -47,7 +47,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // simple route
 app.get("/", (req, res) => {
-    res.json({message: "Chek@s API."});
+    res.json({message: "Pepe API."});
 });
 
 require("./app/routes/user.routes")(app);
@@ -55,5 +55,5 @@ require("./app/routes/user.routes")(app);
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}.`);
+    console.log(`Server API corriendo en puerto virtual: ${PORT}.`);
 });

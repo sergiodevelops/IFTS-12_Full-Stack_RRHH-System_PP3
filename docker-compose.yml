@@ -6,7 +6,7 @@ services:
     container_name: db_mysql
     image: mysql:5.7.35
     volumes:
-      - "./db_mysql/.mysql-data/db:/var/lib/mysql"
+      - "./mysql_service/.mysql-data/db:/var/lib/mysql"
     ports:
       - "3307:3306"
     hostname: localhost
@@ -15,16 +15,6 @@ services:
       MYSQL_DATABASE: 'rrhh'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'user'
-    restart: always
-
-  # administrador web para MYSQL --> puerto 8080 del pc
-  db_adminer:
-    container_name: db_adminer
-    depends_on:
-      - db_mysql
-    image: adminer
-    ports:
-      - "8080:8080"
     restart: always
 
   # servidor API BACKend --> puerto 3005 del pc
@@ -36,7 +26,7 @@ services:
       - api_service/.env
     image: node:14
     volumes:
-      - "./api_server_back:/var/www/html"
+      - "./api_service:/var/www/html"
     working_dir: /var/www/html/
     dns:
       - 8.8.8.8
@@ -56,7 +46,7 @@ services:
       - web_service/.env
     image: node:14
     volumes:
-      - "./web_client_front:/var/www/html"
+      - "./web_service:/var/www/html"
     working_dir: /var/www/html/
     dns:
       - 8.8.8.8
@@ -65,4 +55,14 @@ services:
       - "3000:3000"
     tty: true
     command: bash -c "yarn && yarn start"
+    restart: always
+
+  # administrador web para MYSQL --> puerto 8080 del pc
+  db_adminer:
+    container_name: db_adminer
+    depends_on:
+      - db_mysql
+    image: adminer
+    ports:
+      - "8181:8181"
     restart: always
