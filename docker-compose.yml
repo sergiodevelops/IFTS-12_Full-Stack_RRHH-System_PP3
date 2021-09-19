@@ -33,7 +33,7 @@ services:
     depends_on:
       - db_mysql
     env_file:
-      - api_server_back/.env
+      - api_service/.env
     image: node:14
     volumes:
       - "./api_server_back:/var/www/html"
@@ -53,7 +53,7 @@ services:
     depends_on:
       - api_server_back
     env_file:
-      - web_client_front/.env
+      - web_service/.env
     image: node:14
     volumes:
       - "./web_client_front:/var/www/html"
