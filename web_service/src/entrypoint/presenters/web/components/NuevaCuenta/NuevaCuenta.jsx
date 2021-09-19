@@ -52,23 +52,30 @@ function NuevaCuenta() {
                     <Grid item xs={12}>
                         <FormControl variant="outlined" className={classes.formControl}>
                             <Autocomplete
-                                id="combo-box-demo"
+                                className={`selectedUserType`}
                                 options={userTypes}
                                 getOptionLabel={(option) => option.title}
                                 value={selectedUserType}
                                 onChange={(event, newValue) => setSelectedUserType(newValue)}
                                 style={{width: 300}}
-                                renderInput={(params) => <TextField {...params} error={!selectedUserType}
-                                                                    label="Seleccionar una opción" variant="outlined"/>}
+                                renderInput={(params) =>
+                                    <TextField
+                                        {...params}
+                                        error={!selectedUserType}
+                                        label="Seleccionar una opción"
+                                        variant="outlined"
+                                    />}
                             />
                         </FormControl>
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
+                            className={`nombre`}
                             fullWidth
                             // inputRef={register}
+                            disabled={!selectedUserType}
+                            error={selectedUserType && !nombre}
                             value={nombre}
-                            error={!nombre}
                             onChange={(e) => setNombre(e.target.value)}
                             label="Nombre"
                             name="Nombre"
@@ -79,9 +86,11 @@ function NuevaCuenta() {
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
+                            className={`usuario`}
                             fullWidth
                             // inputRef={register}
-                            error={!usuario}
+                            disabled={!nombre}
+                            error={nombre && !usuario}
                             onChange={(e) => setUsuario(e.target.value)}
                             label="Usuario"
                             name="Usuario"
@@ -91,9 +100,11 @@ function NuevaCuenta() {
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
+                            className={`password1`}
                             fullWidth
                             // inputRef={register}
-                            error={!password1 || password1 !== password2}
+                            disabled={!usuario}
+                            error={usuario && (!password1 || password1 !== password2)}
                             onChange={(e) => setPassword1(e.target.value)}
                             label="Contraseña"
                             name="Contraseña"
@@ -104,9 +115,11 @@ function NuevaCuenta() {
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
+                            className={`password2`}
                             fullWidth
                             // inputRef={register}
-                            error={!password2 || password1 !== password2}
+                            disabled={!usuario}
+                            error={usuario && (!password1 || password1 !== password2)}
                             onChange={(e) => setPassword2(e.target.value)}
                             label="Confirmar contraseña"
                             name="Confirmar contraseña"
@@ -120,10 +133,12 @@ function NuevaCuenta() {
 
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <Button color={"secondary"} fullWidth type="submit" variant="contained"
-                            disabled={!selectedUserType || !nombre || !usuario || !password1 || !password1 || !(password1 === password2)}
+                    <Button
+                        color={"primary"}
+                        fullWidth type="submit" variant="contained"
+                        disabled={!selectedUserType || !nombre || !usuario || !password1 || !password1 || !(password1 === password2)}
                     >
-                        {"crear cuenta"}
+                        crear cuenta
                     </Button>
                 </Grid>
             </Grid>

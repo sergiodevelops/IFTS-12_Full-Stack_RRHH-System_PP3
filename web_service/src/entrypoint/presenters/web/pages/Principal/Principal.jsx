@@ -18,7 +18,7 @@ function Principal() {
     const [existeUsuario, setExisteUsuario] = useState(true);
     const classes = useStyles();
     const handleClick = (event) => {
-        setExisteUsuario(false)
+        setExisteUsuario(!existeUsuario)
     };
 
     return (
@@ -27,11 +27,12 @@ function Principal() {
                 existeUsuario ? <Autenticacion/> : <NuevaCuenta/>
             }
             {
-                existeUsuario &&
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <Button color="secondary" fullWidth type="submit" variant="contained" onClick={handleClick}>
-                            crear una cuenta
+                            {
+                                existeUsuario ? "crear nueva cuenta" : "volver"
+                            }
                         </Button>
                     </Grid>
                 </Grid>

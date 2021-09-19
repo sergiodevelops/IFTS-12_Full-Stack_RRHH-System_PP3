@@ -13,7 +13,7 @@ import Select from '@material-ui/core/Select';
 // https://www.williamkurniawan.com/blog/building-a-simple-login-form-with-material-ui-and-react-hook-form
 
 
-function Autenticacion () {
+function Autenticacion() {
     // const { handleSubmit, register } = useForm();
 
     const classes = useStyles();
@@ -23,50 +23,61 @@ function Autenticacion () {
     //     console.log(data);
     // });
 
-    const [state, setState] = React.useState({
-        age: '',
-        name: 'hai',
-    });
+    // const [state, setState] = React.useState({
+    //     user: '',
+    //     password: '',
+    // });
+    const [user, setUser] = useState(null);
+    const [password, setPassword] = useState(null);
 
     return (
-            <form>
-                {/*<form onSubmit={onSubmit}>*/}
-                <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                        <h1>Ingresar a mi cuenta</h1>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <TextField
-                                    fullWidth
-                                    // inputRef={register}
-                                    label="Usuario"
-                                    name="Usuario"
-                                    size="small"
-                                    variant="outlined"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    fullWidth
-                                    // inputRef={register}
-                                    label="Contraseña"
-                                    name="Contraseña"
-                                    size="small"
-                                    type="password"
-                                    variant="outlined"
-                                />
-                            </Grid>
+        <form>
+            {/*<form onSubmit={onSubmit}>*/}
+            <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    <h1>Ingresar a mi cuenta</h1>
+                </Grid>
+                <Grid item xs={12}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <TextField
+                                className={`user`}
+                                fullWidth
+                                // inputRef={register}
+                                label="Usuario"
+                                name="Usuario"
+                                size="small"
+                                variant="outlined"
+                                onChange={(e) => setUser(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                className={`password`}
+                                fullWidth
+                                // inputRef={register}
+                                label="Contraseña"
+                                name="Contraseña"
+                                size="small"
+                                type="password"
+                                variant="outlined"
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
                         </Grid>
                     </Grid>
-                    <Grid item xs={12}>
-                            <Button color={"primary"} fullWidth type="submit" variant="contained">
-                               ingresar
-                            </Button>
-                    </Grid>
                 </Grid>
-            </form>
+                <Grid item xs={12}>
+                    <Button
+                        color={"primary"}
+                        fullWidth type="submit"
+                        variant="contained"
+                        disabled={!user || !password}
+                    >
+                        ingresar
+                    </Button>
+                </Grid>
+            </Grid>
+        </form>
     );
 };
 
