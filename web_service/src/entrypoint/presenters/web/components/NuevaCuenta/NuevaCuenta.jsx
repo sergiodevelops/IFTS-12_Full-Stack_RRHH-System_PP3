@@ -53,6 +53,7 @@ function NuevaCuenta() {
                         <FormControl variant="outlined" className={classes.formControl}>
                             <Autocomplete
                                 className={`selectedUserType`}
+                                autoComplete={"off"}
                                 options={userTypes}
                                 getOptionLabel={(option) => option.title}
                                 value={selectedUserType}
@@ -71,6 +72,7 @@ function NuevaCuenta() {
                     <Grid item xs={12}>
                         <TextField
                             className={`nombre`}
+                            autoComplete={"off"}
                             fullWidth
                             // inputRef={register}
                             disabled={!selectedUserType}
@@ -87,6 +89,7 @@ function NuevaCuenta() {
                     <Grid item xs={12}>
                         <TextField
                             className={`usuario`}
+                            autoComplete={"off"}
                             fullWidth
                             // inputRef={register}
                             disabled={!nombre}
@@ -101,6 +104,7 @@ function NuevaCuenta() {
                     <Grid item xs={12}>
                         <TextField
                             className={`password1`}
+                            autoComplete={"off"}
                             fullWidth
                             // inputRef={register}
                             disabled={!usuario}
@@ -116,6 +120,7 @@ function NuevaCuenta() {
                     <Grid item xs={12}>
                         <TextField
                             className={`password2`}
+                            autoComplete={"off"}
                             fullWidth
                             // inputRef={register}
                             disabled={!usuario}

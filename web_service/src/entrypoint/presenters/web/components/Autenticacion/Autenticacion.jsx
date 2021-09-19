@@ -42,6 +42,7 @@ function Autenticacion() {
                         <Grid item xs={12}>
                             <TextField
                                 className={`user`}
+                                autoComplete={"off"}
                                 fullWidth
                                 // inputRef={register}
                                 label="Usuario"
@@ -54,6 +55,7 @@ function Autenticacion() {
                         <Grid item xs={12}>
                             <TextField
                                 className={`password`}
+                                autoComplete={"off"}
                                 fullWidth
                                 // inputRef={register}
                                 label="Contraseña"
