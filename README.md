@@ -2,7 +2,25 @@
 - [Sintaxis elegante para esta documentación](https://docs.github.com/es/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 - [Repositorio en GITHUB](https://github.com/sergioarieljuarez/rrhh-express-react)
 
+
 ## Ambiente de DESARROLLO
+
+#### Puertos de conexión utilizados para "localhost" (127.0.0.1)
+   **REAL**:VIRTUAL
+
+1. **3307**:3306 <-- MySQL Server
+2. **----**:8080 <-- API Server
+3. **8181**:8181 <-- MySQL Server
+4. **----**:8080 <-- API Server
+5. **8181**:8181 <-- MySQL Server
+
+#### Comandos utiles durante el desarrollo:
+Algunos de los comandos de Git básicos son:
+```
+docker logs --tail 100 -f nombreDelContenedor
+```
+
+
 ### Requirimientos
 1. DOCKER: Docker version 20.10.7, build f0df350
    - **Docker engine**: permite iniciar cada servicio en forma separada independiente uno de otro cada uno en su propio contenedor
@@ -35,7 +53,9 @@
 - GIT (control de versionado de codigo local) v02.25.01
 - GITHUB (control de versionado para el acceso en forma colaborativa en la nube)
 
+
 ## Ambiente de PRODUCCIÓN
+
 ### Requirimientos para el despliegue del proyecto en el servidor
 
 - WEBPACK (herramienta para NODE JS que copila el codigo y lo pasa a nativo para los navegadores - HTML, CSS, JS) - empaqueta todo el proyecto en ficheros que entiende o interpreta el navegador y asi poder ser desplegado y publicado en un servidor online en Internet
@@ -52,5 +72,19 @@
 - NOMBRE DE DOMINIO: es la URL o DIRECCION de acceso (nombre de ingreso desde el navegador web (servicio anual)
 - HOSTING servicio de alojamiento web: Servidor corriendo con Linux Ubuntu Server 20.04 LTS con MySQL engine
 - HOSTING servicio de certificado de conexión web: para una conexión segura entre navegador web cliente y servidor web
+
+## Tareas pendientes por resolver:
+- [x] USER LOGIN section (frontend)
+- [x] USER REGISTRATION section (frontend)
+- [ ] HOME section (frontend)
+- [ ] CV data section  (frontend)
+- [ ] ALTA NUEVO USUARIO en mysql database (backend)
+- [ ] task 1 (backend)
+- [ ] task 2 (backend)
+- [ ] task 3 (backend)
+- [ ] task 4 (frontend)
+- [ ] task 5 (frontend)
+- [ ] task 6 (frontend)
+
 
 

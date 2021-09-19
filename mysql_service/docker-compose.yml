@@ -1,0 +1,68 @@
+version: '3.2'
+services:
+
+  # motor base de datos MYSQL --> puerto 3307 del pc
+  db_mysql:
+    container_name: db_mysql
+    image: mysql:5.7.35
+    volumes:
+      - "./mysql_service/.mysql-data/db:/var/lib/mysql"
+    ports:
+      - "3307:3306"
+    hostname: localhost
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_DATABASE: 'rrhh'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'user'
+    restart: always
+
+  # servidor API BACKend --> puerto 3005 del pc
+  api_server_back:
+    container_name: api_server_back
+    depends_on:
+      - db_mysql
+    env_file:
+      - api_service/.env
+    image: node:14
+    volumes:
+      - "./api_service:/var/www/html"
+    working_dir: /var/www/html/
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    ports:
+      - "4000:4000"
+    tty: true
+    command: bash -c "yarn && yarn start"
+    restart: always
+
+  # cliente web FRONTend --> puerto 3005 del pc
+  web_client_front:
+    container_name: web_client_front
+    depends_on:
+      - api_server_back
+    env_file:
+      - web_service/.env
+    image: node:14
+    volumes:
+      - "./web_service:/var/www/html"
+    working_dir: /var/www/html/
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    ports:
+      - "3000:3000"
+    tty: true
+    command: bash -c "yarn && yarn start"
+    restart: always
+
+  # administrador web para MYSQL --> puerto 8080 del pc
+  db_adminer:
+    container_name: db_adminer
+    depends_on:
+      - db_mysql
+    image: adminer
+    ports:
+      - "8080:8080"
+    restart: always
