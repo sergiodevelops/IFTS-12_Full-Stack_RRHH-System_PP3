@@ -6,11 +6,10 @@
 ## Ambiente de DESARROLLO
 
 #### Puertos de conexión utilizados para "localhost" (127.0.0.1)
-
 **PC**:DOCKER
 1. **3306**:3306 <-- MySQL Database Engine Server
 2. **8080**:8080 <-- MySQL Database Web Adminer
-3. **8081**:8081 <-- API Server Express JS
+3. **4000**:4000 <-- API Server Express JS
 4. **3000**:3000 <-- WEB Server React JS
 
 #### Comandos utiles durante el desarrollo:
