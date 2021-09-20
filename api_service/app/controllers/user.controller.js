@@ -67,7 +67,7 @@ exports.create = (req, res) => {
         tipo_usuario: req.body.tipo_usuario,
         nombre_usuario: req.body.nombre_usuario,
         password: req.body.password,
-        fecha_alta: fechaActual,
+        fecha_alta: fechaActual, // lo crea internamente la API
     };
 
     // Save Tutorial in the database

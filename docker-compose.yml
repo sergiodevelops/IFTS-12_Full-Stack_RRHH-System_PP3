@@ -2,13 +2,13 @@ version: '3.2'
 services:
 
   # motor base de datos MYSQL --> puerto 3307 del pc
-  db_mysql:
+  db:
     container_name: db_mysql
     image: mysql:5.7.35
     volumes:
       - "./mysql_service/.mysql-data/db:/var/lib/mysql"
     ports:
-      - "3307:3306"
+      - "3306:3306"
     hostname: localhost
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
@@ -21,7 +21,7 @@ services:
   api_server_back:
     container_name: api_server_back
     depends_on:
-      - db_mysql
+      - db
     env_file:
       - api_service/.env
     image: node:14

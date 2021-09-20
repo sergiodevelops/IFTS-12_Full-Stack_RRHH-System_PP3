@@ -53,7 +53,8 @@ app.get("/", (req, res) => {
 require("./app/routes/user.routes")(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+// const PORT = process.env.PORT || 8081;
+const PORT = 4000;
 app.listen(PORT, () => {
     console.log(`Server API corriendo en puerto virtual: ${PORT}.`);
 });

@@ -1,28 +1,26 @@
 version: '3.2'
 services:
 
-  # motor base de datos MYSQL --> puerto 3307 del pc
-  db_mysql_b:
+  # motor base de datos MYSQL --> puerto 3306 del pc
+  db:
     container_name: db_mysql_b
     image: mysql:5.7.35
     volumes:
       - "./.mysql-data/db:/var/lib/mysql"
     ports:
-      - "3307:3306"
+      - "3306:3306"
     hostname: localhost
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
       MYSQL_DATABASE: 'rrhh'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'user'
-  #    restart: always
 
   # administrador web para MYSQL --> puerto 8080 del pc
-  db_adminer:
+  db_adminer_b:
     container_name: db_adminer_b
     depends_on:
-      - db_mysql_b
+      - db
     image: adminer
     ports:
-      - "8181:8181"
-#    restart: always
+      - "8080:8080"
