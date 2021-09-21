@@ -2,8 +2,8 @@ version: '3.2'
 services:
 
   # motor base de datos MYSQL --> puerto 3307 del pc
-  db:
-    container_name: db_mysql
+  mysql_service:
+    container_name: mysql_service
     image: mysql:5.7.35
     volumes:
       - "./mysql_service/.mysql-data/db:/var/lib/mysql"
@@ -18,10 +18,10 @@ services:
     restart: always
 
   # servidor API BACKend --> puerto 3005 del pc
-  api_server_back:
-    container_name: api_server_back
+  api_service:
+    container_name: api_service
     depends_on:
-      - db
+      - mysql_service
     env_file:
       - api_service/.env
     image: node:14
@@ -38,10 +38,10 @@ services:
     restart: always
 
   # cliente web FRONTend --> puerto 3005 del pc
-  web_client_front:
-    container_name: web_client_front
+  web_service:
+    container_name: web_service
     depends_on:
-      - api_server_back
+      - api_service
     env_file:
       - web_service/.env
     image: node:14
@@ -61,8 +61,8 @@ services:
   db_adminer:
     container_name: db_adminer
     depends_on:
-      - db_mysql
+      - mysql_service
     image: adminer
     ports:
-      - "8181:8181"
+      - "8080:8080"
     restart: always
