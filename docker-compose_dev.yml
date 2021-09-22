@@ -2,8 +2,8 @@ version: '3.2'
 services:
 
   # MYSQL service --> puerto 3306(pc):3306(docker)
-  mysql_service:
-    container_name: mysql_service
+  mysql_service_dev:
+    container_name: mysql_service_dev
     image: mysql:5.7.35
     volumes:
       - "./mysql_service/.mysql-data/db:/var/lib/mysql"
@@ -18,10 +18,10 @@ services:
     restart: always
 
   # API service BACKend --> puerto 4005(pc):4005(docker)
-  api_service:
-    container_name: api_service
+  api_service_dev:
+    container_name: api_service_dev
     depends_on:
-      - mysql_service
+      - mysql_service_dev
     env_file:
       - api_service/.env
     image: node:14
@@ -34,14 +34,14 @@ services:
     ports:
       - "4005:4005"
     tty: true
-    command: bash -c "yarn && yarn start"
+    command: bash -c "yarn && yarn dev"
     restart: always
 
   # WEB service FRONTend --> puerto 3005(pc):3005(docker)
-  web_service:
-    container_name: web_service
+  web_service_dev:
+    container_name: web_service_dev
     depends_on:
-      - api_service
+      - api_service_dev
     env_file:
       - web_service/.env
     image: node:14
@@ -54,14 +54,14 @@ services:
     ports:
       - "3005:3005"
     tty: true
-    command: bash -c "yarn && yarn start"
+    command: bash -c "yarn && yarn dev"
     restart: always
 
   # MYSQL web adminer --> puerto 8080(pc):8080(docker)
-  admindb_service:
-    container_name: admindb_service
+  admindb_service_dev:
+    container_name: admindb_service_dev
     depends_on:
-      - mysql_service
+      - mysql_service_dev
     image: adminer
     ports:
       - "8080:8080"
