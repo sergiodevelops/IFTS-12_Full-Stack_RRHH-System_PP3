@@ -13,9 +13,6 @@ const formatoFecha=(fecha,formato)=>{
 }
 const fechaActual = formatoFecha(new Date(), 'YYYY-MM-DD');
 console.log("fecha actual", fechaActual);
-
-
-
 // db.sequelize.sync(); //modo prod
 db.sequelize.sync({force: true})
     .then(() => { //modo dev
@@ -28,33 +25,25 @@ db.sequelize.sync({force: true})
     Express es para construir las API Rest
     body-parser ayuda a analizar la solicitud y crear el req.bodyobjeto
     cors proporciona middleware Express para habilitar CORS con varias opciones.
-* */
-
-
+*/
 // https://www.bezkoder.com/react-node-express-mysql/#Nodejs_Express_Back-end
 
+// puerto "de donde provienen" las peticiones (web_service)
 let corsOptions = {
-    origin: "http://localhost:4000"
+    origin: "http://localhost:3005"
 };
-
 app.use(cors(corsOptions));
-
 // parse requests of content-tipo_usuario - application/json
 app.use(bodyParser.json());
-
 // parse requests of content-tipo_usuario - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
-
 // simple route
 app.get("/", (req, res) => {
     res.json({message: "Pepe API."});
 });
-
 require("./app/routes/user.routes")(app);
-
-// set port, listen for requests
-// const PORT = process.env.PORT || 8081;
-const PORT = 4000;
+// puerto "a donde se reciben" las peticiones (api_service)
+const PORT = process.env.PORT || 4005;
 app.listen(PORT, () => {
     console.log(`Server API corriendo en puerto virtual: ${PORT}.`);
 });
