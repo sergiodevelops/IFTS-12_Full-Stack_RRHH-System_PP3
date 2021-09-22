@@ -2,6 +2,7 @@
 - [Sintaxis elegante para esta documentación](https://docs.github.com/es/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 - [Repositorio en GITHUB](https://github.com/sergioarieljuarez/rrhh-express-react)
 
+![alt text](./docs/pepe-docs.png)
 
 ## Ambiente de DESARROLLO
 
@@ -67,8 +68,6 @@ docker-compose up --build -f docker-compose.yml
 # o simplemente en forma mas abreviada (docker-compose.yml es el nombre que se considera por defecto):
 docker-compose up --build
 ```
-![alt text](https://raw.githubusercontent.com/sergioarieljuarez/rrhh-express-react/master/docs/fafafa.png)
-![alt text](./docs/fafafa.png)
 
 ### Requirimientos
 1. DOCKER: Docker version 20.10.7, build f0df350
