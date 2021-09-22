@@ -4,7 +4,7 @@
 
 ![alt text](./docs/pepe-docs.png)
 
-## Ambiente de DESARROLLO
+>## Ambiente de DESARROLLO
 
 #### Puertos de conexión utilizados para "localhost" (127.0.0.1)
 **PC**:DOCKER
@@ -57,16 +57,17 @@ yarn && yarn dev
 
 5. Cómo iniciar todos los servicios juntos (orquestar) modo DESARROLLO (dev):
 ```
-# pararse en el directorio raiz "rrhh", y ejecute:
-docker-compose up --build -f docker-compose_dev.yml
+# pararse en el directorio raiz del proyecto (ej: E:/web-project/rrhh), y ejecute:
+docker-compose -f docker-compose_dev.yml up --build
 ```
 
 6. Cómo iniciar todos los servicios juntos (orquestar) modo PRODUCCION (prod):
 ```
-# pararse en el directorio raiz "rrhh", y ejecute:
-docker-compose up --build -f docker-compose.yml
-# o simplemente en forma mas abreviada (docker-compose.yml es el nombre que se considera por defecto):
+# pararse en el directorio raiz del proyecto (ej: E:/web-project/rrhh), y ejecute:
+# en forma abreviada (docker-compose.yml es el nombre "default"):
 docker-compose up --build
+# o en forma completa (especifica el nombre de archivo con "-f"):
+docker-compose up --build -f docker-compose.yml
 ```
 
 ### Requirimientos
@@ -102,7 +103,7 @@ docker-compose up --build
 - GITHUB (control de versionado para el acceso en forma colaborativa en la nube)
 
 
-## Ambiente de PRODUCCIÓN
+>## Ambiente de PRODUCCIÓN
 
 ### Requirimientos para el despliegue del proyecto en el servidor
 
