@@ -1,7 +1,7 @@
 version: '3.2'
 services:
 
-  # motor base de datos MYSQL --> puerto 3307 del pc
+  # MYSQL service --> puerto 3306(pc):3306(docker)
   mysql_service:
     container_name: mysql_service
     image: mysql:5.7.35
@@ -17,7 +17,7 @@ services:
       MYSQL_PASSWORD: 'user'
     restart: always
 
-  # servidor API BACKend --> puerto 3005 del pc
+  # API service BACKend --> puerto 4000(pc):4000(docker)
   api_service:
     container_name: api_service
     depends_on:
@@ -37,7 +37,7 @@ services:
     command: bash -c "yarn && yarn start"
     restart: always
 
-  # cliente web FRONTend --> puerto 3005 del pc
+  # WEB service FRONTend --> puerto 3000(pc):3000(docker)
   web_service:
     container_name: web_service
     depends_on:
@@ -57,7 +57,7 @@ services:
     command: bash -c "yarn && yarn start"
     restart: always
 
-  # administrador web para MYSQL --> puerto 8080 del pc
+  # MYSQL web adminer --> puerto 8080(pc):8080(docker)
   db_adminer:
     container_name: db_adminer
     depends_on:
