@@ -34,7 +34,7 @@ db.sequelize.sync({force: true})
 // https://www.bezkoder.com/react-node-express-mysql/#Nodejs_Express_Back-end
 
 let corsOptions = {
-    origin: "http://localhost:8080"
+    origin: "http://localhost:4000"
 };
 
 app.use(cors(corsOptions));
