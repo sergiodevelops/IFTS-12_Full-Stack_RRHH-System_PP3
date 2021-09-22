@@ -18,12 +18,10 @@ este modelo representa la tabla de usuarios
 
 
 
-const db = require("../models");
-const User = db.usuarios;
-// const Op = db.Sequelize.Op;
-
-
-// User.sync({force: true});
+const DB = require("../models");
+const User = DB.usuarios;
+// const Op = DB.Sequelize.Op;
+User.sync({force: true});
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {

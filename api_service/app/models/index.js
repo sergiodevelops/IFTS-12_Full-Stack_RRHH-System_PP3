@@ -15,11 +15,10 @@ const sequelize = new Sequelize(
         }
     });
 
-const db = {};
+const DB = {}; //TODO cambiar por "const" una vez que funcione dar un alta
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+DB.Sequelize = Sequelize;
+DB.sequelize = sequelize;
+DB.usuarios = require("./user.model.js")(sequelize, Sequelize);
 
-db.usuarios = require("./user.model.js")(sequelize, Sequelize);
-
-module.exports = db;
+module.exports = DB;
