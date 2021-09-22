@@ -7,17 +7,68 @@
 
 #### Puertos de conexión utilizados para "localhost" (127.0.0.1)
 **PC**:DOCKER
-1. **3306**:3306 <-- MySQL Database Engine Server
-2. **8080**:8080 <-- MySQL Database Web Adminer
-3. **4000**:4000 <-- API Server Express JS
-4. **3000**:3000 <-- WEB Server React JS
+1. **3306**:3306 <-- MySQL Database Engine Server - "mysql_service" or "mysql_service_b"
+2. **8080**:8080 <-- MySQL Database Web Adminer - "admindb_service" or "admindb_service_b"
+3. **4000**:4000 <-- API Server Express JS - "api_service"
+4. **3000**:3000 <-- WEB Server React JS - "web_service"
 
 #### Comandos utiles durante el desarrollo:
-Algunos de los comandos de Git básicos son:
+
+1. Ver logs del contenedor que desee y que este corriendo en Docker:
 ```
-docker logs --tail 100 -f nombreDelContenedor
+# Listar contenedores que estan corriendo actualmente en Docker, ejecute:
+docker ps
+
+# Puede ver logs del contenedor desado, ejecute:
+docker logs --tail 100 -f ${NOMBRE_CONTENEDOR} 
+
+# NOMBRE_CONTENEDOR puede ser una de las siguientes opciones: 
+# ["mysql_service", "admindb_service", "api_service", "web_service"]
+# Ejemplo:
+docker logs --tail 100 -f api_service
+
+# Finaliza el monitor de este proceso combinando las teclas "CTRL + C"
 ```
 
+2. Cómo iniciar el "mysql_service" + "admindb_service" para programar localmente:
+```
+# pararse en el directorio correspondiente, ejecute:
+cd ./mysql_service 
+# iniciar el servicio manualmente con este comando, ejecute:
+docker-compose up
+```
+
+3. Cómo iniciar el "api_service" para programar localmente:
+```
+# pararse en el directorio correspondiente, ejecute:
+cd ./api_service 
+# iniciar el servicio manualmente con este comando, ejecute:
+yarn && yarn dev
+```
+
+4. Cómo iniciar el "web_service" para programar localmente:
+```
+# pararse en el directorio correspondiente, ejecute:
+cd ./web_service 
+# iniciar el servicio manualmente con este comando, ejecute:
+yarn && yarn dev
+```
+
+5. Cómo iniciar todos los servicios juntos (orquestar) modo DESARROLLO (dev):
+```
+# pararse en el directorio raiz "rrhh", y ejecute:
+docker-compose up --build -f docker-compose_dev.yml
+```
+
+6. Cómo iniciar todos los servicios juntos (orquestar) modo PRODUCCION (prod):
+```
+# pararse en el directorio raiz "rrhh", y ejecute:
+docker-compose up --build -f docker-compose.yml
+# o simplemente en forma mas abreviada (docker-compose.yml es el nombre que se considera por defecto):
+docker-compose up --build
+```
+![alt text](https://raw.githubusercontent.com/sergioarieljuarez/rrhh-express-react/master/docs/fafafa.png)
+![alt text](./docs/fafafa.png)
 
 ### Requirimientos
 1. DOCKER: Docker version 20.10.7, build f0df350
