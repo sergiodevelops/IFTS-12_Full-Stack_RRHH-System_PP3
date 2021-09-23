@@ -53,7 +53,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.get('*', (req, res) => res.status(200).send({
     message: 'Welcome Casco to Pepe API !!!',
 }));
-require("./app/routes/user.routes")(app);
+require("./routes/user.routes")(app);
 // puerto "a donde se reciben" las peticiones (api_service)
 const PORT = process.env.PORT || 4005;
 app.listen(PORT, () => {

@@ -18,7 +18,7 @@ este modelo representa la tabla de usuarios
 
 
 
-const DB = require("../models");
+const DB = require("../app/models");
 const User = DB.usuarios;
 // const Op = DB.Sequelize.Op;
 User.sync({force: true});

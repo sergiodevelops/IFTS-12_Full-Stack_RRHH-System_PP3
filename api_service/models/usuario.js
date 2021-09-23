@@ -18,40 +18,59 @@ encontrar todos los tutoriales por título: findAll({ where: { title: ... } })
 // https://sequelize.org/master/manual/model-basics.html
 // https://www.bezkoder.com/react-node-express-mysql/#Nodejs_Express_Back-end
 // https://sequelize.org/master/manual/model-basics.html
+//https://tomasmalio.medium.com/node-js-express-y-mysql-con-sequelize-ec0a7c0ae292
+
 
 'use strict';
+const {
+    Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-
-    const User = sequelize.define('user', {
-        // id: {
-        //     allowNull: false,
-        //     autoIncrement: true,
-        //     primaryKey: true,
-        //     type: DataTypes.INTEGER
-        // },
+    class usuario extends Model {
+        /**
+         * Helper method for defining associations.
+         * This method is not a part of Sequelize lifecycle.
+         * The `models/index` file will call this method automatically.
+         */
+        static associate(models) {
+            // define association here
+        }
+    };
+    usuario.init({
+        id: {
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+            type: DataTypes.INTEGER,
+        },
         tipo_usuario: {
             allowNull: false,
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
         },
         password: {
             allowNull: false,
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
         },
         nombre_usuario: {
             allowNull: true,
             defaultValue: 1,
-            type: DataTypes.CHAR
-        }
+            type: DataTypes.STRING,
+        },
+        status: {
+            allowNull: true,
+            defaultValue: 1,
+            type: DataTypes.CHAR,
+        },
     }, {
         timestamps: false,
         freezeTableName: true,
-        tableName: 'usuarios',
-        classMethods: {}
+        tableName: 'usuario',
+        classMethods: {},
     });
 
-    User.associate = (models)=> {
+    Usuario.associate = function(models) {
         // associations can be defined here
-
     };
-    return User;
+
+    return usuario;
 };
