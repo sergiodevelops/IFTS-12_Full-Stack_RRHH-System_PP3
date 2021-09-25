@@ -1,0 +1,47 @@
+---------------------------------------------------------------
+1 - caso de uso "AUTENTICARSE COMO USUARIO YA REGISTRADO" (BUSCAR USUARIO)
+endpoint --> http://localhost:4005/api/users
+
+-----------------------------
+PETICIÓN
+-------------
+bodyParams: {
+    "username": {{$USER_NAME}},
+    "password": {{$PASSWORD}},
+}
+
+-----------------------------
+RESPUESTA
+-------------
+a)
+message: "usuario o constraseña incorrecta"
+b)
+tipo: {{$USER_TYPE}}, nombreCompleto: {{$USER_FULLNAME}} <-- significa que existe
+c) problema error inesperado
+message: "problema de conexión con el servidor, intente mas tarde"
+
+---------------------------------------------------------------
+2 - caso de uso "REGISTRARSE COMO USUARIO NUEVO" (ALTA DE USUARIO)
+endpoint --> http://localhost:4005/api/user
+
+-----------------------------
+PETICIÓN
+-------------
+bodyParams: {
+    tipo: {{$USER_TYPE}},
+    nombreCompleto: {{$USER_FULLNAME}},
+    username: {{$USER_NAME}},
+    password: {{$PASSWORD}},
+}
+
+-----------------------------
+RESPUESTA
+-------------
+a) $USER_NAME ya existe, elija otro nombre diferente (ya esta ocupado):
+message: "ya existe, elija otro nombre"
+b) el usuario se creo correctamente, e ingresa a la sección que le corresponda segun el tipo:
+tipo: {{$USER_TYPE}}, nombreCompleto: {{$USER_FULLNAME}} <-- significa que existe
+c) problema error inesperado
+message: "problema de conexión con el servidor, intente mas tarde"
+
+---------------------------------------------------------------
