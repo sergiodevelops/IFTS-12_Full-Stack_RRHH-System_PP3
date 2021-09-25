@@ -10,12 +10,13 @@ import useStyles from "./styles";
 // import Select from '@material-ui/core/Select';
 import Autenticacion from "../../components/Autenticacion/Autenticacion";
 import NuevaCuenta from "../../components/NuevaCuenta/NuevaCuenta";
-
+import Tabs from "../../components/Tabs/Tabs";
 
 // https://www.williamkurniawan.com/blog/building-a-simple-login-form-with-material-ui-and-react-hook-form
 
 function Principal() {
     const [existeUsuario, setExisteUsuario] = useState(true);
+    const [inicioSesion, setInicioSesion] = useState(true);
     const classes = useStyles();
     const handleClick = (event) => {
         setExisteUsuario(!existeUsuario)
@@ -24,7 +25,13 @@ function Principal() {
     return (
         <Container className={classes.container} maxWidth="xs">
             {
-                existeUsuario ? <Autenticacion/> : <NuevaCuenta/>
+                inicioSesion
+                    ?
+                    <Tabs/>
+                    :
+                    (
+                        existeUsuario ? <Autenticacion/> : <NuevaCuenta/>
+                    )
             }
             {
                 <Grid container spacing={3}>

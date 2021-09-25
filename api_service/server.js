@@ -55,7 +55,9 @@ app.get('*', (req, res) => res.status(200).send({
 }));
 require("./routes/user.routes")(app);
 // puerto "a donde se reciben" las peticiones (api_service)
-const PORT = process.env.PORT || 4005;
+const PORT = process.env.APP_PORT || 4005;
+console.log((process.env.APP_PORT ? "process.env.APP_PORT --> " : "PORT hardcode is --> "), PORT);
+
 app.listen(PORT, () => {
     console.log(`Server API corriendo en puerto virtual: ${PORT}.`);
 });
