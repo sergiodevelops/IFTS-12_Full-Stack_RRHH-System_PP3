@@ -1,19 +1,15 @@
-import React, {useState} from 'react';
-// import {useForm} from 'react-hook-form';
+import React, {useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-// import TextField from '@material-ui/core/TextField';
 import useStyles from "./styles";
-// import InputLabel from '@material-ui/core/InputLabel';
-// import FormControl from '@material-ui/core/FormControl';
-// import Select from '@material-ui/core/Select';
 import Autenticacion from "../../components/Autenticacion/Autenticacion";
 import NuevaCuenta from "../../components/NuevaCuenta/NuevaCuenta";
 import Tabs from "../../components/Tabs/Tabs";
 import * as PropTypes from "prop-types";
+import {useDispatch} from "react-redux";
+import allActions from "../../redux/actions";
 
-// https://www.williamkurniawan.com/blog/building-a-simple-login-form-with-material-ui-and-react-hook-form
 
 function SignInUpSwitch(props) {
     return <Grid container spacing={3}>
@@ -33,22 +29,36 @@ SignInUpSwitch.propTypes = {
 };
 
 function Principal() {
+    // const dispatch = useDispatch();
+
     const [existeUsuario, setExisteUsuario] = useState(true);
-    const [inicioSesion, setInicioSesion] = useState(false);
+    const [sesionActivada, setSesionActivada] = useState(false);
+
     const classes = useStyles();
     const handleClick = (event) => {
         setExisteUsuario(!existeUsuario)
     };
 
+    // useEffect(() => {
+    //     dispatch(allActions.userActions.saveNewUser(
+    //         {
+    //             username: "administrativo",
+    //             password: "1234",
+    //             fullname: "Rodrigo Lopez (administrativo)",
+    //             type: "administrativo",
+    //         }
+    //     ));
+    // }, []);
+
     return (
         <Container className={classes.container} maxWidth="xs">
             {
-                inicioSesion ?
+                sesionActivada ?
                     (<Tabs/>) :
-                    (existeUsuario ?<Autenticacion/> : <NuevaCuenta/>)
+                    (existeUsuario ?<Autenticacion/>:<NuevaCuenta/>)
             }
             {
-                !inicioSesion && <SignInUpSwitch onClick={handleClick} existeUsuario={existeUsuario}/>
+                !sesionActivada && <SignInUpSwitch onClick={handleClick} existeUsuario={existeUsuario}/>
             }
         </Container>
     );

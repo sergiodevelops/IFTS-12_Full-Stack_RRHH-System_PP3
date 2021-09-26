@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -9,35 +9,42 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import allActions from "../../redux/actions";
+import {useDispatch} from "react-redux";
 
 
 // https://www.williamkurniawan.com/blog/building-a-simple-login-form-with-material-ui-and-react-hook-form
 
 
 function NuevaCuenta() {
+    const dispatch = useDispatch();
     // const { handleSubmit, register } = useForm();
 
     const classes = useStyles();
-    const [existeUsuario, setExisteUsuario] = useState(true);
+    // const [existeUsuario, setExisteUsuario] = useState(true);
+    const userEmpty = {
+        type: "",
+        fullname: "",
+        username: "",
+        password: "",
+    };
+    const [newUser, setNewUser] = useState(userEmpty);
+    const [password2, setPassword2] = useState("");
 
-    const [selectedUserType, setSelectedUserType] = useState(null);
-    const [nombre, setNombre] = useState(null);
-    const [usuario, setUsuario] = useState(null);
-    const [password1, setPassword1] = useState(null);
-    const [password2, setPassword2] = useState(null);
 
     // const onSubmit = handleSubmit((data) => {
     //     console.log(data);
     // });
 
-    const handleClick = (event) => {
-        setExisteUsuario(false)
+    const handleClick = () => {
+        dispatch(allActions.userActions.saveNewUser(newUser));
+        setNewUser(userEmpty);
     };
 
     const userTypes = [
-        {title: 'Administrativo'},
-        {title: 'Solicitante'},
-        {title: 'Postulante'},
+        'administrativo',
+        'solicitante',
+        'postulante',
     ];
 
     return (
@@ -55,14 +62,14 @@ function NuevaCuenta() {
                                 className={`selectedUserType`}
                                 autoComplete={"off"}
                                 options={userTypes}
-                                getOptionLabel={(option) => option.title}
-                                value={selectedUserType}
-                                onChange={(event, newValue) => setSelectedUserType(newValue)}
+                                getOptionLabel={(option) => option}
+                                value={newUser.type}
+                                onChange={(event, newValue) => setNewUser({...newUser, type: newValue})}
                                 style={{width: 300}}
                                 renderInput={(params) =>
                                     <TextField
                                         {...params}
-                                        error={!selectedUserType}
+                                        error={!newUser.type}
                                         label="Seleccionar una opción"
                                         variant="outlined"
                                     />}
@@ -75,10 +82,10 @@ function NuevaCuenta() {
                             autoComplete={"off"}
                             fullWidth
                             // inputRef={register}
-                            disabled={!selectedUserType}
-                            error={selectedUserType && !nombre}
-                            value={nombre}
-                            onChange={(e) => setNombre(e.target.value)}
+                            disabled={!newUser.type}
+                            error={newUser.type && !newUser.fullname}
+                            value={newUser.fullname}
+                            onChange={(e) => setNewUser({...newUser, fullname: e.target.value})}
                             label="Nombre"
                             name="Nombre"
                             size="small"
@@ -92,9 +99,9 @@ function NuevaCuenta() {
                             autoComplete={"off"}
                             fullWidth
                             // inputRef={register}
-                            disabled={!nombre}
-                            error={nombre && !usuario}
-                            onChange={(e) => setUsuario(e.target.value)}
+                            disabled={!newUser.fullname}
+                            error={newUser.fullname && !newUser.username}
+                            onChange={(e) => setNewUser({...newUser, username: e.target.value})}
                             label="Usuario"
                             name="Usuario"
                             size="small"
@@ -107,9 +114,9 @@ function NuevaCuenta() {
                             autoComplete={"off"}
                             fullWidth
                             // inputRef={register}
-                            disabled={!usuario}
-                            error={usuario && (!password1 || password1 !== password2)}
-                            onChange={(e) => setPassword1(e.target.value)}
+                            disabled={!newUser.username}
+                            error={newUser.username && (!newUser.password || newUser.password !== password2)}
+                            onChange={(e) => setNewUser({...newUser, password: e.target.value})}
                             label="Contraseña"
                             name="Contraseña"
                             size="small"
@@ -123,8 +130,8 @@ function NuevaCuenta() {
                             autoComplete={"off"}
                             fullWidth
                             // inputRef={register}
-                            disabled={!usuario}
-                            error={usuario && (!password1 || password1 !== password2)}
+                            disabled={!newUser.username}
+                            error={newUser.username && (!newUser.password || newUser.password !== password2)}
                             onChange={(e) => setPassword2(e.target.value)}
                             label="Confirmar contraseña"
                             name="Confirmar contraseña"
@@ -141,7 +148,8 @@ function NuevaCuenta() {
                     <Button
                         color={"primary"}
                         fullWidth type="submit" variant="contained"
-                        disabled={!selectedUserType || !nombre || !usuario || !password1 || !password1 || !(password1 === password2)}
+                        disabled={!newUser.type || !newUser.fullname || !newUser.username || !newUser.password || newUser.password !== password2}
+                        onClick={handleClick}
                     >
                         crear cuenta
                     </Button>
