@@ -39,17 +39,6 @@ function Principal() {
         setExisteUsuario(!existeUsuario)
     };
 
-    // useEffect(() => {
-    //     dispatch(allActions.userActions.saveNewUser(
-    //         {
-    //             username: "administrativo",
-    //             password: "1234",
-    //             fullname: "Rodrigo Lopez (administrativo)",
-    //             type: "administrativo",
-    //         }
-    //     ));
-    // }, []);
-
     return (
         <Container className={classes.container} maxWidth="xs">
             {
