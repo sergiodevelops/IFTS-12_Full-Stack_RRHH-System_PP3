@@ -27,6 +27,8 @@ const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
 })(({theme, openLeft, openRight}) => ({
+    left: 'auto',
+    right: 'auto',
     transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -36,10 +38,10 @@ const AppBar = styled(MuiAppBar, {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
-        width: `calc(100% - ${drawerWidth}px)`,
+        width: `calc(100% - ${openLeft && openRight ? drawerWidth * 2 : drawerWidth}px)`,
     }),
-    ...(openLeft && {marginLeft: `${drawerWidth}px`}),
-    ...(openRight && {marginRight: `${drawerWidth}px`}),
+    ...(openLeft ? {marginLeft: `${drawerWidth}px`}:{marginLeft: 0}),
+    ...(openRight ? {marginRight: `${drawerWidth}px`}:{marginRight: 0}),
 }));
 //functional component <Main/>
 const Main = styled('main', {shouldForwardProp: (prop) => prop !== 'open'})(
@@ -56,8 +58,8 @@ const Main = styled('main', {shouldForwardProp: (prop) => prop !== 'open'})(
                 duration: theme.transitions.duration.enteringScreen,
             }),
         }),
-        ...(openLeft ? {marginLeft: `${drawerWidth}px`}:{marginLeft: 0}),
-        ...(openRight ? {marginRight: `${drawerWidth}px`}:{marginRight: 0}),
+        ...(openLeft ? {marginLeft: 0} : {marginLeft: `-${drawerWidth}px`}),
+        ...(openRight ? {marginRight: 0} : {marginRight: `-${drawerWidth}px`}),
     }),
 );
 //functional component <DrawerHeaderLeft/>
@@ -85,8 +87,8 @@ export default function DoubleSideBar(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [auth /*, setAuth*/] = useState(sesionActivada);
     const theme = useTheme();
-    const [openLeft, setOpenLeft] = React.useState(true);
-    const [openRight, setOpenRight] = React.useState(true);
+    const [openLeft, setOpenLeft] = React.useState(false);
+    const [openRight, setOpenRight] = React.useState(false);
 
     // const handleChange = (event) => {
     //     setAuth(event.target.checked);
@@ -117,11 +119,9 @@ export default function DoubleSideBar(props) {
     };
 
 
-
-
     return (
-        <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
+        <Box sx={{display: 'flex'}}>
+            <CssBaseline/>
             {/*<FormGroup>*/}
             {/*    <FormControlLabel*/}
             {/*        control={*/}
