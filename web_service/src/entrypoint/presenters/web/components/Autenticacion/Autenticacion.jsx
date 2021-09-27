@@ -9,10 +9,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-
-// https://www.williamkurniawan.com/blog/building-a-simple-login-form-with-material-ui-and-react-hook-form
-
-
 function Autenticacion() {
     // const { handleSubmit, register } = useForm();
 
@@ -29,6 +25,10 @@ function Autenticacion() {
     // });
     const [user, setUser] = useState(null);
     const [password, setPassword] = useState(null);
+
+    const handleClick=()=> {
+
+    }
 
     return (
         <form>
@@ -74,6 +74,7 @@ function Autenticacion() {
                         fullWidth type="submit"
                         variant="contained"
                         disabled={!user || !password}
+                        onClick={handleClick}
                     >
                         ingresar
                     </Button>
