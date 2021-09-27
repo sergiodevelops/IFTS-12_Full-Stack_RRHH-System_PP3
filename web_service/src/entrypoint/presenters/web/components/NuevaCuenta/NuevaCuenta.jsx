@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {useDispatch,useSelector} from "react-redux";
-
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -9,14 +8,13 @@ import FormControl from '@material-ui/core/FormControl';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import allActions from "../../redux/actions";
 import {userTypes} from '../../../../../constants/userTypes';
-import notificationActions from "../../redux/actions/notificationActions";
+// import notificationActions from "../../redux/actions/notificationActions";
+
 
 export default function NuevaCuenta() {
     const dispatch = useDispatch();
     const usersListStore = useSelector(state => state.userReducers.usersList);
-
     const classes = useStyles();
-    // const [existeUsuario, setExisteUsuario] = useState(true);
     const emptyUser = {
         type: "",
         fullname: "",
@@ -47,14 +45,8 @@ export default function NuevaCuenta() {
         }
     };
 
-    // const userTypes = [
-    //     'Administrativo',
-    //     'Solicitante',
-    //     'Postulante',
-    // ];
-
     return (
-        <Grid container>
+        <Grid>
             <Grid item xs={12}>
                 <h1 className={classes.titulo}>Crea tu nueva cuenta</h1>
             </Grid>
