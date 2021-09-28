@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import useStyles from "./styles";
 import Autenticacion from "../../components/Autenticacion/Autenticacion";
 import NuevaCuenta from "../../components/NuevaCuenta/NuevaCuenta";
-import Tabs from "../../components/Tabs/Tabs";
-
+import {useSelector} from "react-redux";
+import DoubleSideBar from "../../components/SideBar/DoubleSideBar";
 
 function SignInUpSwitch(props) {
     const {existeUsuario, onClick} = props;
@@ -21,28 +21,30 @@ function SignInUpSwitch(props) {
     );
 }
 
-function Principal() {
-    const [existeUsuario, setExisteUsuario] = useState(true);
-    const [sesionActivada, setSesionActivada] = useState(false);
-
+export default function Principal() {
     const classes = useStyles();
-    const handleClick = (event) => {
+    const userIsLoggedIn = useSelector(state => state.userReducers.sesionStatus);
+    console.log("userIsLoggedIn",userIsLoggedIn)
+    const [existeUsuario, setExisteUsuario] = useState(false);
+
+    const handleClick = () => {
         setExisteUsuario(!existeUsuario)
     };
 
+    useEffect(() => {
+            setExisteUsuario(!userIsLoggedIn);
+    }, [userIsLoggedIn]);
+
     return (
-        <Container className={classes.container} maxWidth="xs">
+        <div>
             {
-                sesionActivada ?
-                    (<Tabs/>) :
-                    (existeUsuario ? <Autenticacion/> : <NuevaCuenta/>)
+                userIsLoggedIn ?
+                    <DoubleSideBar/> :
+                    <Container className={classes.container} maxWidth="xs">
+                        {existeUsuario ? <Autenticacion/> : <NuevaCuenta/>}
+                        {!userIsLoggedIn && <SignInUpSwitch onClick={handleClick} existeUsuario={existeUsuario}/>}
+                    </Container>
             }
-            {
-                // !sesionActivada &&
-                <SignInUpSwitch onClick={handleClick} existeUsuario={existeUsuario}/>
-            }
-        </Container>
+        </div>
     );
 };
-
-export default Principal;

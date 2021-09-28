@@ -8,8 +8,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import allActions from "../../redux/actions";
 import {userTypes} from '../../../../../constants/userTypes';
-// import notificationActions from "../../redux/actions/notificationActions";
-
 
 export default function NuevaCuenta() {
     const dispatch = useDispatch();
@@ -30,17 +28,16 @@ export default function NuevaCuenta() {
     }
 
     const handleClick = async () => {
-
         const userExist = await usersListStore && usersListStore.findIndex((user) =>
             user.username === newUser.username) !== -1; // si existe coincidencia;
-        console.log("userExist", userExist)
         if (userExist) {
             const message = "El usuario ya existe, intente con un username diferente";
             // dispatch(notificationActions.enqueueMessage(message));
-            console.log(message);
+            alert(message);
         }
         else {
             dispatch(allActions.userActions.saveNewUser(newUser));
+            dispatch(allActions.userActions.setUserAccountStatus(true));
             cleanInputValues();
         }
     };

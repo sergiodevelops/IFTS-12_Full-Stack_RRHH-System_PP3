@@ -221,7 +221,7 @@ ANALIZAMOS primer FLUJO DE INFORMACIÓN
 
 ---------------------------------------------------------------
 1 - caso de uso "AUTENTICARSE COMO USUARIO YA REGISTRADO" (BUSCAR USUARIO)
-endpoint --> http://localhost:4005/api/users
+endpoint --> http://localhost:4005/api/usersList
 
 -----------------------------
 PETICIÓN
@@ -270,4 +270,3 @@ message: "problema de conexión con el servidor, intente mas tarde"
 INCORPORAMOS REDUX
 https://www.youtube.com/watch?v=IlM7497j6LY
 https://stackoverflow.com/questions/65481217/useselector-state-returns-undefined-react-redux
-

@@ -1,40 +1,22 @@
-const usersList = [
-    {
-        type: "administrativo",
-        fullname: "Rodrigo Lopez (administrativo)",
-        username: "administrativo",
-        password: "1234",
-    },
-    {
-        type: "postulante",
-        fullname: "Sandra Santini  (postulante)",
-        username: "postulante",
-        password: "1234",
-    },
-    {
-        type: "solicitante",
-        fullname: "Jose Glavic  (solicitante)",
-        username: "solicitante",
-        password: "1234",
-    },
-];
+import {usersList} from '../../constants/usersList';
 
-export default (state = {usersList: usersList}, action) => {
+export default (state = {usersList: usersList, sesionStatus: false}, action) => {
     switch (action.type) {
-        // case "CHECK_USER_EXIST":
-        //     if (!action.payload.user) return state;
-        //     let userExist = state.usersList.findIndex((user) =>
-        //         user.username === action.payload.user.username) !== -1; // si existe coincidencia
-        //     return { ...state, usersList: [...state.usersList, action.payload.user] };
         case "SAVE_NEW_USER":
             const userExist = state.usersList.findIndex((user) =>
-                user.username === action.payload.user.username) !== -1; // si existe coincidencia
+                user.username === action.payload.user.username
+            ) === -1;
+            console.log("userExist valor --> ", userExist)
             // si vino (vacio o null) o usuario ya existe en la DB
             if (!action.payload.user || userExist) return state; // no hace nada
             // si no existe aun el usuario a crear, lo crea
-            if (!userExist) return { ...state, usersList: [...state.usersList, action.payload.user] };
-
+            if (!userExist) return {...state, usersList: [...state.usersList, action.payload.user]};
+        case "SET_USER_ACCOUNT_STATUS":
+            return {
+                ...state,
+                sesionStatus: action.payload.status,
+            };
         default:
-            return state
+            return state;
     }
 }
