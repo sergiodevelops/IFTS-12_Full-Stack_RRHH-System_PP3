@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import {styled, useTheme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -20,7 +21,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-
+import userActions from '../../redux/actions/userActions';
 
 const drawerWidth = 240;
 //functional component <AppBar/>
@@ -40,8 +41,8 @@ const AppBar = styled(MuiAppBar, {
         }),
         width: `calc(100% - ${openLeft && openRight ? drawerWidth * 2 : drawerWidth}px)`,
     }),
-    ...(openLeft ? {marginLeft: `${drawerWidth}px`}:{marginLeft: 0}),
-    ...(openRight ? {marginRight: `${drawerWidth}px`}:{marginRight: 0}),
+    ...(openLeft ? {marginLeft: `${drawerWidth}px`} : {marginLeft: 0}),
+    ...(openRight ? {marginRight: `${drawerWidth}px`} : {marginRight: 0}),
 }));
 //functional component <Main/>
 const Main = styled('main', {shouldForwardProp: (prop) => prop !== 'open'})(
@@ -81,25 +82,26 @@ const DrawerHeaderRight = styled('div')(({theme}) => ({
     justifyContent: 'flex-start',
 }));
 
-
-export default function DoubleSideBar(props) {
-    const {sesionActivada} = props;
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [auth /*, setAuth*/] = useState(sesionActivada);
+export default function DoubleSideBar() {
     const theme = useTheme();
+
+    const dispatch = useDispatch();
+    const userIsLoggedIn = useSelector(state => state.userReducers.sesionStatus);
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const [openLeft, setOpenLeft] = React.useState(false);
     const [openRight, setOpenRight] = React.useState(false);
 
-    // const handleChange = (event) => {
-    //     setAuth(event.target.checked);
-    // };
+    const handleChange = () => {
+        handleClose();
+        dispatch(userActions.setUserAccountStatus(!userIsLoggedIn));
+    };
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
         setAnchorEl(null);
     };
-
     // controls LEFT drawer open close
     const handleDrawerOpenLeft = () => {
         setOpenLeft(true);
@@ -109,7 +111,6 @@ export default function DoubleSideBar(props) {
         setOpenLeft(false);
         // setOpenRight(false);
     };
-
     // controls RIGHT drawer open close
     const handleDrawerOpenRight = () => {
         setOpenRight(true);
@@ -118,7 +119,6 @@ export default function DoubleSideBar(props) {
         setOpenRight(false);
     };
 
-
     return (
         <Box sx={{display: 'flex'}}>
             <CssBaseline/>
@@ -126,20 +126,17 @@ export default function DoubleSideBar(props) {
             {/*    <FormControlLabel*/}
             {/*        control={*/}
             {/*            <Switch*/}
-            {/*                checked={auth}*/}
+            {/*                checked={userIsLoggedIn}*/}
             {/*                onChange={handleChange}*/}
             {/*                aria-label="login switch"*/}
             {/*            />*/}
             {/*        }*/}
-            {/*        label={auth ? 'Logout' : 'Login'}*/}
+            {/*        label={userIsLoggedIn ? 'Logout' : 'Login'}*/}
             {/*    />*/}
             {/*</FormGroup>*/}
-
-
             {/* BARRA AZUL DE ARRIBA*/}
             <AppBar position="fixed" openLeft={openLeft} openRight={openRight}>
                 <Toolbar>
-
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -149,12 +146,10 @@ export default function DoubleSideBar(props) {
                     >
                         <MenuIcon/>
                     </IconButton>
-
                     <Typography variant="h6" noWrap component="div">
                         Persistent drawer
                     </Typography>
-
-                    {auth && (
+                    {userIsLoggedIn && (
                         <div>
                             <IconButton
                                 size="large"
@@ -181,12 +176,10 @@ export default function DoubleSideBar(props) {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                <MenuItem onClick={handleClose}>My account</MenuItem>
+                                <MenuItem onClick={handleChange}>LogOut</MenuItem>
                             </Menu>
                         </div>
                     )}
-
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -199,7 +192,6 @@ export default function DoubleSideBar(props) {
 
                 </Toolbar>
             </AppBar>
-
             {/*Drawer IZQUIERDO*/}
             <Drawer
                 sx={{
@@ -243,7 +235,6 @@ export default function DoubleSideBar(props) {
                     ))}
                 </List>
             </Drawer>
-
             <Main openLeft={openLeft} openRight={openRight}>
                 {/*separador para que el appBar no tape el main*/}
                 <DrawerHeaderLeft/>
@@ -277,7 +268,6 @@ export default function DoubleSideBar(props) {
                     posuere sollicitudin aliquam ultrices sagittis orci a.
                 </Typography>
             </Main>
-
             {/*Drawer DERECHO*/}
             <Drawer
                 sx={{
@@ -291,7 +281,6 @@ export default function DoubleSideBar(props) {
                 anchor="right"
                 open={openRight}
             >
-
                 <DrawerHeaderRight>
                     <IconButton onClick={handleDrawerCloseRight}>
                         {theme.direction === 'rtl' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
@@ -321,7 +310,6 @@ export default function DoubleSideBar(props) {
                     ))}
                 </List>
             </Drawer>
-
         </Box>
     );
 }

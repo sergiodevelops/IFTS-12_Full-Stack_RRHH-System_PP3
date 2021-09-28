@@ -12,14 +12,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import allActions from "../../redux/actions";
 import {useDispatch} from "react-redux";
 
-
-// https://www.williamkurniawan.com/blog/building-a-simple-login-form-with-material-ui-and-react-hook-form
-
-
-function NuevaCuenta() {
+export default function NuevaCuenta() {
     const dispatch = useDispatch();
-    // const { handleSubmit, register } = useForm();
-
     const classes = useStyles();
     // const [existeUsuario, setExisteUsuario] = useState(true);
     const userEmpty = {
@@ -160,5 +154,3 @@ function NuevaCuenta() {
         </form>
     );
 };
-
-export default NuevaCuenta;

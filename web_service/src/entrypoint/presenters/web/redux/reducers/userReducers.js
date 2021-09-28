@@ -21,7 +21,7 @@ const usersList = [
     },
 ];
 
-export default (state = {usersList: usersList}, action) => {
+export default (state = {usersList: usersList, sesionStatus: false}, action) => {
     switch (action.type) {
         case "CHECK_USER_EXIST":
             if (!action.payload.user) return state;
@@ -42,10 +42,15 @@ export default (state = {usersList: usersList}, action) => {
             console.log("esta entrando? --> ", action.payload.user)
             if (userExist) return {
                 ...state, usersList: [...state.usersList, action.payload.user],
-            }
-            // return { ...state, usersList: [...state.usersList, action.payload] };
-
+            };
+        case "SET_USER_ACCOUNT_STATUS":
+            if (!action.payload.user) return state;
+            console.log("SET_USER_ACCOUNT_STATUS --> ", action.payload);
+            return {
+                ...state,
+                sesionStatus: action.payload,
+            };
         default:
-            return state
+            return state;
     }
 }
