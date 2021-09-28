@@ -1,49 +1,38 @@
-// import { TYPES } from "@entrypoint/presenters/web/redux/actions/layerActions";
-// import ILayerVisibilityDto from "@application/usecases/layer/ILayerVisibilityDto";
 const usersList = [
     {
+        type: "administrativo",
+        fullname: "Rodrigo Lopez (administrativo)",
         username: "administrativo",
         password: "1234",
-        fullname: "Rodrigo Lopez (administrativo)",
-        type: "administrativo",
     },
     {
+        type: "postulante",
+        fullname: "Sandra Santini  (postulante)",
         username: "postulante",
         password: "1234",
-        fullname: "Sandra Santini  (postulante)",
-        type: "postulante",
     },
     {
+        type: "solicitante",
+        fullname: "Jose Glavic  (solicitante)",
         username: "solicitante",
         password: "1234",
-        fullname: "Jose Glavic  (solicitante)",
-        type: "solicitante",
     },
 ];
 
 export default (state = {usersList: usersList}, action) => {
     switch (action.type) {
-        case "CHECK_USER_EXIST":
-            if (!action.payload.user) return state;
-
-            // const userExist = action.payload.user
-            return {
-                ...state,
-                usersList: [...state.usersList, action.payload.user],
-            }
+        // case "CHECK_USER_EXIST":
+        //     if (!action.payload.user) return state;
+        //     let userExist = state.usersList.findIndex((user) =>
+        //         user.username === action.payload.user.username) !== -1; // si existe coincidencia
+        //     return { ...state, usersList: [...state.usersList, action.payload.user] };
         case "SAVE_NEW_USER":
             const userExist = state.usersList.findIndex((user) =>
-                user.username === action.payload.user.username
-            ) === -1;
-            console.log("userExist valor --> ", userExist)
-            // si vino (vacio o null) o usuario existe
-            if (!action.payload.user) return state; // no hace nada
-            // pasa de largo y SI GUARDA EL NUEVO USUARIO
-            console.log("esta entrando? --> ", action.payload.user)
-            if (userExist) return {
-                ...state, usersList: [...state.usersList, action.payload.user],
-            }
-            // return { ...state, usersList: [...state.usersList, action.payload] };
+                user.username === action.payload.user.username) !== -1; // si existe coincidencia
+            // si vino (vacio o null) o usuario ya existe en la DB
+            if (!action.payload.user || userExist) return state; // no hace nada
+            // si no existe aun el usuario a crear, lo crea
+            if (!userExist) return { ...state, usersList: [...state.usersList, action.payload.user] };
 
         default:
             return state

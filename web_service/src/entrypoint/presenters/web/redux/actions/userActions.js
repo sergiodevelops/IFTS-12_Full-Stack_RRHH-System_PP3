@@ -1,12 +1,12 @@
 // 1 - VERIFICAR EXISTENCIA USUARIO
-const checkUserExist = (user) => {
-    return {
-        type:'CHECK_USER_EXIST',
-        payload: {
-            user
-        }
-    }
-}
+// const checkUserExist = (user) => {
+//     return {
+//         type:'CHECK_USER_EXIST',
+//         payload: {
+//             user
+//         }
+//     }
+// }
 
 // 2 - REGISTRAR NUEVO USUARIO
 const saveNewUser = (user) => {
@@ -29,6 +29,6 @@ const saveNewUser = (user) => {
 // }
 
 export default {
-    checkUserExist,
+    // checkUserExist,
     saveNewUser,
 };
