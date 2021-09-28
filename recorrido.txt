@@ -1,0 +1,272 @@
+RECORRIDO COMPLETO DE INVESTIGACIÓN
+
+PASOS PROYECTO WEB
+
+importamos base rrhh
+
+- como instalar version mysql server con docker
+5.0.12
+
+servidor de base de datos
+maria db 10.1.26 (pepe)
+
+CMD --> docker pull mariadb:10.1.26
+
+2.4 apache web server pepe
+
+https://github.com/mybb/docker-compose/blob/master/docker-compose.yml.mariadb.example
+
+adminer 4.8.1
+http://localhost:8080
+
+
+https://github.com/MicrosoftDocs/azure-docs.es-es/blob/master/articles/mariadb/connect-workbench.md
+
+
+Create React App
+
+https://git-scm.com/book/es/v2/Inicio---Sobre-el-Control-de-Versiones-Configurando-Git-por-primera-vez
+
+https://es.reactjs.org/docs/create-a-new-react-app.html
+
+https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+
+https://ourcodeworld.co/articulos/leer/1421/como-crear-una-llave-ssh-para-trabajar-con-github-y-gitlab-usando-puttygen-en-windows-10
+
+
+3 tipos de user (postulante, solicitante, administrativo)
+
+--------
+FLUJO 1
+----------------
+pantalla de login que pide (username, password)
+"superpepe01" y 1234
+- valida si existe
+- si existe valida que tipo es
+- si no existe INFORMA y pide datos para registro de nuevo usuario (tipo, username, password)
+
+--------
+FLUJO 2
+----------------
+pantalla de registro pide (postulante, solicitante, administrativo)
+- valida si existe username
+- (A) si existe, solicitar otro nombre diferente
+- (B) si no existe, dar de alta el nuevo usuario
+
+--------
+FLUJO 3
+----------------
+pantalla de bienvenida por primera vez (cambia segun tipo user)
+- pedir datos personales
+- (A) si se cargo correctamente pasa a FLUJO 4
+- (B) si no cargo correctamente, vuelve a FLUJO 3
+
+----------------------------------------------------------------
+PRIMER ENTREGA !!!!!!!!!!!!!!!!!
+----------------------------------------------------------------
+
+--------
+FLUJO 4 hay que ver
+----------------
+pantalla de trabajo (cambia segun tipo user)
+- mostrar funciones segun tipo de usuario (hay que ver)
+
+----------------------------------------------------------------
+SEGUNDA ENTREGA !!!!!!!!!!!!!!!!!
+----------------------------------------------------------------
+
+Getting Started With the Node.js Connector
+https://mariadb.com/kb/en/getting-started-with-the-nodejs-connector/
+yarn add mariadb
+
+https://www.youtube.com/watch?v=p8CoR-wymQg
+
+Consumir un API REST con React y Redux
+https://www.youtube.com/watch?v=nf_3AsfPODs
+
+Nodejs y Mysql, Aplicación Completa (Login, Registro, CRUD, ES6+ y Más )
+https://www.youtube.com/watch?v=qJ5R9WTW0_E
+
+Linking an Existing Project to a Git Remote
+https://docs.cloudera.com/machine-learning/1.2/projects/topics/ml-linking-an-existing-project-to-a-git-remote.html
+https://careerkarma.com/blog/git-fatal-refusing-to-merge-unrelated-histories/
+
+https://platzi.com/tutoriales/1432-docker/3268-como-crear-un-contenedor-con-docker-mysql-y-persistir-la-informacion/
+
+https://www.youtube.com/watch?v=qJ5R9WTW0_E instalamos los modulos que necesitamos para el proyecto backend api rest mysql
+yarn add express express-handlebars express-session mysql express-mysql-session morgan bcryptjs passport passport-local timeago.js connect-flash express-validator
+
+yarn add -D nodemon
+https://yarnpkg.com/package/customize-cra#how-to-install
+yarn add customize-cra react-app-rewired --dev
+
+How to Create a Express/Node + React Project | Node Backend + React Frontend
+https://www.youtube.com/watch?v=w3vs4a03y3I
+
+Basic Login System with Node.js, Express, and MySQL
+https://codeshack.io/basic-login-system-nodejs-express-mysql/
+
+RUTAS para tu SPA en react React Router [ #01 ] Instalación y configuración de rutas (Principiantes)
+https://www.youtube.com/watch?v=pp2ZmjTBB5M
+
+
+--------------------------------------------------------
+7 - Conectar MySQL desde Node.JS
+https://www.youtube.com/watch?v=27JCqmykNdc
+https://www.bezkoder.com/node-js-express-sequelize-mysql/
+https://www.bezkoder.com/react-node-express-mysql/#Nodejs_Express_Back-end
+https://tomasmalio.medium.com/node-js-express-y-mysql-con-sequelize-ec0a7c0ae292
+--------------------------------------------------------
+
+problema topado
+https://stackoverflow.com/questions/29615889/sequelize-cant-create-table-but-when-i-run-the-same-in-mysql-cli-it-works/29616098
+User.sync({force: true});
+
+https://stackoverflow.com/questions/57826352/sequelize-sync-error-in-sql-syntax-near-number
+https://www.freecodecamp.org/espanol/news/javascript-date-now-como-obtener-la-fecha-actual-con-javascript/ FECHA
+https://stackoverflow.com/questions/20386402/sequelize-unknown-column-createdat-in-field-list
+
+------------------------------------------------
+REQUISITOS Y TECNOLOGÍAS del proyecto "RRHH"
+
+
+------------------------
+etapa DESARROLLO
+----------------
+
+La aplicación web (sistema):
+- 2 modulos + base de datos
+
+* modulo "WEB" (front-end)
+* modulo "API" (back-end)
+* motor de base mysql (back-end)
+
+
+Con REACT se va haciendo estas 3 cosas juntas en un unico archivo JSX:
+	- LENGUAJE DE MARCADO: se escribe en React (JSX) que luego WEBPACK lo pasa a HTML
+	- LENGUAJE DE ESTILO: se escribe en React (JSX) que luego WEBPACK lo pasa a CSS
+	- LENGUAJE DE PROGRAMACIÓN: Javascript (JS)
+
+- DOCKER engine (donde corre Linux y server MySQL para pruebas locales de desarrollo)
+Docker version 20.10.7, build f0df350
+	- LOCAL MySQL engine (MOTOR DE BASE DE DATOS) en Docker
+	mysql  Ver 14.14 Distrib 5.7.35, for Linux (x86_64) using  EditLine wrapper
+- GIT (CONTROL DE VERSIONADO de nuestro producto)
+	git version 2.25.1
+- GITHUB (CONTROL DE VERSIONADO de nuestro producto pero en forma colaborativa en la nube)
+- NODE JS (entorno de desarrollo)
+- Visual Studio Code de Microsoft (IDE o interfaz de desarrollo)
+- LADO CLIENTE (FrontEnd):
+	React JS (LIBRERÍA DE JAVASCRIPT para el desarrollo de la WEB [JAVA no es JAVASCRIPT])
+- LADO SERVIDOR (BackEnd o middleware [server pasamanos]):
+	Express JS (framework web transigente escrito en JAVASCRIPT para el desarrollo de la API).
+	- Postman (para PROBAR las distintas funcionalidades de la API - sesiones de usuario, ABMC usuarios de cada tipo)
+	- WEBPACK (herramienta para NODE JS que copila el codigo y lo pasa a nativo para los navegadores - HTML, CSS, JS) - empaqueta todo el proyecto en ficheros que entiende o interpreta el navegador.
+	- Workbench 8.0 para el modelado de la base de datos en MySQL (diseño y armado de la base)
+
+------------------------
+etapa PRODUCCIÓN
+----------------
+
+- Se require de Internet para acceder a la aplicación web (SISTEMA de la consultora RRHH)
+- DOMINIO (donde se va a desplegar la aplicación en producción) (servicio)
+"masterpcweb.com"
+- CERTIFICADO SSL (servicio)
+- URL de acceso  (donde va a ingresar en producción)
+https://rrhh.masterpcweb.com
+- HOSTING:
+SO: Linux (servidor)
+- HOSTING MySQL engine VERSION (MOTOR DE BASE DE DATOS) ????
+
+------------------------------------------------
+
+
+MANEJA LOS ESTADOS DE LOS COMPONENTES CON FUNCTIONAL COMPONENTS en React
+https://stackoverflow.com/questions/53945763/componentdidmount-equivalent-on-a-react-function-hooks-component
+
+ELIMINA BASE MYSQL
+https://www.neoguias.com/como-borrar-una-base-de-datos-mysql/
+
+ELIMINA POR COMPLETO MYSQL
+https://www.yoelprogramador.com/como-desinstalar-mysql-server-en-linux-ubuntu/
+
+COMANDOS PARA YML DE DOCKER-COMPOSE
+https://jsitech1.gitbooks.io/meet-docker/content/archivo_docker-compose_en_detalle.html
+
+
+PARA EL ARMADO DE LA DOCUMENTACIÓN DEL PROYECTO y una visualización elegante en github
+https://docs.github.com/es/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
+
+HTACCESS
+https://caveuvg.blogspot.com/2018/10/entrando-al-mundo-de-produccion.html
+
+TUTORIL node-js-express-y-mysql-con-sequelize
+https://tomasmalio.medium.com/node-js-express-y-mysql-con-sequelize-ec0a7c0ae292
+Sequelize --> es un ORM para Postgres, MySQL, MariaDB, SQLite y SQL Server.
+
+SEQUELIZE INIT
+https://ichi.pro/es/cree-su-primera-api-con-generador-rapido-sequelize-y-cli-52177759129979
+npx sequelize-cli model:create --name usuario --attributes username:string,status:char
+
+npx sequelize-cli init
+npx sequelize-cli model:create --name usuario --attributes username:string,status:char
+
+
+INSTALAR O ACTUALIZAR YARN en tu linux:
+Source: https://stackoverflow.com/questions/49689174/yarn-how-to-upgrade-yarn-version-using-terminal
+npm install --global yarn
+npm upgrade --global yarn
+
+ANALIZAMOS primer FLUJO DE INFORMACIÓN
+
+---------------------------------------------------------------
+1 - caso de uso "AUTENTICARSE COMO USUARIO YA REGISTRADO" (BUSCAR USUARIO)
+endpoint --> http://localhost:4005/api/usersList
+
+-----------------------------
+PETICIÓN
+-------------
+bodyParams: {
+    "username": {{$USER_NAME}},
+    "password": {{$PASSWORD}},
+}
+
+-----------------------------
+RESPUESTA
+-------------
+a)
+message: "usuario o constraseña incorrecta"
+b)
+tipo: {{$USER_TYPE}}, nombreCompleto: {{$USER_FULLNAME}} <-- significa que existe
+c) problema error inesperado
+message: "problema de conexión con el servidor, intente mas tarde"
+
+---------------------------------------------------------------
+2 - caso de uso "REGISTRARSE COMO USUARIO NUEVO" (ALTA DE USUARIO)
+endpoint --> http://localhost:4005/api/user
+
+-----------------------------
+PETICIÓN
+-------------
+bodyParams: {
+    tipo: {{$USER_TYPE}},
+    nombreCompleto: {{$USER_FULLNAME}},
+    username: {{$USER_NAME}},
+    password: {{$PASSWORD}},
+}
+
+-----------------------------
+RESPUESTA
+-------------
+a) $USER_NAME ya existe, elija otro nombre diferente (ya esta ocupado):
+message: "ya existe, elija otro nombre"
+b) el usuario se creo correctamente, e ingresa a la sección que le corresponda segun el tipo:
+tipo: {{$USER_TYPE}}, nombreCompleto: {{$USER_FULLNAME}} <-- significa que existe
+c) problema error inesperado
+message: "problema de conexión con el servidor, intente mas tarde"
+
+---------------------------------------------------------------
+
+INCORPORAMOS REDUX
+https://www.youtube.com/watch?v=IlM7497j6LY
+https://stackoverflow.com/questions/65481217/useselector-state-returns-undefined-react-redux

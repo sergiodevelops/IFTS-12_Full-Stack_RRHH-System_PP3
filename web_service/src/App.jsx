@@ -17,11 +17,11 @@ function App() {
         <Principal/>
         /*<div>
             {
-                (typeof backendData.users === 'undefined')
+                (typeof backendData.usersList === 'undefined')
                     ?
                     (<p>Loading...</p>)
                     :
-                    (backendData.users.map((user, index) =>
+                    (backendData.usersList.map((user, index) =>
                         (<p key={`user${index}`}>{user}</p>)
                     ))
             }

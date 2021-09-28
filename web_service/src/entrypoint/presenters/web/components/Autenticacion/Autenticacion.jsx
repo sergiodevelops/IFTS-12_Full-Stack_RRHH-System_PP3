@@ -1,28 +1,11 @@
 import React, {useState} from 'react';
-import {useForm} from 'react-hook-form';
 import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import useStyles from "./styles";
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 
-function Autenticacion() {
-    // const { handleSubmit, register } = useForm();
-
+export default function Autenticacion() {
     const classes = useStyles();
-    const [existeUsuario, setExisteUsuario] = useState(true);
-
-    // const onSubmit = handleSubmit((data) => {
-    //     console.log(data);
-    // });
-
-    // const [state, setState] = React.useState({
-    //     user: '',
-    //     password: '',
-    // });
     const [user, setUser] = useState(null);
     const [password, setPassword] = useState(null);
 
@@ -31,13 +14,10 @@ function Autenticacion() {
     }
 
     return (
-        <form>
-            {/*<form onSubmit={onSubmit}>*/}
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <h1 className={classes.titulo}>Iniciar sesión</h1>
                 </Grid>
-                <Grid item xs={12}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
@@ -67,7 +47,6 @@ function Autenticacion() {
                             />
                         </Grid>
                     </Grid>
-                </Grid>
                 <Grid item xs={12}>
                     <Button
                         color={"primary"}
@@ -80,8 +59,5 @@ function Autenticacion() {
                     </Button>
                 </Grid>
             </Grid>
-        </form>
     );
 };
-
-export default Autenticacion;

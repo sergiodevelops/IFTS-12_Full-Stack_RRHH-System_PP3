@@ -21,7 +21,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import userActions from '../../redux/actions/userActions';
+import allActions from "../../redux/actions";
 
 const drawerWidth = 240;
 //functional component <AppBar/>
@@ -88,13 +88,14 @@ export default function DoubleSideBar() {
     const dispatch = useDispatch();
     const userIsLoggedIn = useSelector(state => state.userReducers.sesionStatus);
 
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [openLeft, setOpenLeft] = React.useState(false);
     const [openRight, setOpenRight] = React.useState(false);
 
     const handleChange = () => {
         handleClose();
-        dispatch(userActions.setUserAccountStatus(!userIsLoggedIn));
+        dispatch(allActions.userActions.setUserAccountStatus(false));
     };
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
