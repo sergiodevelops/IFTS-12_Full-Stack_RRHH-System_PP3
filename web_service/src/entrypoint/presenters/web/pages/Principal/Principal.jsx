@@ -25,7 +25,6 @@ export default function Principal() {
     const classes = useStyles();
 
     const userIsLoggedIn = useSelector(state => state.userReducers.currentUser) ? true : false;
-    console.log("userIsLoggedIn ", userIsLoggedIn)
     const [sesionActiva, setSesionActiva] = useState(userIsLoggedIn || false);
     const [existeUsuario, setExisteUsuario] = useState(true);
 
@@ -37,7 +36,6 @@ export default function Principal() {
         //para que vuelva al login cuando se desloguee
         setExisteUsuario(true);
         setSesionActiva(userIsLoggedIn);
-        console.log("userIsLoggedIn", userIsLoggedIn);
     }, [userIsLoggedIn]);
 
     return (
