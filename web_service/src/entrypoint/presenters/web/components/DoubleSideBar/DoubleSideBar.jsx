@@ -86,16 +86,15 @@ export default function DoubleSideBar() {
     const theme = useTheme();
 
     const dispatch = useDispatch();
-    const userIsLoggedIn = useSelector(state => state.userReducers.sesionStatus);
-
+    const currentUser = useSelector(state => state.userReducers.currentUser);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [openLeft, setOpenLeft] = React.useState(false);
     const [openRight, setOpenRight] = React.useState(false);
 
-    const handleChange = () => {
+    const handleLogOut = () => {
         handleClose();
-        dispatch(allActions.userActions.setUserAccountStatus(false));
+        dispatch(allActions.userActions.setCurrentAuthenticatedUser(null));
     };
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -127,12 +126,12 @@ export default function DoubleSideBar() {
             {/*    <FormControlLabel*/}
             {/*        control={*/}
             {/*            <Switch*/}
-            {/*                checked={userIsLoggedIn}*/}
+            {/*                checked={currentUser}*/}
             {/*                onChange={handleChange}*/}
             {/*                aria-label="login switch"*/}
             {/*            />*/}
             {/*        }*/}
-            {/*        label={userIsLoggedIn ? 'Logout' : 'Login'}*/}
+            {/*        label={currentUser ? 'Logout' : 'Login'}*/}
             {/*    />*/}
             {/*</FormGroup>*/}
             {/* BARRA AZUL DE ARRIBA*/}
@@ -148,9 +147,9 @@ export default function DoubleSideBar() {
                         <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        Persistent drawer
+                        {currentUser?.fullname}
                     </Typography>
-                    {userIsLoggedIn && (
+                    {currentUser && (
                         <div>
                             <IconButton
                                 size="large"
@@ -177,7 +176,11 @@ export default function DoubleSideBar() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleChange}>LogOut</MenuItem>
+                                <MenuItem
+                                    onClick={handleLogOut}
+                                >
+                                    LogOut
+                                </MenuItem>
                             </Menu>
                         </div>
                     )}

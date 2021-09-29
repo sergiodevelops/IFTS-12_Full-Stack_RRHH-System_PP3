@@ -8,8 +8,11 @@ import FormControl from '@material-ui/core/FormControl';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import allActions from "../../redux/actions";
 import {userTypes} from '../../../../../constants/userTypes';
+import {InputAdornment} from "@material-ui/core";
+import IconButton from "@mui/material/IconButton";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
 
-export default function NuevaCuenta() {
+export default function SignUp() {
     const dispatch = useDispatch();
     const usersListStore = useSelector(state => state.userReducers.usersList);
     const classes = useStyles();
@@ -21,6 +24,12 @@ export default function NuevaCuenta() {
     };
     const [newUser, setNewUser] = useState(emptyUser);
     const [password2, setPassword2] = useState("");
+
+    const [showPassword1, setShowPassword1] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);
+
+    const handleClickShowPassword1 = () => setShowPassword1(!showPassword1);
+    const handleClickShowPassword2 = () => setShowPassword2(!showPassword2);
 
     const cleanInputValues = () => {
         setNewUser(emptyUser);
@@ -36,8 +45,8 @@ export default function NuevaCuenta() {
             alert(message);
         }
         else {
-            dispatch(allActions.userActions.saveNewUser(newUser));
-            dispatch(allActions.userActions.setUserAccountStatus(true));
+            dispatch(allActions.userActions.addNewUser(newUser));
+            dispatch(allActions.userActions.setCurrentAuthenticatedUser(newUser));
             cleanInputValues();
         }
     };
@@ -109,12 +118,25 @@ export default function NuevaCuenta() {
                             disabled={!newUser.username}
                             value={newUser.username && newUser.password ? newUser.password : "" && setPassword2("")}
                             error={newUser.username && (!newUser.password || newUser.password !== password2)}
-                            onChange={(e) => setNewUser({...newUser, password: e.target.value})}
                             label="Contraseña"
                             name="password1"
                             size="small"
-                            type="password"
                             variant="outlined"
+                            onChange={(e) => setNewUser({...newUser, password: e.target.value})}
+                            type={showPassword1 ? "text" : "password"}
+                            InputProps={{ // <-- This is where the toggle button is added.
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword1}
+                                            disabled={!newUser.username}
+                                        >
+                                            {showPassword1 ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -125,12 +147,25 @@ export default function NuevaCuenta() {
                             disabled={!newUser.username}
                             value={newUser.username && newUser.password && password2 ? password2 : ""}
                             error={newUser.username && (!newUser.password || newUser.password !== password2)}
-                            onChange={(e) => setPassword2(e.target.value)}
                             label="Confirmar contraseña"
                             name="password2"
                             size="small"
-                            type="password"
                             variant="outlined"
+                            onChange={(e) => setPassword2(e.target.value)}
+                            type={showPassword2 ? "text" : "password"}
+                            InputProps={{ // <-- This is where the toggle button is added.
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword2}
+                                            disabled={!newUser.username}
+                                        >
+                                            {showPassword2 ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
                         />
                     </Grid>
                 </Grid>

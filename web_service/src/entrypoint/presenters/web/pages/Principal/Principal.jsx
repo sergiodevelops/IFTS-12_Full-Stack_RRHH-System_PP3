@@ -3,10 +3,10 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import useStyles from "./styles";
-import Autenticacion from "../../components/Autenticacion/Autenticacion";
-import NuevaCuenta from "../../components/NuevaCuenta/NuevaCuenta";
+import SignIn from "../../components/SignIn/SignIn";
+import SignUp from "../../components/SignUp/SignUp";
 import {useSelector} from "react-redux";
-import DoubleSideBar from "../../components/SideBar/DoubleSideBar";
+import DoubleSideBar from "../../components/DoubleSideBar/DoubleSideBar";
 
 function SignInUpSwitch(props) {
     const {existeUsuario, onClick} = props;
@@ -23,25 +23,30 @@ function SignInUpSwitch(props) {
 
 export default function Principal() {
     const classes = useStyles();
-    const userIsLoggedIn = useSelector(state => state.userReducers.sesionStatus);
-    console.log("userIsLoggedIn",userIsLoggedIn)
-    const [existeUsuario, setExisteUsuario] = useState(false);
+
+    const userIsLoggedIn = useSelector(state => state.userReducers.currentUser) ? true : false;
+    console.log("userIsLoggedIn ", userIsLoggedIn)
+    const [sesionActiva, setSesionActiva] = useState(userIsLoggedIn || false);
+    const [existeUsuario, setExisteUsuario] = useState(true);
 
     const handleClick = () => {
         setExisteUsuario(!existeUsuario)
     };
 
     useEffect(() => {
-            setExisteUsuario(!userIsLoggedIn);
+        //para que vuelva al login cuando se desloguee
+        setExisteUsuario(true);
+        setSesionActiva(userIsLoggedIn);
+        console.log("userIsLoggedIn", userIsLoggedIn);
     }, [userIsLoggedIn]);
 
     return (
         <div>
             {
-                userIsLoggedIn ?
+                sesionActiva ?
                     <DoubleSideBar/> :
                     <Container className={classes.container} maxWidth="xs">
-                        {existeUsuario ? <Autenticacion/> : <NuevaCuenta/>}
+                        {existeUsuario ? <SignIn/> : <SignUp/>}
                         {!userIsLoggedIn && <SignInUpSwitch onClick={handleClick} existeUsuario={existeUsuario}/>}
                     </Container>
             }

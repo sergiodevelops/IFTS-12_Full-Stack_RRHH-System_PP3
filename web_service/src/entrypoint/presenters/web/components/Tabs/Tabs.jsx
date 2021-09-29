@@ -5,8 +5,8 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import React, {useState} from 'react';
 import Principal from "../../pages/Principal/Principal";
-import NuevaCuenta from "../NuevaCuenta/NuevaCuenta";
-import Autenticacion from "../Autenticacion/Autenticacion";
+import SignUp from "../SignUp/SignUp";
+import SignIn from "../SignIn/SignIn";
 
 
 function Tabs(){

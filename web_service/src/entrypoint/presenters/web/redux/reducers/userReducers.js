@@ -1,8 +1,13 @@
 import {usersList} from '../../constants/usersList';
 
-export default (state = {usersList: usersList, sesionStatus: false}, action) => {
+export default (
+    state = {
+        usersList: usersList || [],
+        currentUser: null,
+    },
+    action) => {
     switch (action.type) {
-        case "SAVE_NEW_USER":
+        case "ADD_NEW_USER":
             const userExist = state.usersList.findIndex((user) =>
                 user.username === action.payload.user.username
             ) === -1;
@@ -11,11 +16,12 @@ export default (state = {usersList: usersList, sesionStatus: false}, action) => 
             if (!action.payload.user || userExist) return state; // no hace nada
             // si no existe aun el usuario a crear, lo crea
             if (!userExist) return {...state, usersList: [...state.usersList, action.payload.user]};
-        case "SET_USER_ACCOUNT_STATUS":
-            return {
-                ...state,
-                sesionStatus: action.payload.status,
-            };
+        case "SET_CURRENT_AUTHENTICATED_USER":
+            if (!action.payload.user) return {...state, currentUser: null}; // no hace nada
+            const currentUserData = state.usersList.find((user) =>
+                user.username === action.payload.user.username && user.password === action.payload.user.password);
+            console.log("SET_CURRENT_AUTHENTICATED_USER ", currentUserData)
+            return {...state,currentUser: currentUserData};
         default:
             return state;
     }

@@ -9,14 +9,15 @@ import {InputAdornment} from "@material-ui/core";
 import IconButton from "@mui/material/IconButton";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 
-export default function Autenticacion() {
+export default function SignIn() {
     const classes = useStyles();
+
     const dispatch = useDispatch();
     const usersListStore = useSelector(state => state.userReducers.usersList);
+
     const [currentUser, setCurrentUser] = useState({username: "", password: ""});
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(!showPassword);
-    const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
     const handleClick = async () => {
         const authIsCorrect = await usersListStore && usersListStore.findIndex((user) =>
@@ -27,12 +28,12 @@ export default function Autenticacion() {
         }
 
         if (!authIsCorrect) {
-            const message = "El usuario o contraseña son invalidos, intente nuevamente";
+            const message = "El usuario o contraseña no son válidos, intente nuevamente";
             // dispatch(notificationActions.enqueueMessage(message));
             alert(message);
         }else {
             cleanInputValues();
-            dispatch(allActions.userActions.setUserAccountStatus(true));
+            dispatch(allActions.userActions.setCurrentAuthenticatedUser(currentUser));
         }
     };
 
@@ -52,7 +53,7 @@ export default function Autenticacion() {
                                 name="Usuario"
                                 size="small"
                                 variant="outlined"
-                                onChange={(e) => setCurrentUser({...currentUser, username: e.target.value})}
+                                onChange={(e) => setCurrentUser({...currentUser, username: e.target.value.toLowerCase()})}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -64,16 +65,15 @@ export default function Autenticacion() {
                                 label="Contraseña"
                                 name="Contraseña"
                                 size="small"
-                                type={showPassword ? "text" : "password"}
                                 variant="outlined"
                                 onChange={(e) => setCurrentUser({...currentUser, password: e.target.value})}
+                                type={showPassword ? "text" : "password"}
                                 InputProps={{ // <-- This is where the toggle button is added.
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <IconButton
                                                 aria-label="toggle password visibility"
                                                 onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
                                             >
                                                 {showPassword ? <Visibility /> : <VisibilityOff />}
                                             </IconButton>

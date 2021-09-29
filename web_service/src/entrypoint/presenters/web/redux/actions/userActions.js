@@ -1,24 +1,24 @@
 // 1 - REGISTRAR NUEVO USUARIO
-const saveNewUser = (user) => {
+const addNewUser = (user) => {
     return {
-        type:'SAVE_NEW_USER',
+        type:'ADD_NEW_USER',
         payload: {
             user,
         },
     };
 }
 
-// 2 - ESTABLECER ESTADO DE SESION USUARIO ACTUAL (true es userLoggedIn y false userLoggedOut)
-const setUserAccountStatus = (status) => {
+// 2 - USUARIO AUTENTICADO
+const setCurrentAuthenticatedUser = (user) => {
     return {
-        type:'SET_USER_ACCOUNT_STATUS',
+        type:'SET_CURRENT_AUTHENTICATED_USER',
         payload: {
-            status,
+            user,
         },
     };
 }
 
 export default {
-    saveNewUser,
-    setUserAccountStatus,
+    addNewUser,
+    setCurrentAuthenticatedUser,
 };
