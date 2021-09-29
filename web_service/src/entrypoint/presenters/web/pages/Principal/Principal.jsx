@@ -1,44 +1,55 @@
-import React, {useState} from 'react';
-// import {useForm} from 'react-hook-form';
+import React, {useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-// import TextField from '@material-ui/core/TextField';
 import useStyles from "./styles";
-// import InputLabel from '@material-ui/core/InputLabel';
-// import FormControl from '@material-ui/core/FormControl';
-// import Select from '@material-ui/core/Select';
-import Autenticacion from "../../components/Autenticacion/Autenticacion";
-import NuevaCuenta from "../../components/NuevaCuenta/NuevaCuenta";
+import SignIn from "../../components/SignIn/SignIn";
+import SignUp from "../../components/SignUp/SignUp";
+import {useSelector} from "react-redux";
+import DoubleSideBar from "../../components/DoubleSideBar/DoubleSideBar";
 
+function SignInUpSwitch(props) {
+    const {existeUsuario, onClick} = props;
+    return (
+        <Grid container spacing={3}>
+            <Grid item xs={12}>
+                <Button color="secondary" fullWidth type="submit" variant="contained" onClick={onClick}>
+                    {existeUsuario ? "crear nueva cuenta" : "volver"}
+                </Button>
+            </Grid>
+        </Grid>
+    );
+}
 
-// https://www.williamkurniawan.com/blog/building-a-simple-login-form-with-material-ui-and-react-hook-form
-
-function Principal() {
-    const [existeUsuario, setExisteUsuario] = useState(true);
+export default function Principal() {
     const classes = useStyles();
-    const handleClick = (event) => {
+
+    const userIsLoggedIn = useSelector(state => state.userReducers.currentUser) ? true : false;
+    console.log("userIsLoggedIn ", userIsLoggedIn)
+    const [sesionActiva, setSesionActiva] = useState(userIsLoggedIn || false);
+    const [existeUsuario, setExisteUsuario] = useState(true);
+
+    const handleClick = () => {
         setExisteUsuario(!existeUsuario)
     };
 
+    useEffect(() => {
+        //para que vuelva al login cuando se desloguee
+        setExisteUsuario(true);
+        setSesionActiva(userIsLoggedIn);
+        console.log("userIsLoggedIn", userIsLoggedIn);
+    }, [userIsLoggedIn]);
+
     return (
-        <Container className={classes.container} maxWidth="xs">
+        <div>
             {
-                existeUsuario ? <Autenticacion/> : <NuevaCuenta/>
+                sesionActiva ?
+                    <DoubleSideBar/> :
+                    <Container className={classes.container} maxWidth="xs">
+                        {existeUsuario ? <SignIn/> : <SignUp/>}
+                        {!userIsLoggedIn && <SignInUpSwitch onClick={handleClick} existeUsuario={existeUsuario}/>}
+                    </Container>
             }
-            {
-                <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                        <Button color="secondary" fullWidth type="submit" variant="contained" onClick={handleClick}>
-                            {
-                                existeUsuario ? "crear nueva cuenta" : "volver"
-                            }
-                        </Button>
-                    </Grid>
-                </Grid>
-            }
-        </Container>
+        </div>
     );
 };
-
-export default Principal;
