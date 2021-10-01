@@ -8,6 +8,7 @@ import allActions from "../../redux/actions";
 import {InputAdornment} from "@material-ui/core";
 import IconButton from "@mui/material/IconButton";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import Container from "@material-ui/core/Container";
 
 export default function SignIn() {
     const classes = useStyles();
@@ -22,7 +23,7 @@ export default function SignIn() {
     const handleClick = async () => {
         const authIsCorrect = await usersListStore && usersListStore.findIndex((user) =>
             user.username === currentUser.username &&
-            user.password === currentUser.password ) !== -1; // si existe coincidencia;
+            user.password === currentUser.password) !== -1; // si existe coincidencia;
         const cleanInputValues = () => {
             setCurrentUser({username: "", password: ""});
         }
@@ -31,58 +32,59 @@ export default function SignIn() {
             const message = "El usuario o contraseña no son válidos, intente nuevamente";
             // dispatch(notificationActions.enqueueMessage(message));
             alert(message);
-        }else {
+        } else {
             cleanInputValues();
             dispatch(allActions.userActions.setCurrentAuthenticatedUser(currentUser));
         }
     };
 
     return (
+        <Container className={classes.container} maxWidth="xs">
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <h1 className={classes.titulo}>Iniciar sesión</h1>
                 </Grid>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <TextField
-                                className={`user`}
-                                autoComplete={"off"}
-                                fullWidth
-                                value={currentUser.username}
-                                label="Usuario"
-                                name="Usuario"
-                                size="small"
-                                variant="outlined"
-                                onChange={(e) => setCurrentUser({...currentUser, username: e.target.value.toLowerCase()})}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                className={`password`}
-                                autoComplete={"off"}
-                                fullWidth
-                                value={currentUser.password}
-                                label="Contraseña"
-                                name="Contraseña"
-                                size="small"
-                                variant="outlined"
-                                onChange={(e) => setCurrentUser({...currentUser, password: e.target.value})}
-                                type={showPassword ? "text" : "password"}
-                                InputProps={{ // <-- This is where the toggle button is added.
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                            >
-                                                {showPassword ? <Visibility /> : <VisibilityOff />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    )
-                                }}
-                            />
-                        </Grid>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <TextField
+                            className={`user`}
+                            autoComplete={"off"}
+                            fullWidth
+                            value={currentUser.username}
+                            label="Usuario"
+                            name="Usuario"
+                            size="small"
+                            variant="outlined"
+                            onChange={(e) => setCurrentUser({...currentUser, username: e.target.value.toLowerCase()})}
+                        />
                     </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            className={`password`}
+                            autoComplete={"off"}
+                            fullWidth
+                            value={currentUser.password}
+                            label="Contraseña"
+                            name="Contraseña"
+                            size="small"
+                            variant="outlined"
+                            onChange={(e) => setCurrentUser({...currentUser, password: e.target.value})}
+                            type={showPassword ? "text" : "password"}
+                            InputProps={{ // <-- This is where the toggle button is added.
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                        >
+                                            {showPassword ? <Visibility/> : <VisibilityOff/>}
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
+                    </Grid>
+                </Grid>
                 <Grid item xs={12}>
                     <Button
                         color={"primary"}
@@ -95,5 +97,6 @@ export default function SignIn() {
                     </Button>
                 </Grid>
             </Grid>
+        </Container>
     );
 };
