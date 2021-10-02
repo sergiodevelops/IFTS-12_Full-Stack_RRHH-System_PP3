@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es6",
+    "paths": {
+      "@entrypoint/*": ["src/entrypoint/*"],
+      "@web/*": ["src/entrypoint/presenters/web/*"],
+      "@components/*": ["src/entrypoint/presenters/web/components/*"],
+      "@constants/*": ["src/entrypoint/presenters/web/constants/*"],
+      "@redux/*": ["src/entrypoint/presenters/web/redux/*"],
+      "@store/*": ["src/entrypoint/presenters/web/store/*"]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

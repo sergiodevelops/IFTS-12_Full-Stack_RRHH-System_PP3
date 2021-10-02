@@ -1,20 +1,14 @@
 export const usersList = [
     {
-        type: "administrativo",
-        fullname: "Rodrigo Lopez (administrativo)",
-        username: "administrativo",
+        type: "selector",
+        fullname: "Sandra Santini (selector)",
+        username: "sandra",
         password: "1234",
     },
     {
         type: "postulante",
-        fullname: "Sandra Santini  (postulante)",
-        username: "postulante",
-        password: "1234",
-    },
-    {
-        type: "solicitante",
-        fullname: "Jose Glavic  (solicitante)",
-        username: "solicitante",
+        fullname: "Jose Glavic (postulante)",
+        username: "pepe",
         password: "1234",
     },
 ];

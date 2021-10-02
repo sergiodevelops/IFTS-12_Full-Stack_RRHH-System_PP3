@@ -1,15 +1,11 @@
+import React, {useState} from 'react';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import React, {useState} from 'react';
-import Principal from "../../pages/Principal/Principal";
-import SignUp from "../SignUp/SignUp";
-import SignIn from "../SignIn/SignIn";
 
-
-function Tabs(){
+export default function Tabs(){
     const [value, setValue] = useState('1');
 
     const handleChange = (event, newValue) => {
@@ -41,4 +37,3 @@ function Tabs(){
         </Box>
     );
 }
-export default Tabs;

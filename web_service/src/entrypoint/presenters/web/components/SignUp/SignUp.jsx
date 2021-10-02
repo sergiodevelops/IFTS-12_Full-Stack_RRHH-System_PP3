@@ -3,18 +3,19 @@ import {useDispatch,useSelector} from "react-redux";
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import useStyles from "./styles";
 import FormControl from '@material-ui/core/FormControl';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import allActions from "../../redux/actions";
-import {userTypes} from '../../../../../constants/userTypes';
 import {InputAdornment} from "@material-ui/core";
 import IconButton from "@mui/material/IconButton";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import userActions from "@redux/actions/userActions";
+import {userTypes} from "@constants/userTypes";
+import useStyles from "./styles";
+import Container from "@material-ui/core/Container";
 
 export default function SignUp() {
     const dispatch = useDispatch();
-    const usersListStore = useSelector(state => state.userReducers.usersList);
+    const usersListStore = useSelector((state) => state.userReducers.usersList);
     const classes = useStyles();
     const emptyUser = {
         type: "",
@@ -38,20 +39,21 @@ export default function SignUp() {
 
     const handleClick = async () => {
         const userExist = await usersListStore && usersListStore.findIndex((user) =>
-            user.username === newUser.username) !== -1; // si existe coincidencia;
+            user.username === newUser.username) !== -1;
         if (userExist) {
             const message = "El usuario ya existe, intente con un username diferente";
-            // dispatch(notificationActions.enqueueMessage(message));
+            // dispatch(notificationActions.enqueueMessage(message)); //TODO ver despues snackbar integration
             alert(message);
         }
         else {
-            dispatch(allActions.userActions.addNewUser(newUser));
-            dispatch(allActions.userActions.setCurrentAuthenticatedUser(newUser));
+            dispatch(userActions.addNewUser(newUser));
+            dispatch(userActions.setCurrentAuthenticatedUser(newUser));
             cleanInputValues();
         }
     };
 
     return (
+        <Container className={classes.container} maxWidth="xs">
         <Grid>
             <Grid item xs={12}>
                 <h1 className={classes.titulo}>Crea tu nueva cuenta</h1>
@@ -92,7 +94,6 @@ export default function SignUp() {
                             size="small"
                             type="text"
                             variant="outlined"
-                            // inputRef={register} // ??
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -124,7 +125,7 @@ export default function SignUp() {
                             variant="outlined"
                             onChange={(e) => setNewUser({...newUser, password: e.target.value})}
                             type={showPassword1 ? "text" : "password"}
-                            InputProps={{ // <-- This is where the toggle button is added.
+                            InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton
@@ -153,7 +154,7 @@ export default function SignUp() {
                             variant="outlined"
                             onChange={(e) => setPassword2(e.target.value)}
                             type={showPassword2 ? "text" : "password"}
-                            InputProps={{ // <-- This is where the toggle button is added.
+                            InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton
@@ -184,5 +185,6 @@ export default function SignUp() {
                 </Grid>
             </Grid>
         </Grid>
+        </Container>
     );
 };
