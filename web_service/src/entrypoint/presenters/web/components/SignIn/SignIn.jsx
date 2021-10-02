@@ -38,8 +38,14 @@ export default function SignIn() {
         }
     };
 
+    const validateInputData = (e, typeText) => {
+        const inputDataChecked = e.target.value.replace(/ /g, "");
+        if (typeText === "username") return inputDataChecked.toLowerCase();
+        return inputDataChecked;
+    }
+
     return (
-        <Container className={classes.container} maxWidth="xs">
+        <Container className={classes.container} maxWidth="xs" o>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <h1 className={classes.titulo}>Iniciar sesión</h1>
@@ -55,7 +61,10 @@ export default function SignIn() {
                             name="Usuario"
                             size="small"
                             variant="outlined"
-                            onChange={(e) => setCurrentUser({...currentUser, username: e.target.value.toLowerCase()})}
+                            onChange={(e) => setCurrentUser({
+                                ...currentUser,
+                                username: validateInputData(e, "username"),
+                            })}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -68,7 +77,10 @@ export default function SignIn() {
                             name="Contraseña"
                             size="small"
                             variant="outlined"
-                            onChange={(e) => setCurrentUser({...currentUser, password: e.target.value})}
+                            onChange={(e) => setCurrentUser({
+                                ...currentUser,
+                                password: validateInputData(e, "password"),
+                            })}
                             type={showPassword ? "text" : "password"}
                             InputProps={{ // <-- This is where the toggle button is added.
                                 endAdornment: (
@@ -87,6 +99,7 @@ export default function SignIn() {
                 </Grid>
                 <Grid item xs={12}>
                     <Button
+                        autoFocus={true}
                         color={"primary"}
                         fullWidth type="submit"
                         variant="contained"
