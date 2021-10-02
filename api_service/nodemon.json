@@ -2,6 +2,6 @@
   "execMap": {
     "js": "node --harmony"
   },
-  "script": "server.js",
+  "script": "./src/app.js",
   "ext": "js, html"
 }

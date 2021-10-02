@@ -1,34 +1,17 @@
-/*
-este modelo representa la tabla de usuarios
- el crud no es necesario, dado que Sequelize ya tiene
- los metodos para hacer todos los tipos de operaciones con los datos
-*/
-
-/*
-- crear un nuevo USER: create(object)
-- encontrar un USER por "id": findByPk(id)
-- obtener todos los USERS: findAll()
-- actualizar un USER por "id": update(data, where: { id: id })
-- eliminar un USER por "id": destroy(where: { id: id })
-- eliminar todos los USERS: destroy(where: {})
-- encontrar todos los USERS por "nombre" (texto coincidente): findAll({ where: { title: ... } })
-*/
-
-//metodos que usara nuestro controlador
-
-
-
-const DB = require("../app/models");
-const User = DB.usuarios;
+// *** import modules ***
+const DB = require("../models");
+const UserController = DB.usuarios;
 // const Op = DB.Sequelize.Op;
-User.sync({force: true});
+
+
+UserController.sync({force: true});
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
-    const formatoFecha=(fecha,formato)=>{
+    const formatoFecha = (fecha, formato) => {
         return formato
             .replace('YYYY', fecha.getFullYear())
-            .replace('MM', fecha.getMonth()+1)
+            .replace('MM', fecha.getMonth() + 1)
             .replace('DD', fecha.getDate());
     }
     const today = new Date();
@@ -69,7 +52,7 @@ exports.create = (req, res) => {
     };
 
     // Save Tutorial in the database
-    User.create(users)
+    UserController.create(users)
         .then(data => {
             res.send(data);
         })

@@ -20,23 +20,10 @@ encontrar todos los tutoriales por título: findAll({ where: { title: ... } })
 // https://sequelize.org/master/manual/model-basics.html
 //https://tomasmalio.medium.com/node-js-express-y-mysql-con-sequelize-ec0a7c0ae292
 
-
 'use strict';
-const {
-    Model
-} = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
-    class usuario extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
-        static associate(models) {
-            // define association here
-        }
-    };
-    usuario.init({
+    const UserModel = sequelize.define('user', {
         id: {
             allowNull: false,
             autoIncrement: true,
@@ -54,13 +41,8 @@ module.exports = (sequelize, DataTypes) => {
         nombre_usuario: {
             allowNull: true,
             defaultValue: 1,
-            type: DataTypes.STRING,
-        },
-        status: {
-            allowNull: true,
-            defaultValue: 1,
             type: DataTypes.CHAR,
-        },
+        }
     }, {
         timestamps: false,
         freezeTableName: true,
@@ -68,9 +50,9 @@ module.exports = (sequelize, DataTypes) => {
         classMethods: {},
     });
 
-    Usuario.associate = function(models) {
+    UserModel.associate = (/*models*/)=> {
         // associations can be defined here
     };
 
-    return usuario;
+    return UserModel;
 };

@@ -1,5 +1,9 @@
-const dbConfig = require("../../db.config");
-const Sequelize = require("sequelize");
+// import modules
+const dbConfig = require("../DbConfig");
+const {Sequelize} = require("sequelize");
+const UserModel = require("./UserModel");
+
+
 const sequelize = new Sequelize(
     dbConfig.DB,
     dbConfig.USER,
@@ -19,6 +23,6 @@ const DB = {}; //TODO cambiar por "const" una vez que funcione dar un alta
 
 DB.Sequelize = Sequelize;
 DB.sequelize = sequelize;
-DB.usuarios = require("../../models/user.js")(sequelize, Sequelize);
+DB.usuarios = UserModel(sequelize, Sequelize);
 
 module.exports = DB;

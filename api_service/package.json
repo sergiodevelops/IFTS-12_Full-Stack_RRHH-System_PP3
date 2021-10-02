@@ -1,4 +1,5 @@
 {
+  "type": "commonjs",
   "name": "server",
   "version": "1.0.0",
   "description": "rrhh express server",
@@ -17,8 +18,8 @@
   },
   "scripts": {
     "test": "echo \"Error, no test especified\" && exit 1",
-    "start": "node server",
-    "dev": "nodemon server"
+    "start": "node src/App.js",
+    "dev": "nodemon src/App.js"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
