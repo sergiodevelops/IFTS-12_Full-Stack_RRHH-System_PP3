@@ -7,24 +7,27 @@ import SignIn from '@components/SignIn/SignIn';
 import SignUp from '@components/SignUp/SignUp';
 import DoubleSideBar from "@components/DoubleSideBar/DoubleSideBar";
 import useStyles from "./styles";
+import PieDePagina from "@components/PieDePagina/PieDePagina";
 
-function SignInUpSwitch(props) {
+function SignInUpSwitch(props, classes) {
     const {existeUsuario, onClick} = props;
     return (
-        <Grid container spacing={3}>
-            <Grid item xs={12}>
-                <Button color="secondary" fullWidth type="submit" variant="contained" onClick={onClick}>
-                    {existeUsuario ? "crear nueva cuenta" : "volver"}
-                </Button>
+        <Container className={classes.container} maxWidth="xs">
+            <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    <Button color="secondary" fullWidth type="submit" variant="contained" onClick={onClick}>
+                        {existeUsuario ? "crear nueva cuenta" : "volver"}
+                    </Button>
+                </Grid>
             </Grid>
-        </Grid>
+        </Container>
     );
 }
 
 export default function Principal() {
     const classes = useStyles();
 
-    const userIsLoggedIn = useSelector((state) => state.userReducers.currentUser) ? true : false;
+    const userIsLoggedIn = !!useSelector((state) => state.userReducers.currentUser);
     const [sesionActiva, setSesionActiva] = useState(userIsLoggedIn || false);
     const [existeUsuario, setExisteUsuario] = useState(true);
 
@@ -39,15 +42,17 @@ export default function Principal() {
     }, [userIsLoggedIn]);
 
     return (
-        <div>
-            {
-                sesionActiva ?
-                    <DoubleSideBar/> :
-                    <Container className={classes.container} maxWidth="xs">
-                        {existeUsuario ? <SignIn/> : <SignUp/>}
-                        {!userIsLoggedIn && <SignInUpSwitch onClick={handleClick} existeUsuario={existeUsuario}/>}
-                    </Container>
-            }
+        <div className={`${classes.root}`}>
+            <div className={`${classes.content}`}>
+                <div>
+                    {sesionActiva && <DoubleSideBar/>}
+                    {!sesionActiva && (existeUsuario ? <SignIn/> : <SignUp/>)}
+                    {!userIsLoggedIn && <SignInUpSwitch onClick={handleClick} existeUsuario={existeUsuario}/>}
+                </div>
+                <div>
+                    {sesionActiva && <PieDePagina/>}
+                </div>
+            </div>
         </div>
     );
 };

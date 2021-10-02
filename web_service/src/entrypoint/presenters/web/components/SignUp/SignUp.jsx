@@ -11,6 +11,7 @@ import {Visibility, VisibilityOff} from "@mui/icons-material";
 import userActions from "@redux/actions/userActions";
 import {userTypes} from "@constants/userTypes";
 import useStyles from "./styles";
+import Container from "@material-ui/core/Container";
 
 export default function SignUp() {
     const dispatch = useDispatch();
@@ -52,6 +53,7 @@ export default function SignUp() {
     };
 
     return (
+        <Container className={classes.container} maxWidth="xs">
         <Grid>
             <Grid item xs={12}>
                 <h1 className={classes.titulo}>Crea tu nueva cuenta</h1>
@@ -183,5 +185,6 @@ export default function SignUp() {
                 </Grid>
             </Grid>
         </Grid>
+        </Container>
     );
 };
