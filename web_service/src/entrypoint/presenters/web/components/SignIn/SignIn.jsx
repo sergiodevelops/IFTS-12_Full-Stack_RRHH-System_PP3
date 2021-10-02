@@ -1,20 +1,19 @@
 import React, {useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import useStyles from "./styles";
-import {useDispatch, useSelector} from "react-redux";
-import allActions from "../../redux/actions";
 import {InputAdornment} from "@material-ui/core";
 import IconButton from "@mui/material/IconButton";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import userActions from "@redux/actions/userActions";
 import Container from "@material-ui/core/Container";
+import useStyles from "./styles";
 
 export default function SignIn() {
     const classes = useStyles();
-
     const dispatch = useDispatch();
-    const usersListStore = useSelector(state => state.userReducers.usersList);
+    const usersListStore = useSelector((state) => state.userReducers.usersList);
 
     const [currentUser, setCurrentUser] = useState({username: "", password: ""});
     const [showPassword, setShowPassword] = useState(false);
@@ -23,18 +22,19 @@ export default function SignIn() {
     const handleClick = async () => {
         const authIsCorrect = await usersListStore && usersListStore.findIndex((user) =>
             user.username === currentUser.username &&
-            user.password === currentUser.password) !== -1; // si existe coincidencia;
+            user.password === currentUser.password ) !== -1;
+
         const cleanInputValues = () => {
             setCurrentUser({username: "", password: ""});
         }
 
         if (!authIsCorrect) {
             const message = "El usuario o contraseña no son válidos, intente nuevamente";
-            // dispatch(notificationActions.enqueueMessage(message));
+            // dispatch(notificationActions.enqueueMessage(message));  //TODO ver despues snackbar integration
             alert(message);
         } else {
             cleanInputValues();
-            dispatch(allActions.userActions.setCurrentAuthenticatedUser(currentUser));
+            dispatch(userActions.setCurrentAuthenticatedUser(currentUser));
         }
     };
 

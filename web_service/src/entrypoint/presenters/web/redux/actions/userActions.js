@@ -1,4 +1,3 @@
-// 1 - REGISTRAR NUEVO USUARIO
 const addNewUser = (user) => {
     return {
         type:'ADD_NEW_USER',
@@ -7,8 +6,6 @@ const addNewUser = (user) => {
         },
     };
 }
-
-// 2 - USUARIO AUTENTICADO
 const setCurrentAuthenticatedUser = (user) => {
     return {
         type:'SET_CURRENT_AUTHENTICATED_USER',

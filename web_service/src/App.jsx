@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import Principal from "./entrypoint/presenters/web/pages/Principal/Principal";
+import Principal from "./entrypoint/presenters/web/components/Principal/Principal";
 
 function App() {
     return <Principal/>
