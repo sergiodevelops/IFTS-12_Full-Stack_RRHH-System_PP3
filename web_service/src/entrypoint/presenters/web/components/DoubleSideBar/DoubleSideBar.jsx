@@ -14,19 +14,17 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
+// import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+// import InboxIcon from '@mui/icons-material/MoveToInbox';
+// import MailIcon from '@mui/icons-material/Mail';
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import allActions from "../../redux/actions";
-import PieDePagina from "../PieDePagina/PieDePagina";
-import * as PropTypes from "prop-types";
+import userActions from "@redux/actions/userActions";
 
 const drawerWidth = 240;
-//functional component <AppBar/>
+
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
 })(({theme, openLeft, openRight}) => ({
@@ -46,7 +44,7 @@ const AppBar = styled(MuiAppBar, {
     ...(openLeft ? {marginLeft: `${drawerWidth}px`} : {marginLeft: 0}),
     ...(openRight ? {marginRight: `${drawerWidth}px`} : {marginRight: 0}),
 }));
-//functional component <Main/>
+
 const Main = styled('main', {shouldForwardProp: (prop) => prop !== 'open'})(
     ({theme, openLeft, openRight}) => ({
         flexGrow: 1,
@@ -65,7 +63,7 @@ const Main = styled('main', {shouldForwardProp: (prop) => prop !== 'open'})(
         ...(openRight ? {marginRight: 0} : {marginRight: `-${drawerWidth}px`}),
     }),
 );
-//functional component <DrawerHeaderLeft/>
+
 const DrawerHeaderLeft = styled('div')(({theme}) => ({
     display: 'flex',
     alignItems: 'center',
@@ -74,7 +72,7 @@ const DrawerHeaderLeft = styled('div')(({theme}) => ({
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
 }));
-//functional component <DrawerHeaderRight/>
+
 const DrawerHeaderRight = styled('div')(({theme}) => ({
     display: 'flex',
     alignItems: 'center',
@@ -84,16 +82,11 @@ const DrawerHeaderRight = styled('div')(({theme}) => ({
     justifyContent: 'flex-start',
 }));
 
-function Footer(props) {
-    return null;
-}
-
-Footer.propTypes = {children: PropTypes.node};
 export default function DoubleSideBar() {
     const theme = useTheme();
 
     const dispatch = useDispatch();
-    const currentUser = useSelector(state => state.userReducers.currentUser);
+    const currentUser = useSelector((state) => state.userReducers.currentUser);
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [openLeft, setOpenLeft] = React.useState(true);
@@ -101,7 +94,7 @@ export default function DoubleSideBar() {
 
     const handleLogOut = () => {
         handleClose();
-        dispatch(allActions.userActions.setCurrentAuthenticatedUser(null));
+        dispatch(userActions.setCurrentAuthenticatedUser(null));
     };
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -109,16 +102,12 @@ export default function DoubleSideBar() {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    // controls LEFT drawer open close
     const handleDrawerOpenLeft = () => {
         setOpenLeft(true);
-        // setOpenRight(true);
     };
     const handleDrawerCloseLeft = () => {
         setOpenLeft(false);
-        // setOpenRight(false);
     };
-    // controls RIGHT drawer open close
     const handleDrawerOpenRight = () => {
         setOpenRight(true);
     };

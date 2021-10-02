@@ -16,6 +16,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "module-alias": "^2.2.2",
     "mysql": "^2.18.1",
     "path": "^0.12.7",
     "react": "^17.0.2",
@@ -60,6 +61,10 @@
   },
   "_moduleAliases": {
     "@entrypoint": "src/entrypoint",
-    "@constants": "src/constants"
+    "@web": "src/entrypoint/presenters/web",
+    "@components": "src/entrypoint/presenters/web/components",
+    "@constants": "src/entrypoint/presenters/web/constants",
+    "@redux": "src/entrypoint/presenters/web/redux",
+    "@store": "src/entrypoint/presenters/web/store"
   }
 }
