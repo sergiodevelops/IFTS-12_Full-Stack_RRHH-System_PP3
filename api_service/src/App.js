@@ -4,7 +4,7 @@ const logger = require("morgan");
 const bodyParser = require("body-parser"); //analiza la solicitud y crea req.body object
 const cors = require("cors"); // middleware Express que habilita CORS con varias opciones
 const app = express(); // para usar express
-const db = require("./models");
+const db = require("./models/index");
 const UsuarioRouter = require("./routes/UsuarioRouter");
 
 
@@ -41,6 +41,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.get('*', (req, res) => res.status(200).send({
     message: 'Welcome to API RRHH Group!',
 }));
+
 UsuarioRouter(app);
 
 // puerto "a donde se reciben" las peticiones (api_service)
