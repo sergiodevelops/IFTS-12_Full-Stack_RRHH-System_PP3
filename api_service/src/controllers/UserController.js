@@ -1,7 +1,7 @@
 // *** import modules ***
-const DB = require("../models");
-const UserController = DB.usuarios;
-// const Op = DB.Sequelize.Op;
+const db = require("../models");
+const UserController = db.usuarios;
+// const Op = db.Sequelize.Op;
 
 
 UserController.sync({force: true});
@@ -44,7 +44,7 @@ exports.create = (req, res) => {
     }
 
     // Create a User
-    const users = {
+    const usuarios = {
         tipo_usuario: req.body.tipo_usuario,
         nombre_usuario: req.body.nombre_usuario,
         password: req.body.password,
@@ -52,7 +52,7 @@ exports.create = (req, res) => {
     };
 
     // Save Tutorial in the database
-    UserController.create(users)
+    UserController.create(usuarios)
         .then(data => {
             res.send(data);
         })
@@ -65,31 +65,14 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Users from the database.
-exports.findAll = (req, res) => {
-
-};
-
+exports.findAll = (req, res) => {};
 // Find a single User with an id
-exports.findOne = (req, res) => {
-
-};
-
+exports.findOne = (req, res) => {};
 // Update a User by the id in the request
-exports.update = (req, res) => {
-
-};
-
+exports.update = (req, res) => {};
 // Delete a User with the specified id in the request
-exports.delete = (req, res) => {
-
-};
-
+exports.delete = (req, res) => {};
 // Delete all Users from the database.
-exports.deleteAll = (req, res) => {
-
-};
-
+exports.deleteAll = (req, res) => {};
 // Find all published Users
-exports.findAllPublished = (req, res) => {
-
-};
+exports.findAllPublished = (req, res) => {};

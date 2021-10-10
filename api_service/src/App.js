@@ -7,6 +7,8 @@ const app = express(); // para usar express
 const db = require("./models/index");
 const UsuarioRouter = require("./routes/UsuarioRouter");
 
+require('dotenv').config();
+const {API_PORT, WEB_PORT} = process.env;
 
 app.use(logger('dev'));
 const formatoFecha = (fecha, formato) => {
@@ -26,8 +28,9 @@ db.sequelize.sync({force: true}) //En desarrollo, es posible que deba eliminar l
         console.log('el error es:', error)
     });
 // puerto "de donde provienen" las peticiones (web_service)
+const webPort = WEB_PORT || 3005;
 let corsOptions = {
-    origin: "http://localhost:3005"
+    origin: `http://localhost:${webPort}`
 };
 app.use(cors(corsOptions));
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
@@ -44,10 +47,8 @@ app.get('*', (req, res) => res.status(200).send({
 
 UsuarioRouter(app);
 
-// puerto "a donde se reciben" las peticiones (api_service)
-const PORT = process.env.APP_PORT || 4005;
-console.log((process.env.APP_PORT ? "process.env.APP_PORT --> " : "PORT hardcode is --> "), PORT);
-
-app.listen(PORT, () => {
-    console.log(`Server API corriendo en puerto virtual: ${PORT}.`);
+// puerto "a donde se reciben" las peticiones del frontend web_service (api_service)
+const apiPort = API_PORT || 4005;
+app.listen(apiPort, () => {
+    console.log("Corriendo en ",(apiPort ? "API_PORT --> " : "API_PORT hardcodeado --> "), apiPort);
 });
