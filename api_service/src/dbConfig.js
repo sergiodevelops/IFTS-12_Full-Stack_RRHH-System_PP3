@@ -1,6 +1,5 @@
-// En la aplicación de carpeta, creamos una separada de configuración de la carpeta para la configuración con db.config.js archivo de la siguiente manera:
+// CONFIGURAMOS LA CONEXIÓN DE SEQUELIZE CON LA DB
 require('dotenv').config();
-
 const {
     DB_HOST,
     DB_PORT,
@@ -11,11 +10,11 @@ const {
 } = process.env;
 
 const dbConfig = {
-    HOST: DB_HOST || "localhost",
     PORT: DB_PORT || "3306",
-    USER: DB_USERNAME || "adm",
-    PASSWORD: DB_PASSWORD || "adm",
-    DB: DB_NAME || "rrhh",
+    DB: DB_NAME || "db_name",
+    USER: DB_USERNAME || "admin",
+    PASSWORD: DB_PASSWORD || "1234",
+    HOST: DB_HOST || "localhost",
     dialect: DB_DIALECT || "mysql",
     pool: {
         max: 5, //número máximo de conexiones simultaneas
@@ -24,7 +23,5 @@ const dbConfig = {
         idle: 10000, //tiempo máximo, en milisegundos, que el grupo intentará conectarse antes de lanzar el error
     },
 };
-console.log("dbConfig",dbConfig)
 
 module.exports = dbConfig;
-

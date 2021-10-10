@@ -1,5 +1,5 @@
 module.exports = app => {
-    const UserController = require("../controllers/UserController");
+    const UserController = require("../controllers/UsuarioController");
     let router = require("express").Router();
 
     // Create a new User

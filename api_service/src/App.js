@@ -19,6 +19,7 @@ const formatoFecha = (fecha, formato) => {
 }
 const fechaActual = formatoFecha(new Date(), 'YYYY-MM-DD');
 console.log("fecha actual", fechaActual);
+
 // db.sequelize.sync() //En PRODUCCIÓN
 db.sequelize.sync({force: true}) //En desarrollo, es posible que deba eliminar las tablas existentes y volver a sincronizar la base de datos
     .then(() => { //modo dev
@@ -27,6 +28,7 @@ db.sequelize.sync({force: true}) //En desarrollo, es posible que deba eliminar l
     .catch((error) => {
         console.log('el error es:', error)
     });
+
 // puerto "de donde provienen" las peticiones (web_service)
 const webPort = WEB_PORT || 3005;
 let corsOptions = {
@@ -50,5 +52,5 @@ UsuarioRouter(app);
 // puerto "a donde se reciben" las peticiones del frontend web_service (api_service)
 const apiPort = API_PORT || 4005;
 app.listen(apiPort, () => {
-    console.log("Corriendo en ",(apiPort ? "API_PORT --> " : "API_PORT hardcodeado --> "), apiPort);
+    console.log("Corriendo en ", (apiPort ? "API_PORT --> " : "API_PORT hardcodeado --> "), apiPort);
 });

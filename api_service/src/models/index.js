@@ -1,10 +1,10 @@
-// Initialize Sequelize
+// << Initialize Sequelize >>
 
 //importa config para conexión a la base
 const dbConfig = require("../dbConfig");
-
 const {Sequelize} = require("sequelize");
-const UserModel = require("./UserModel");
+//importa el modelo para exportarlo en DB
+const UserModel = require("./UsuarioModel");
 
 
 const sequelize = new Sequelize(

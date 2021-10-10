@@ -1,10 +1,9 @@
 // *** import modules ***
 const db = require("../models");
-const UserController = db.usuarios;
+const UsuarioController = db.usuarios;
 // const Op = db.Sequelize.Op;
 
-
-UserController.sync({force: true});
+UsuarioController.sync({force: true});
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -14,45 +13,44 @@ exports.create = (req, res) => {
             .replace('MM', fecha.getMonth() + 1)
             .replace('DD', fecha.getDate());
     }
-    const today = new Date();
-    const formato = "YYYY-MM-DD";
-    const fechaActual = formatoFecha(today, formato);
+    const fechaActual = formatoFecha(new Date(), 'YYYY-MM-DD');
 
-    console.log("req.body.tipo_usuario", req.body.tipo_usuario);
-    console.log("req.body.nombre_usuario", req.body.nombre_usuario);
-    console.log("req.body.password", req.body.password);
-    console.log("req.body.fecha_alta", fechaActual);
-
-    // Validate request
+    // Validate request "tipo_usuario"
     if (!req.body.tipo_usuario) {
         res.status(400).send({
             message: "Debe enviar un TIPO para crear el User!"
         });
         return;
     }
-    if (!req.body.nombre_usuario) {
-        res.status(400).send({
-            message: "Debe enviar un NOMBRE para crear el User!"
-        });
-        return;
-    }
+    // Validate request "password"
     if (!req.body.password) {
         res.status(400).send({
             message: "Debe enviar un PASSWORD para crear el User!"
         });
         return;
     }
+    // Validate request "nombre_usuario"
+    if (!req.body.nombre_usuario) {
+        res.status(400).send({
+            message: "Debe enviar un NOMBRE para crear el User!"
+        });
+        return;
+    }
 
     // Create a User
     const usuarios = {
+        id: req.body.id,
         tipo_usuario: req.body.tipo_usuario,
-        nombre_usuario: req.body.nombre_usuario,
         password: req.body.password,
-        fecha_alta: fechaActual, // lo crea internamente la API
+        nombre_usuario: req.body.nombre_usuario,
+        fecha_alta: fechaActual || null, // lo crea internamente la API
     };
 
-    // Save Tutorial in the database
-    UserController.create(usuarios)
+    // console.log("usuarios", usuarios);
+
+
+    // Save User in the database
+    UsuarioController.create(usuarios)
         .then(data => {
             res.send(data);
         })
