@@ -6,29 +6,17 @@ const cors = require("cors"); // middleware Express que habilita CORS con varias
 const app = express(); // para usar express
 const db = require("./models/index");
 const UsuarioRouter = require("./routes/UsuarioRouter");
-
 require('dotenv').config();
 const {API_PORT, WEB_PORT} = process.env;
-
 app.use(logger('dev'));
-const formatoFecha = (fecha, formato) => {
-    return formato
-        .replace('YYYY', fecha.getFullYear())
-        .replace('MM', fecha.getMonth() + 1)
-        .replace('DD', fecha.getDate());
-}
-const fechaActual = formatoFecha(new Date(), 'YYYY-MM-DD');
-console.log("fecha actual", fechaActual);
-
 // db.sequelize.sync() //En PRODUCCIÓN
-db.sequelize.sync({force: true}) //En desarrollo, es posible que deba eliminar las tablas existentes y volver a sincronizar la base de datos
-    .then(() => { //modo dev
-        console.log("Drop and re-sync db.");
-    })
-    .catch((error) => {
-        console.log('el error es:', error)
-    });
-
+// db.sequelize.sync({force: true}) //En desarrollo, es posible que deba eliminar las tablas existentes y volver a sincronizar la base de datos
+//     .then(() => { //modo dev
+//         console.log("Drop and re-sync db.");
+//     })
+//     .catch((error) => {
+//         console.log('el error es:', error)
+//     });
 // puerto "de donde provienen" las peticiones (web_service)
 const webPort = WEB_PORT || 3005;
 let corsOptions = {
@@ -40,9 +28,9 @@ app.use(bodyParser.json());
 // parse requests of content-tipo_usuario - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
 // simple route response
-// app.get("/", (req, res) => {
-//     res.json({message: "Pepe API."});
-// });
+app.get("/check", (req, res) => {
+    res.json({message: "API its OK"});
+});
 app.get('*', (req, res) => res.status(200).send({
     message: 'Welcome to API RRHH Group!',
 }));

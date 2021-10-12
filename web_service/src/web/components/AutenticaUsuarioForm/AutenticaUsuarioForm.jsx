@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import {InputAdornment} from "@material-ui/core";
 import IconButton from "@mui/material/IconButton";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
-import userActions from "@redux/actions/userActions";
+import userActions from "../../redux/actions/userActions";
 import Container from "@material-ui/core/Container";
 import useStyles from "./styles";
 

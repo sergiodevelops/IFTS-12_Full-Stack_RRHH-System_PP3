@@ -1,5 +1,5 @@
-import userActions from '../actions/userActions';
-import notificationActions from '../actions/notificationActions';
+import userActions from './userActions';
+import notificationActions from './notificationActions';
 
 const allActions = {
     userActions: userActions,

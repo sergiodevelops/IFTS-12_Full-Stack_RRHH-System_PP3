@@ -1,8 +1,8 @@
-import {usersList} from '../../constants/usersList';
+import {usersListExample} from '../../constants/usersListExample';
 
 export default (
     state = {
-        usersList: usersList,
+        usersList: usersListExample,
         currentUser: null,
     },
     action) => {

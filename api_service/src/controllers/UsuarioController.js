@@ -1,9 +1,10 @@
 // *** import modules ***
 const db = require("../models");
 const UsuarioController = db.usuarios;
+const {userTypes} = require("../constants/userTypes");
 // const Op = db.Sequelize.Op;
 
-UsuarioController.sync({force: true});
+// UsuarioController.sync({force: true});
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -36,7 +37,6 @@ exports.create = (req, res) => {
         });
         return;
     }
-
     // Create a User
     const usuarios = {
         id: req.body.id,
@@ -45,10 +45,6 @@ exports.create = (req, res) => {
         nombre_usuario: req.body.nombre_usuario,
         fecha_alta: fechaActual || null, // lo crea internamente la API
     };
-
-    // console.log("usuarios", usuarios);
-
-
     // Save User in the database
     UsuarioController.create(usuarios)
         .then(data => {
@@ -56,21 +52,20 @@ exports.create = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message:
-                    err.message || "Some error occurred while creating the USER."
+                message: err.message || "Some error occurred while creating the USER."
             });
         });
 };
 
-// Retrieve all Users from the database.
-exports.findAll = (req, res) => {};
-// Find a single User with an id
-exports.findOne = (req, res) => {};
 // Update a User by the id in the request
 exports.update = (req, res) => {};
+
+// List all user with the specified data filtered
+exports.list=(_, res) =>{
+    return usuario.findAll({})
+        .then(usuario => res.status(200).send(usuario))
+        .catch(error => res.status(400).send(error))
+};
+
 // Delete a User with the specified id in the request
 exports.delete = (req, res) => {};
-// Delete all Users from the database.
-exports.deleteAll = (req, res) => {};
-// Find all published Users
-exports.findAllPublished = (req, res) => {};

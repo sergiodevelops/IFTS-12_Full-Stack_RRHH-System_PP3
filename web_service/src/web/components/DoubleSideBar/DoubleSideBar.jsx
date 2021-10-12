@@ -21,7 +21,7 @@ import ListItemText from '@mui/material/ListItemText';
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import userActions from "@redux/actions/userActions";
+import userActions from "../../redux/actions/userActions";
 
 const drawerWidth = 240;
 

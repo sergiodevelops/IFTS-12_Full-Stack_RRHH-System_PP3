@@ -1,4 +1,4 @@
-export const usersList = [
+export const usersListExample = [
     {
         type: "selector",
         fullname: "Sandra Santini (selector)",

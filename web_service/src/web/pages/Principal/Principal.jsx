@@ -3,11 +3,11 @@ import {useSelector} from "react-redux";
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import SignIn from '@components/SignIn/SignIn';
-import SignUp from '@components/SignUp/SignUp';
-import DoubleSideBar from "@components/DoubleSideBar/DoubleSideBar";
+import SignIn from '../SignIn/SignIn';
+import SignUp from '../SignUp/SignUp';
+import DoubleSideBar from "../DoubleSideBar/DoubleSideBar";
 import useStyles from "./styles";
-import PieDePagina from "@components/PieDePagina/PieDePagina";
+import PieDePagina from "../PieDePagina/PieDePagina";
 
 function SignInUpSwitch(props, classes) {
     const {existeUsuario, onClick} = props;

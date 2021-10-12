@@ -1,11 +1,11 @@
 // << Initialize Sequelize >>
 
-//importa config para conexión a la base
-const dbConfig = require("../dbConfig");
+//importa Sequelize
 const {Sequelize} = require("sequelize");
-//importa el modelo para exportarlo en DB
-const UserModel = require("./UsuarioModel");
-
+//importa config para conexión a la base con sequelize
+const dbConfig = require("../dbConfig");
+//importa los modelos para virtualizar la DB con sequelize
+const UsuarioModel = require("./UsuarioModel");
 
 const sequelize = new Sequelize(
     dbConfig.DB,
@@ -26,6 +26,6 @@ const db = {}; //TODO cambiar por "const" una vez que funcione dar un alta
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-db.usuarios = UserModel(sequelize, Sequelize);
+db.usuarios = UsuarioModel(sequelize, Sequelize);
 
 module.exports = db;
