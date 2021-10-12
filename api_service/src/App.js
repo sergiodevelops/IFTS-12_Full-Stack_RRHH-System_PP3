@@ -10,13 +10,13 @@ require('dotenv').config();
 const {API_PORT, WEB_PORT} = process.env;
 app.use(logger('dev'));
 // db.sequelize.sync() //En PRODUCCIÓN
-// db.sequelize.sync({force: true}) //En desarrollo, es posible que deba eliminar las tablas existentes y volver a sincronizar la base de datos
-//     .then(() => { //modo dev
-//         console.log("Drop and re-sync db.");
-//     })
-//     .catch((error) => {
-//         console.log('el error es:', error)
-//     });
+db.sequelize.sync({force: true}) //En desarrollo, es posible que deba eliminar las tablas existentes y volver a sincronizar la base de datos
+    .then(() => { //modo dev
+        console.log("Drop and re-sync db.");
+    })
+    .catch((error) => {
+        console.log('el error es:', error)
+    });
 // puerto "de donde provienen" las peticiones (web_service)
 const webPort = WEB_PORT || 3005;
 let corsOptions = {
@@ -25,7 +25,7 @@ let corsOptions = {
 app.use(cors(corsOptions));
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
-// parse requests of content-tipo_usuario - application/x-www-form-urlencoded
+// parse requests of content-userType - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
 // simple route response
 app.get("/check", (req, res) => {

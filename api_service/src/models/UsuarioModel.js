@@ -12,22 +12,26 @@ const fechaActual = formatoFecha(today, formato);
 
 module.exports = (sequelize, DataTypes) => {
     const UsuarioModel = sequelize.define('usuario', {
-        tipo_usuario: {
+        userType: {
             allowNull: false,
             type: DataTypes.TINYINT(3),
+        },
+        userFullname: {
+            allowNull: false,
+            type: DataTypes.CHAR(20),
+        },
+        username: {
+            allowNull: false,
+            type: DataTypes.CHAR(20),
         },
         password: {
             allowNull: false,
             type: DataTypes.STRING(35),
         },
-        nombre_usuario: {
-            allowNull: true,
-            type: DataTypes.CHAR(20),
-        },
-        fecha_alta: {
+        startDate: {
             allowNull: true,
             defaultValue: fechaActual,
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(10),
         },
     }, {
         timestamps: false,
