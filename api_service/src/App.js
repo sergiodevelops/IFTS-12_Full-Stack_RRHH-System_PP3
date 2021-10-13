@@ -5,9 +5,12 @@ const bodyParser = require("body-parser"); //analiza la solicitud y crea req.bod
 const cors = require("cors"); // middleware Express que habilita CORS con varias opciones
 const app = express(); // para usar express
 const db = require("./models/index");
-const UsuarioRouter = require("./routes/UsuarioRouter");
+// const UsuarioRouter = require("./routes/UsuarioRouter");
+const router = require("./routes/");
 require('dotenv').config();
 const {API_PORT, WEB_PORT} = process.env;
+
+
 app.use(logger('dev'));
 // db.sequelize.sync() //En PRODUCCIÓN
 db.sequelize.sync({force: true}) //En desarrollo, es posible que deba eliminar las tablas existentes y volver a sincronizar la base de datos
@@ -27,15 +30,30 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 // parse requests of content-userType - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
+
+//import index routes
+require('./routes')(app);
+
 // simple route response
-app.get("/check", (req, res) => {
-    res.json({message: "API its OK"});
-});
 app.get('*', (req, res) => res.status(200).send({
     message: 'Welcome to API RRHH Group!',
 }));
 
-UsuarioRouter(app);
+
+router(app);
+
+/*app.use((req,res,next)=>{
+    // res.status(404);
+    // res.send({error: "Not found"});
+    const err = new Error("Not found");
+    err.status = 404;
+    next(err);
+})*/
+
+//error handler
+/*app.use((err,req,res,next)=>{
+
+})*/
 
 // puerto "a donde se reciben" las peticiones del frontend web_service (api_service)
 const apiPort = API_PORT || 4005;
