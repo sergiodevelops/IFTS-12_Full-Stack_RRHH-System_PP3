@@ -9,20 +9,20 @@ import {InputAdornment} from "@material-ui/core";
 import IconButton from "@mui/material/IconButton";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import userActions from "../../redux/actions/userActions";
-import {userTypes} from "../../constants/userTypes";
+import userTypes from "../../constants/userTypes";
 import useStyles from "./styles";
 import Container from "@material-ui/core/Container";
-import UsuarioService from "../../services/UsuarioService"
+import UsuarioService from "../../services/UsuarioService";
 
-export default function SignUp() {
+export default function AltaUsuarioForm() {
     const usuarioService = new UsuarioService();
 
     const dispatch = useDispatch();
-    const usersListStore = useSelector((state) => state.userReducers.usersList);
+    const usersListStore = useSelector((state) => state?.userReducers.usersList);
     const classes = useStyles();
     const emptyUser = {
-        type: "",
-        fullname: "",
+        userType: null,
+        userFullname: "",
         username: "",
         password: "",
     };
@@ -57,10 +57,10 @@ export default function SignUp() {
     const saveUser = async () => {
         let message;
         if (
-            newUser.type === "" ||
-            newUser.fullname === "" ||
-            newUser.username === "" ||
-            newUser.password === ""
+            !newUser.userType ||
+            !newUser.userFullname ||
+            !newUser.username ||
+            !newUser.password
         ) {
             message = "Por favor complete los campos requeridos";
             alert(message);
@@ -68,15 +68,22 @@ export default function SignUp() {
             return;
         }
 
-        const result = await usuarioService.create(newUser);
+        const newUserPost = {
+            userType: newUser.userType.id,
+            userFullname: newUser.userFullname,
+            username: newUser.username,
+            password: newUser.userFullname,
+        };
+        console.log(newUserPost);
+        const result = await usuarioService.create(newUserPost);
 
         if (result) {
             message = "Alta de alumno exitoso";
-            alert(message);
             // store.dispatch(notifierActions.enqueueNotification(new Notification('success', 'Success', 'Alta de alumno exitoso')));
             // setTimeout(() => {
             //     window.location.href = '/#/users/create';
             // }, 5000);
+            alert(message);
         }
     };
 
@@ -92,19 +99,19 @@ export default function SignUp() {
                             <FormControl variant="outlined" className={classes.formControl}>
                                 <Autocomplete
                                     className={`userType`}
-                                    autoComplete={"off"}
+                                    disabled={!newUser || newUser?.userType?.length === 1}
                                     options={userTypes}
-                                    getOptionLabel={(option) => option}
-                                    value={newUser.type ? newUser.type[0].toUpperCase() + newUser.type.toLowerCase().slice(1) : ""}
-                                    onChange={(e, newVal) => setNewUser({
+                                    getOptionLabel={(option) => option.description || ""}
+                                    value={newUser?.userType || ""}
+                                    onChange={(e, selectedOption) => setNewUser({
                                         ...newUser,
-                                        type: newVal?.toString().toLowerCase()
+                                        userType: selectedOption,
                                     })}
                                     style={{width: 300}}
                                     renderInput={(params) =>
                                         <TextField
                                             {...params}
-                                            error={!newUser.type}
+                                            error={!newUser?.userType}
                                             label="Seleccionar una opción"
                                             variant="outlined"
                                         />}
@@ -116,13 +123,13 @@ export default function SignUp() {
                                 className={`userFullname`}
                                 autoComplete={"off"}
                                 fullWidth
-                                disabled={!newUser.type}
-                                value={newUser.type && newUser.fullname ? newUser.fullname : "" && setNewUser({
+                                disabled={!newUser.userType}
+                                value={!!newUser?.userType && newUser?.userFullname || ""}
+                                error={!!newUser.userType && !newUser.userFullname}
+                                onChange={(e) => setNewUser({
                                     ...newUser,
-                                    username: ""
+                                    userFullname: e.target.value.toLowerCase()
                                 })}
-                                error={newUser.type && !newUser.fullname}
-                                onChange={(e) => setNewUser({...newUser, fullname: e.target.value.toLowerCase()})}
                                 label="Nombres y apellidos"
                                 name="userFullname"
                                 size="small"
@@ -135,13 +142,13 @@ export default function SignUp() {
                                 className={`username`}
                                 autoComplete={"off"}
                                 fullWidth
-                                disabled={!newUser.fullname}
-                                value={newUser.fullname && newUser.username ? newUser.username : "" && setNewUser({
+                                disabled={!newUser?.userFullname}
+                                value={!!newUser?.userFullname && newUser?.username || ""}
+                                error={!!newUser?.userFullname && !newUser?.username}
+                                onChange={(e) => setNewUser({
                                     ...newUser,
-                                    password: ""
+                                    username: e.target.value.toLowerCase()
                                 })}
-                                error={newUser.fullname && !newUser.username}
-                                onChange={(e) => setNewUser({...newUser, username: e.target.value.toLowerCase()})}
                                 label="Usuario"
                                 name="username"
                                 size="small"
@@ -153,14 +160,17 @@ export default function SignUp() {
                                 className={`password`}
                                 autoComplete={"off"}
                                 fullWidth
-                                disabled={!newUser.username}
-                                value={newUser.username && newUser.password ? newUser.password : "" && setPassword2("")}
-                                error={newUser.username && (!newUser.password || newUser.password !== password2)}
+                                disabled={!newUser?.username}
+                                value={!!newUser?.username && !!newUser?.password ? newUser.password : ""}
+                                error={!!newUser?.username && !!(!newUser?.password || newUser?.password !== password2)}
                                 label="Contraseña"
                                 name="password1"
                                 size="small"
                                 variant="outlined"
-                                onChange={(e) => setNewUser({...newUser, password: e.target.value})}
+                                onChange={(e) => setNewUser({
+                                    ...newUser,
+                                    password: e.target.value
+                                })}
                                 type={showPassword1 ? "text" : "password"}
                                 InputProps={{
                                     endAdornment: (
@@ -184,7 +194,7 @@ export default function SignUp() {
                                 fullWidth
                                 disabled={!newUser.username}
                                 value={newUser.username && newUser.password && password2 ? password2 : ""}
-                                error={newUser.username && (!newUser.password || newUser.password !== password2)}
+                                error={!!newUser?.username && !!(!newUser?.password || newUser?.password !== password2)}
                                 label="Confirmar contraseña"
                                 name="password2"
                                 size="small"
@@ -214,7 +224,7 @@ export default function SignUp() {
                         <Button
                             color={"primary"}
                             fullWidth type="submit" variant="contained"
-                            disabled={!newUser.type || !newUser.fullname || !newUser.username || !newUser.password || newUser.password !== password2}
+                            disabled={!newUser.userType?.id || !newUser.userFullname || !newUser.username || !newUser.password || newUser.password !== password2}
                             onClick={saveUser}
                         >
                             crear cuenta

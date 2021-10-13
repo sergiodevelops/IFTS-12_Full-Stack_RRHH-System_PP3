@@ -3,11 +3,11 @@ import {useSelector} from "react-redux";
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import SignIn from '../SignIn/SignIn';
-import SignUp from '../SignUp/SignUp';
-import DoubleSideBar from "../DoubleSideBar/DoubleSideBar";
+import AutenticaUsuarioForm from '../../components/AutenticaUsuarioForm/AutenticaUsuarioForm';
+import AltaUsuarioForm from '../../components/AltaUsuarioForm/AltaUsuarioForm';
+import DoubleSideBar from "../../components/DoubleSideBar/DoubleSideBar";
 import useStyles from "./styles";
-import PieDePagina from "../PieDePagina/PieDePagina";
+import PieDePagina from "../../components/PieDePagina/PieDePagina";
 
 function SignInUpSwitch(props, classes) {
     const {existeUsuario, onClick} = props;
@@ -27,7 +27,7 @@ function SignInUpSwitch(props, classes) {
 export default function Principal() {
     const classes = useStyles();
 
-    const userIsLoggedIn = !!useSelector((state) => state.userReducers.currentUser);
+    const userIsLoggedIn = !!useSelector((state) => state?.userReducers.currentUser);
     const [sesionActiva, setSesionActiva] = useState(userIsLoggedIn || false);
     const [existeUsuario, setExisteUsuario] = useState(true);
 
@@ -46,7 +46,7 @@ export default function Principal() {
             <div className={`${classes.content}`}>
                 <div>
                     {sesionActiva && <DoubleSideBar/>}
-                    {!sesionActiva && (existeUsuario ? <SignIn/> : <SignUp/>)}
+                    {!sesionActiva && (existeUsuario ? <AutenticaUsuarioForm/> : <AltaUsuarioForm/>)}
                     {!userIsLoggedIn && <SignInUpSwitch onClick={handleClick} existeUsuario={existeUsuario}/>}
                 </div>
                 <div>

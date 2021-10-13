@@ -10,7 +10,7 @@ import userActions from "../../redux/actions/userActions";
 import Container from "@material-ui/core/Container";
 import useStyles from "./styles";
 
-export default function SignIn() {
+export default function AutenticaUsuarioForm() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const usersListStore = useSelector((state) => state.userReducers.usersList);
@@ -45,7 +45,7 @@ export default function SignIn() {
     }
 
     return (
-        <Container className={classes.container} maxWidth="xs" o>
+        <Container className={classes.container} maxWidth="xs" >
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <h1 className={classes.titulo}>Iniciar sesión</h1>
