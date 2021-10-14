@@ -56,12 +56,10 @@ export default function AltaUsuarioForm() {
 
     const saveUser = async () => {
         let message;
-        if (
-            !newUser.userType ||
+        if (!newUser.userType ||
             !newUser.userFullname ||
             !newUser.username ||
-            !newUser.password
-        ) {
+            !newUser.password) {
             message = "Por favor complete los campos requeridos";
             alert(message);
             // store.dispatch(notifierActions.enqueueNotification(new Notification('error', 'Error', 'Por favor complete los campos requeridos')));
@@ -75,16 +73,17 @@ export default function AltaUsuarioForm() {
             password: newUser.userFullname,
         };
         console.log(newUserPost);
-        const result = await usuarioService.create(newUserPost);
-
-        if (result) {
-            message = "Alta de alumno exitoso";
-            // store.dispatch(notifierActions.enqueueNotification(new Notification('success', 'Success', 'Alta de alumno exitoso')));
-            // setTimeout(() => {
-            //     window.location.href = '/#/users/create';
-            // }, 5000);
-            alert(message);
-        }
+        // const result = await usuarioService.create(newUserPost);
+        usuarioService.create(newUserPost)
+            .then((result) => {
+                message = "Alta de alumno exitoso";
+                alert(message);
+                cleanInputValues();
+            })
+            .catch((err) => {
+                console.error(err);
+                alert(err.message);
+            });
     };
 
     return (
