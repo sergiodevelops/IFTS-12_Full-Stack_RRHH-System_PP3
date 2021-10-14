@@ -8,14 +8,77 @@
 
 #### Puertos de conexión utilizados para "localhost" (127.0.0.1)
 **PC**:DOCKER
-1. **3306**:3306 <-- MySQL Database Engine Server - "mysql_service" or "mysql_service_b"
-2. **8080**:8080 <-- MySQL Database Web Adminer - "admindb_service" or "admindb_service_b"
+1. **3306**:3306 <-- MySQL Database Engine Server - "mysql_service"
+2. **8080**:8080 <-- MySQL Database Web Adminer - "adminer_service"
 3. **4000**:4000 <-- API Server Express JS - "api_service"
 4. **3000**:3000 <-- WEB Server React JS - "web_service"
 
-#### Comandos utiles durante el desarrollo:
+#### Comandos útiles durante el desarrollo:
 
-1. Ver logs del contenedor que desee y que este corriendo en Docker:
+0. Cómo iniciar cada proyecto por separado como lo tenemos hasta el momento:
+------------------------------
+PC pepe es donde está el entorno instalado
+para desarrollo
+---------------
+- él tiene instalado
+  GIT
+  DOCKER y docker-compose
+  NODE
+  NPM y YARN
+  IDE de preferencia (visual studio code o intelli j idea o similar)
+---------------
+Por el momento usaran los
+COMANDOS PARA LEVANTAR EL PROYECTO en cada
+carpeta de cada servicio por separado
+(necesitaras 3 terminales)
+---------------
+Antes que todo ya con el proyecto de git bajado
+pararse en la rama que tiene lo que avanzamos hasta ahora:
+git checkout dev
+
+Primero pararse en el directorio raíz del proyecto en cada terminal y luego
+
+* en la TERMINAL 1 ejecuta "mysql_service":
+```
+  cd mysql_service
+  docker-compose up
+```
+Si ha ido bien en unos segundos estará disponible la base mysql 
+por LOCALHOST:3306 para poder ingresar 
+como user --> "root" y pass --> "root" a base rrhh1 
+(rrhh la base original la tienen que generar con el 
+script de pepe porque aun solo hemos usado la tabla "usuarios" para dar un alta hasta el momento)
+
+* en la TERMINAL 2 ejecuta "api_service":
+```
+  cd api_service
+  yarn
+  yarn dev
+```
+Si ha ido bien en unos segundos estará disponible la API REST
+por LOCALHOST:4005 para poder hacer las peticiones con el frontend web_service
+(si quieres ver si está levantada puedes entrar por el navegador a http://localhost:4005
+y te respondería con un texto como mensaje en la pantalla)
+
+* en la TERMINAL 3 ejecuta "web_service":
+```
+  cd web_service
+  yarn
+  yarn dev
+```
+Si ha ido bien en unos segundos (tarda un poquito más al comienzo) estará disponible la REACT APP web_service
+por LOCALHOST:3005 para poder hacer las peticiones con el frontend web_service
+(entrar por el navegador a http://localhost:3005
+y te responderá con un texto como mensaje en la pantalla)
+
+* en cada TERMINAL detiene cada servicio con:
+```
+  CTRL + C (al menos en la terminal de linux es asi)
+  ... o cierra la terminal
+```
+
+
+1. Ver logs del contenedor que desee y que esté corriendo en Docker:
 ```
 # Listar contenedores que estan corriendo actualmente en Docker, ejecute:
 docker ps
@@ -31,7 +94,7 @@ docker logs --tail 100 -f api_service
 # Finaliza el monitor de este proceso combinando las teclas "CTRL + C"
 ```
 
-2. Cómo iniciar el "mysql_service" + "admindb_service" para programar localmente:
+2. Cómo iniciar el "mysql_service" + "adminer_service" para programar localmente:
 ```
 # pararse en el directorio correspondiente, ejecute:
 cd ./mysql_service 
@@ -44,7 +107,8 @@ docker-compose up
 # pararse en el directorio correspondiente, ejecute:
 cd ./api_service 
 # iniciar el servicio manualmente con este comando, ejecute:
-yarn && yarn dev
+yarn 
+yarn dev
 ```
 
 4. Cómo iniciar el "web_service" para programar localmente:
@@ -52,7 +116,8 @@ yarn && yarn dev
 # pararse en el directorio correspondiente, ejecute:
 cd ./web_service 
 # iniciar el servicio manualmente con este comando, ejecute:
-yarn && yarn dev
+yarn
+yarn dev
 ```
 
 5. Cómo iniciar todos los servicios juntos (orquestar) modo DESARROLLO (dev):
@@ -61,7 +126,7 @@ yarn && yarn dev
 docker-compose -f docker-compose_dev.yml up --build
 ```
 
-6. Cómo iniciar todos los servicios juntos (orquestar) modo PRODUCCION (prod):
+6. Cómo iniciar todos los servicios juntos (orquestar) modo PRODUCCIÓN (prod):
 ```
 # pararse en el directorio raiz del proyecto (ej: E:/web-project/rrhh), y ejecute:
 # en forma abreviada (docker-compose.yml es el nombre "default"):
@@ -70,7 +135,7 @@ docker-compose up --build
 docker-compose up --build -f docker-compose.yml
 ```
 
-### Requirimientos
+### Requerimientos
 1. DOCKER: Docker version 20.10.7, build f0df350
    - **Docker engine**: permite iniciar cada servicio en forma separada independiente uno de otro cada uno en su propio contenedor
    - **docker-compose**: orquestador para poder iniciar varios servicios de una sola vez y poder administrarlos
@@ -84,14 +149,14 @@ docker-compose up --build -f docker-compose.yml
       
 2. **NODE JS v14** (entorno de desarrollo para el desarrollo del producto)
 
-3. **YARN**: gestor de paquetes dentro de nuestro proyecto web (añade o quita librerías, ejecuta scripts para correr el proyecto)
+3. **YARN**: gestor de paquetes dentro de nuestro proyecto web (añade o quita librería, ejecuta scripts para correr el proyecto)
    
-   - **REACT JS (Library)**: manejo de renderización para la vista en forma eficiente y elegante, y mayor modularidad. Con REACT se van desarrollando los tres aspectos en simultaneo para la vista web en un unico archivo JSX (facilitando el trabajo colaborativo en equipo):
+   - **REACT JS (Library)**: manejo de renderización para la vista en forma eficiente y elegante, y mayor modularidad. Con REACT se van desarrollando los tres aspectos en simultáneo para la vista web en un único archivo JSX (facilitando el trabajo colaborativo en equipo):
       - LENGUAJE DE MARCADO: se escribe en React (JSX) que luego WEBPACK lo pasa a ficheros html5 (.HTML)
       - LENGUAJE DE ESTILO: se escribe en React (JSX) que luego WEBPACK lo pasa a ficheros css3 (.CSS)
       - LENGUAJE DE PROGRAMACIÓN: se escribe en React (JSX) que luego WEBPACK lo pasa a ficheros javascript (.JS)
 
-   - **EXPRESS JS (Framework)**: manejo de las peticiones para lectura y manipulación de los datos que estan en la base MySQL
+   - **EXPRESS JS (Framework)**: manejo de las peticiones para lectura y manipulación de los datos que están en la base MySQL
       - SERVIDOR API para la comunicación del Frontend React con los datos en MySQL Server
    
    - **MySQL engine (servidor de MySQL)**: almacenamiento de datos (persistencia de los mismos)
@@ -99,35 +164,35 @@ docker-compose up --build -f docker-compose.yml
 ### Otras herramientas necesarias para el desarrollo
 - IDE Visual Studio Code de Microsoft (interfaz de desarrollo)
 - Postman (para PROBAR las distintas funcionalidades de la API - sesiones de usuario, ABMC usuarios de cada tipo)
-- GIT (control de versionado de codigo local) v02.25.01
+- GIT (control de versionado de código local) v02.25.01
 - GITHUB (control de versionado para el acceso en forma colaborativa en la nube)
 
 
 >## Ambiente de PRODUCCIÓN
 
-### Requirimientos para el despliegue del proyecto en el servidor
+### Requerimientos para el despliegue del proyecto en el servidor
 
-- WEBPACK (herramienta para NODE JS que copila el codigo y lo pasa a nativo para los navegadores - HTML, CSS, JS) - empaqueta todo el proyecto en ficheros que entiende o interpreta el navegador y asi poder ser desplegado y publicado en un servidor online en Internet
+- WEBPACK (herramienta para NODE JS que compila el código y lo pasa a nativo para los navegadores - HTML, CSS, JS) - empaqueta todo el proyecto en ficheros que entiende o interpreta el navegador y asi poder ser desplegado y publicado en un servidor online en Internet
 
 ### Configuraciones previas para la publicación
 - URL de acceso: [https://rrhh.masterpcweb.com](https://rrhh.masterpcweb.com)
 - HOSTING:
     - Construcción de base de datos a usar en server MySQL del hosting (ejecución de scripts).
     - Preparando nuestra aplicación para el modo de producción con WEBPACK y el envío de estos ficheros vía SFTP hacia el servidor web del hosting.
-    - Creación del fichero .htaccess en el server del hosting: nos permitirá configurar el servidor para usar las rutas del ReactRouter
+    - Creación del fichero ".htaccess" en el server del hosting: nos permitirá configurar el servidor para usar las rutas del ReactRouter
     
-### Requirimientos para la publicación en Internet
+### Requerimientos para la publicación en Internet
 - INTERNET: para el acceso al producto ya desplegado y publicado en la web (servicio mensual)
-- NOMBRE DE DOMINIO: es la URL o DIRECCION de acceso (nombre de ingreso desde el navegador web (servicio anual)
+- NOMBRE DE DOMINIO: es la URL o DIRECCIÓN de acceso (nombre de ingreso desde el navegador web (servicio anual)
 - HOSTING servicio de alojamiento web: Servidor corriendo con Linux Ubuntu Server 20.04 LTS con MySQL engine
 - HOSTING servicio de certificado de conexión web: para una conexión segura entre navegador web cliente y servidor web
 
 ## Tareas pendientes por resolver:
 - [x] USER LOGIN section (frontend)
 - [x] USER REGISTRATION section (frontend)
-- [ ] HOME section (frontend)
+- [x] HOME section (frontend)
 - [ ] CV data section  (frontend)
-- [ ] ALTA NUEVO USUARIO en mysql database (backend)
+- [x] ALTA NUEVO USUARIO en mysql database (backend)
 - [ ] task 1 (backend)
 - [ ] task 2 (backend)
 - [ ] task 3 (backend)

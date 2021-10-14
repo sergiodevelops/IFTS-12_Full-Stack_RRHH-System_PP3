@@ -1,68 +1,79 @@
 version: '3.2'
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
 services:
-
   # MYSQL service --> puerto 3306(pc):3306(docker)
-  mysql_service:
-    container_name: mysql_service
-    image: mysql:5.7.35
+  mysql_service_dev_all:
+    networks:
+      - 'backend'
+    container_name: 'mysql_service_dev_all'
+    image: 'mysql:5.7.35'
     volumes:
-      - "./mysql_service/.mysql-data/db:/var/lib/mysql"
+      - './mysql_service/.mysql-data/db:/var/lib/mysql'
+    command: '--default-authentication-plugin=mysql_native_password --sql_mode=""'
     ports:
-      - "3306:3306"
-    hostname: localhost
-    environment:
-      MYSQL_ROOT_PASSWORD: 'root'
-      MYSQL_DATABASE: 'rrhh'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'user'
-    restart: always
-
-  # API service BACKend --> puerto 4005(pc):4005(docker)
-  api_service:
-    container_name: api_service
-    depends_on:
-      - mysql_service
+      - '3306:3306'
+    hostname: 'localhost'
     env_file:
-      - api_service/.env
-    image: node:14
-    volumes:
-      - "./api_service:/var/www/html"
-    working_dir: /var/www/html/
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
-    ports:
-      - "4005:4005"
-    tty: true
-    command: bash -c "yarn && yarn start"
-    restart: always
-
-  # WEB service FRONTend --> puerto 3005(pc):3005(docker)
-  web_service:
-    container_name: web_service
-    depends_on:
-      - api_service
-    env_file:
-      - web_service/.env
-    image: node:14
-    volumes:
-      - "./web_service:/var/www/html"
-    working_dir: /var/www/html/
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
-    ports:
-      - "3005:3005"
-    tty: true
-    command: bash -c "yarn && yarn start"
-    restart: always
+      - './mysql_service/.env'
+  #    restart: 'always'
 
   # MYSQL web adminer --> puerto 8080(pc):8080(docker)
-  admindb_service:
-    container_name: admindb_service
+#  adminer_service_dev_all:
+#    container_name: 'adminer_service_dev_all'
+#    depends_on:
+#      - 'mysql_service_dev_all'
+#    image: 'adminer'
+#    ports:
+#      - '8080:8080'
+  #    restart: 'always'
+
+  # API service BACKend --> puerto 4005(pc):4005(docker)
+  api_service_dev_all:
+    networks:
+      - 'frontend'
+      - 'backend'
+    container_name: 'api_service_dev_all'
     depends_on:
-      - mysql_service
-    image: adminer
+      - 'mysql_service_dev_all'
+    image: 'node:14'
+    volumes:
+      - './api_service:/var/www/html'
+    working_dir: '/var/www/html/'
+    dns:
+      - '8.8.8.8'
+      - '8.8.4.4'
     ports:
-      - "8080:8080"
-    restart: always
+      - '4005:4005'
+    env_file:
+      - './api_service/.env'
+    tty: true
+#    command: 'bash -c "while !</dev/tcp/localhost/3306; do sleep 1; done; yarn && yarn dev"'
+    command: 'bash -c "yarn && yarn dev"'
+  #    restart: 'always'
+
+  # WEB service FRONTend --> puerto 3005(pc):3005(docker)
+#  web_service_dev_all:
+#    container_name: 'web_service_dev_all'
+#    depends_on:
+#      - 'api_service_dev_all'
+#    image: 'node:14'
+#    build: .
+#    volumes:
+#      - './web_service:/var/www/html'
+#    working_dir: '/var/www/html/'
+#    dns:
+#      - '8.8.8.8'
+#      - '8.8.4.4'
+#    ports:
+#      - '3005:3005'
+#    env_file:
+#      - 'web_service/.env'
+#    tty: true
+#    command: 'bash -c "yarn && yarn dev"'
+#    restart: 'always'

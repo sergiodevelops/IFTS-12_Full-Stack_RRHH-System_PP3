@@ -1,0 +1,20 @@
+version: '3.2'
+services:
+
+  # WEB service FRONTend --> puerto 3005(pc):3005(docker)
+  web_service_dev:
+    container_name: 'web_service_dev'
+    image: 'node:14'
+    volumes:
+      - '.:/var/www/html'
+    working_dir: '/var/www/html/'
+    dns:
+      - '8.8.8.8'
+      - '8.8.4.4'
+    ports:
+      - '3005:3005'
+    env_file:
+      - './.env'
+    tty: true
+    command: 'bash -c "yarn && yarn dev"'
+#    restart: 'always'
