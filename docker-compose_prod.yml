@@ -15,11 +15,11 @@ services:
     hostname: 'localhost'
     env_file:
       - './mysql_service/.env'
-    environment:
-      MYSQL_ROOT_PASSWORD: 'root'
-      MYSQL_DATABASE: 'rrhh1'
-      MYSQL_USER: 'root'
-      MYSQL_PASSWORD: 'root'
+#    environment:
+#      MYSQL_ROOT_PASSWORD: 'root'
+#      MYSQL_DATABASE: 'rrhh1'
+#      MYSQL_USER: 'root'
+#      MYSQL_PASSWORD: 'root'
   #    restart: 'always'
 
   # MYSQL web adminer --> puerto 8080(pc):8080(docker)
