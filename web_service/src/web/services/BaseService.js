@@ -18,7 +18,7 @@ export default class BaseService {
     getResource() {
         return this.#resource;
     }
-    
+
     getHeaders() {
         return this.#headers;
     }
@@ -27,16 +27,16 @@ export default class BaseService {
         const url = `${this.#api_url}/${this.getResource()}`;
 
         const params = {
-            method: "GET",                
+            method: "GET",
             headers: this.#headers,
         };
 
         const results = await fetch(url, params)
-        .then((resp) => resp.json())
-        .catch((error) => { 
-            console.log(error);
-        });
-        
+            .then((resp) => resp.json())
+            .catch((error) => {
+                console.log(error);
+            });
+
         if (typeof results === 'undefined' || results.errors) {
             console.log(results);
             return [];
@@ -55,13 +55,13 @@ export default class BaseService {
         };
 
         const results = await fetch(url, params)
-        .then((resp) => resp.json())
-        .catch((error) => { 
-            console.log(error);
-        });
+            .then(resp => resp.json())
+            .catch(err => {
+                console.error(err);
+            });
 
         if (typeof results === 'undefined' || results.errors) {
-            console.log(results);
+            if(typeof results === 'undefined') throw Error(`La API REST se encunetra fuera de servicio, puede comprobar su funcionamiento ingresando a ${this.#api_url}`);
             return null;
         }
 
@@ -72,21 +72,21 @@ export default class BaseService {
         const url = `${this.#api_url}/${this.getResource()}/${baseModelId}`;
 
         const params = {
-            method: "GET",                
+            method: "GET",
             headers: this.#headers,
         };
 
         const results = await fetch(url, params)
-        .then((resp) => resp.json())
-        .catch((error) => { 
-            console.log(error);
-        });
+            .then((resp) => resp.json())
+            .catch((error) => {
+                console.log(error);
+            });
 
         if (typeof results === 'undefined' || results.errors) {
             console.log(results);
             return null;
         }
-        
+
         return results.data;
     }
 
@@ -94,15 +94,15 @@ export default class BaseService {
         const url = `${this.#api_url}/${this.getResource()}/${baseModelId}`;
 
         const params = {
-            method: "DELETE",                
+            method: "DELETE",
             headers: this.#headers,
         };
 
         const results = await fetch(url, params)
-        .catch((error) => { 
-            console.log(error);
-        });
-        
+            .catch((error) => {
+                console.log(error);
+            });
+
         if (results.status >= 400) throw Error("Error");
 
         return results;
@@ -112,22 +112,22 @@ export default class BaseService {
         const url = `${this.#api_url}/${this.getResource()}/${baseModelId}`;
 
         const params = {
-            method: "PUT",                
+            method: "PUT",
             headers: this.#headers,
             body: JSON.stringify(baseModel)
         };
 
         const results = await fetch(url, params)
-        .then((resp) => resp.json())
-        .catch((error) => { 
-            console.log(error);
-        });
+            .then((resp) => resp.json())
+            .catch((error) => {
+                console.log(error);
+            });
 
         if (typeof results === 'undefined' || results.errors) {
             console.log(results);
             return null;
         }
-        
+
         return results.data;
     }
 }
