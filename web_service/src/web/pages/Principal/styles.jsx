@@ -4,7 +4,7 @@ import backgroundImage from "../../assets/images/select.jpg";
 export default makeStyles(theme => ({
     root:{
         // backgroundImage: `url(${backgroundImage})`,
-        minHeight: "1000px",
+        // minHeight: "1000px",
         // backgroundRepeat: "no-repeat, repeat",
         // backgroundSize: "cover",
 },

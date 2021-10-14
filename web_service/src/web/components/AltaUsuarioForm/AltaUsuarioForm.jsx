@@ -74,19 +74,11 @@ export default function AltaUsuarioForm() {
         };
         console.log(newUserPost);
         // const result = await usuarioService.create(newUserPost);
-        await usuarioService.create(newUserPost)
+        usuarioService.create(newUserPost)
             .then((result) => {
-                if (result) {
-                    message = "Alta de alumno exitoso";
-                    // store.dispatch(notifierActions.enqueueNotification(new Notification('success', 'Success', 'Alta de alumno exitoso')));
-                    // setTimeout(() => {
-                    //     window.location.href = '/#/users/create';
-                    // }, 5000);
-                    console.log(result);
-                    alert("ok");
-                    alert(message);
-                    setNewUser(emptyUser);
-                }
+                message = "Alta de alumno exitoso";
+                alert(message);
+                cleanInputValues();
             })
             .catch((err) => {
                 console.error(err);
