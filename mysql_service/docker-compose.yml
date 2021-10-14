@@ -2,16 +2,17 @@ version: '3.2'
 services:
 
   # MYSQL service --> puerto 3306(pc):3306(docker)
-  mysql_service_b:
-    container_name: "mysql_service_b"
-    image: "mysql:5.7.35"
+  mysql_service_dev:
+    container_name: 'mysql_service_dev'
+    image: 'mysql:5.7.35'
     volumes:
-      - "./.mysql-data/db:/var/lib/mysql"
+      - './.mysql-data/db:/var/lib/mysql'
     ports:
-      - "3306:3306"
-    hostname: "localhost"
+      - '3306:3306'
+    hostname: 'localhost'
+    env_file:
+      - './.env'
     environment:
-      MYSQL_ROOT_USER: 'root'
       MYSQL_ROOT_PASSWORD: 'root'
       MYSQL_DATABASE: 'rrhh1'
       MYSQL_USER: 'root'
@@ -19,10 +20,11 @@ services:
   #    restart: 'always'
 
   # MYSQL web adminer --> puerto 8080(pc):8080(docker)
-  admindb_service_b:
-    container_name: "admindb_service_b"
+  adminer_service_dev:
+    container_name: 'adminer_service_dev'
     depends_on:
-      - "mysql_service_b"
-    image: "adminer"
+      - 'mysql_service_dev'
+    image: 'adminer'
     ports:
-      - "8080:8080"
+      - '8080:8080'
+  #    restart: 'always'
