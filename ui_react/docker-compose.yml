@@ -1,9 +1,15 @@
 version: '3.2'
-services:
 
+networks:
+  db_mysql_custom-net:
+    external: true
+
+services:
   # WEB service FRONTend --> puerto 3005(pc):3005(docker)
-  web_service_dev:
-    container_name: 'web_service_dev'
+  ui_react:
+    networks:
+      - db_mysql_custom-net
+    container_name: 'ui_react'
     image: 'node:14'
     volumes:
       - '.:/var/www/html'

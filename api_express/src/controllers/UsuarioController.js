@@ -54,7 +54,7 @@ exports.create = (req, res) => {
         username: req.body.username,
         password: req.body.password,
 
-        startDate: fechaActual || null, // lo genera la API
+        startDate: fechaActual || "", // lo genera la API
     };
 
     // Save User in the database

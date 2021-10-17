@@ -1,24 +1,26 @@
 version: '3.2'
-services:
 
+services:
   # MYSQL service --> puerto 3306(pc):3306(docker)
-  mysql_service_dev:
-    container_name: 'mysql_service_dev'
+  db_mysql:
+    container_name: 'db_mysql'
+    build: .
     image: 'mysql:5.7.35'
     volumes:
       - './.mysql-data/db:/var/lib/mysql'
+    command: '--default-authentication-plugin=mysql_native_password --sql_mode=""'
     ports:
       - '3306:3306'
-    hostname: 'localhost'
+    hostname: 'db_mysql'
     env_file:
       - './.env'
   #    restart: 'always'
 
   # MYSQL web adminer --> puerto 8080(pc):8080(docker)
-  adminer_service_dev:
-    container_name: 'adminer_service_dev'
+  db_adminer:
+    container_name: 'db_adminer'
     depends_on:
-      - 'mysql_service_dev'
+      - 'db_mysql'
     image: 'adminer'
     ports:
       - '8080:8080'
