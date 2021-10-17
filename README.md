@@ -4,14 +4,25 @@
 
 ![alt text](./docs/pepe-docs.png)
 
->## Ambiente de DESARROLLO
+## Ambiente de DESARROLLO
 
 #### Puertos de conexión utilizados para "localhost" (127.0.0.1)
 **PC**:DOCKER
-1. **3306**:3306 <-- MySQL Database Engine Server - "db_mysql"
-2. **8080**:8080 <-- MySQL Database Web Adminer - "db_adminer"
-3. **4000**:4000 <-- API Server Express JS - "api_express"
-4. **3000**:3000 <-- WEB Server React JS - "ui_react"
+1. **9906**:3306 <-- MySQL db server - "db_mysql"
+2. **8000**:8080 <-- MySQL db adminer - "db_adminer"
+3. **4005**:4005 <-- Express api - "api_express"
+4. **3005**:3005 <-- UI react - "ui_react"
+5. **3050**:80 <-- NGINX reverse proxy - "proxy_nginx"
+
+#### DOCKER y DOCKER-COMPOSE instalados en tu pc
+Si tenes ya instalado docker en tu PC podes iniciar la aplicación completa siguiendo estos pasos:
+Pararse en el directorio raíz del proyecto "rrhh" y luego en una terminal ejecutar:
+```
+  # la primera vez o si modificas algun archivo
+  docker-compose up --build 
+  # las siguientes veces
+  docker-compose up 
+```
 
 #### Comandos útiles durante el desarrollo:
 

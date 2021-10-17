@@ -1,7 +1,5 @@
 # dependencies
 */node_modules
-*/setup
-
 /.pnp
 .pnp.js
 .idea/*
