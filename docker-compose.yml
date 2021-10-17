@@ -5,22 +5,16 @@ services:
   # DB - MYSQL server
   db_mysql:
     container_name: 'db_mysql'
-#    cap_add:
-#      - SYS_NICE
     build:
       dockerfile: 'Dockerfile'
       context: 'db_mysql'
     volumes:
       - "./db_mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql"
-#      - './db_mysql/.mysql-data/db:/var/lib/mysql'
-#    command: '--default-authentication-plugin=mysql_native_password --sql_mode=""'
     hostname: 'localhost'
     ports:
       - '9906:3306'
     env_file:
       - 'db_mysql/.env'
-#    environment:
-#      <<: *common-variables
     restart: 'always'
 
   # DB - ADMINER client
@@ -57,7 +51,6 @@ services:
       - 'ui_react/.env'
     tty: true
     stdin_open: true
-#    command: 'bash -c "yarn && yarn dev"'
     restart: 'always'
 
   # API - EXPRESS JS server
@@ -79,17 +72,12 @@ services:
       - '4005:4005'
     env_file:
       - 'api_express/.env'
-#    environment:
-#      <<: *common-variables
     tty: true
-    #    command: 'bash -c "while !</dev/tcp/localhost/3306; do sleep 1; done; yarn && yarn dev"'
-#    command: 'bash -c "yarn && yarn dev"'
     restart: 'always'
 
   # PROXY - NGINX server
   proxy_nginx:
     container_name: 'proxy_nginx'
-#    network_mode: 'host'
     depends_on:
       - 'api_express'
       - 'ui_react'
