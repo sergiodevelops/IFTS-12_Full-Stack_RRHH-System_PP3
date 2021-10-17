@@ -1,79 +1,103 @@
 version: '3.2'
-
-networks:
-  frontend:
-    driver: bridge
-  backend:
-    driver: bridge
+# (proxy) + (react) + (express) + (mysql + adminer)
 
 services:
-  # MYSQL service --> puerto 3306(pc):3306(docker)
-  mysql_service_dev_all:
-    networks:
-      - 'backend'
-    container_name: 'mysql_service_dev_all'
-    image: 'mysql:5.7.35'
+  # DB - MYSQL server
+  db_mysql:
+    container_name: 'db_mysql'
+#    cap_add:
+#      - SYS_NICE
+    build:
+      dockerfile: 'Dockerfile'
+      context: 'db_mysql'
     volumes:
-      - './mysql_service/.mysql-data/db:/var/lib/mysql'
-    command: '--default-authentication-plugin=mysql_native_password --sql_mode=""'
+      - "./db_mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql"
+#      - './db_mysql/.mysql-data/db:/var/lib/mysql'
+#    command: '--default-authentication-plugin=mysql_native_password --sql_mode=""'
+#    hostname: 'localhost'
     ports:
-      - '3306:3306'
-    hostname: 'localhost'
+      - '9906:3306'
     env_file:
-      - './mysql_service/.env'
-  #    restart: 'always'
+      - 'db_mysql/.env'
+#    environment:
+#      <<: *common-variables
+    restart: 'always'
 
-  # MYSQL web adminer --> puerto 8080(pc):8080(docker)
-#  adminer_service_dev_all:
-#    container_name: 'adminer_service_dev_all'
-#    depends_on:
-#      - 'mysql_service_dev_all'
-#    image: 'adminer'
-#    ports:
-#      - '8080:8080'
-  #    restart: 'always'
-
-  # API service BACKend --> puerto 4005(pc):4005(docker)
-  api_service_dev_all:
-    networks:
-      - 'frontend'
-      - 'backend'
-    container_name: 'api_service_dev_all'
+  # DB - ADMINER client
+  db_adminer:
+    container_name: 'db_adminer'
     depends_on:
-      - 'mysql_service_dev_all'
-    image: 'node:14'
-    volumes:
-      - './api_service:/var/www/html'
-    working_dir: '/var/www/html/'
-    dns:
-      - '8.8.8.8'
-      - '8.8.4.4'
+      - 'db_mysql'
+    build:
+      dockerfile: 'Dockerfile'
+      context: 'db_adminer'
+#    hostname: 'localhost'
     ports:
-      - '4005:4005'
+      - '8000:8080'
     env_file:
-      - './api_service/.env'
-    tty: true
-#    command: 'bash -c "while !</dev/tcp/localhost/3306; do sleep 1; done; yarn && yarn dev"'
-    command: 'bash -c "yarn && yarn dev"'
-  #    restart: 'always'
+      - 'db_adminer/.env'
+    restart: 'unless-stopped'
 
-  # WEB service FRONTend --> puerto 3005(pc):3005(docker)
-#  web_service_dev_all:
-#    container_name: 'web_service_dev_all'
-#    depends_on:
-#      - 'api_service_dev_all'
-#    image: 'node:14'
-#    build: .
-#    volumes:
-#      - './web_service:/var/www/html'
-#    working_dir: '/var/www/html/'
+  # UI - REACT JS client
+  ui_react:
+    container_name: 'ui_react'
+    build:
+      dockerfile: 'Dockerfile'
+      context: 'ui_react'
+    volumes:
+      - '/app/node_modules'
+      - './ui_react:/app'
 #    dns:
 #      - '8.8.8.8'
 #      - '8.8.4.4'
-#    ports:
-#      - '3005:3005'
-#    env_file:
-#      - 'web_service/.env'
-#    tty: true
+#    hostname: 'localhost'
+    ports:
+      - '3005:3005'
+    env_file:
+      - 'ui_react/.env'
+    tty: true
+    stdin_open: true
 #    command: 'bash -c "yarn && yarn dev"'
-#    restart: 'always'
+    restart: 'always'
+
+  # API - EXPRESS JS server
+  api_express:
+    container_name: 'api_express'
+    depends_on:
+      - 'db_mysql'
+    build:
+      dockerfile: 'Dockerfile'
+      context: 'api_express'
+    volumes:
+      - '/app/node_modules'
+      - './api_express:/app'
+#    dns:
+#      - '8.8.8.8'
+#      - '8.8.4.4'
+#    hostname: 'localhost'
+    ports:
+      - '4005:4005'
+    env_file:
+      - 'api_express/.env'
+#    environment:
+#      <<: *common-variables
+    tty: true
+    #    command: 'bash -c "while !</dev/tcp/localhost/3306; do sleep 1; done; yarn && yarn dev"'
+#    command: 'bash -c "yarn && yarn dev"'
+    restart: 'always'
+
+  # PROXY - NGINX server
+  proxy_nginx:
+    container_name: 'proxy_nginx'
+#    network_mode: 'host'
+    depends_on:
+      - 'api_express'
+      - 'ui_react'
+    build:
+      dockerfile: 'Dockerfile'
+      context: 'proxy_nginx'
+    ports:
+      - "3050:80"
+    env_file:
+      - 'proxy_nginx/.env'
+    restart: 'always'

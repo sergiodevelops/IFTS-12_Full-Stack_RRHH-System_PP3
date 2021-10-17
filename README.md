@@ -8,10 +8,10 @@
 
 #### Puertos de conexión utilizados para "localhost" (127.0.0.1)
 **PC**:DOCKER
-1. **3306**:3306 <-- MySQL Database Engine Server - "mysql_service"
-2. **8080**:8080 <-- MySQL Database Web Adminer - "adminer_service"
-3. **4000**:4000 <-- API Server Express JS - "api_service"
-4. **3000**:3000 <-- WEB Server React JS - "web_service"
+1. **3306**:3306 <-- MySQL Database Engine Server - "db_mysql"
+2. **8080**:8080 <-- MySQL Database Web Adminer - "db_adminer"
+3. **4000**:4000 <-- API Server Express JS - "api_express"
+4. **3000**:3000 <-- WEB Server React JS - "ui_react"
 
 #### Comandos útiles durante el desarrollo:
 
@@ -38,9 +38,9 @@ git checkout dev
 
 Primero pararse en el directorio raíz del proyecto en cada terminal y luego
 
-* en la TERMINAL 1 ejecuta "mysql_service":
+* en la TERMINAL 1 ejecuta "db_mysql":
 ```
-  cd mysql_service
+  cd db_mysql
   docker-compose up
 ```
 Si ha ido bien en unos segundos estará disponible la base mysql 
@@ -49,25 +49,25 @@ como user --> "root" y pass --> "root" a base rrhh1
 (rrhh la base original la tienen que generar con el 
 script de pepe porque aun solo hemos usado la tabla "usuarios" para dar un alta hasta el momento)
 
-* en la TERMINAL 2 ejecuta "api_service":
+* en la TERMINAL 2 ejecuta "api_express":
 ```
-  cd api_service
+  cd api_express
   yarn
   yarn dev
 ```
 Si ha ido bien en unos segundos estará disponible la API REST
-por LOCALHOST:4005 para poder hacer las peticiones con el frontend web_service
+por LOCALHOST:4005 para poder hacer las peticiones con el frontend ui_react
 (si quieres ver si está levantada puedes entrar por el navegador a http://localhost:4005
 y te respondería con un texto como mensaje en la pantalla)
 
-* en la TERMINAL 3 ejecuta "web_service":
+* en la TERMINAL 3 ejecuta "ui_react":
 ```
-  cd web_service
+  cd ui_react
   yarn
   yarn dev
 ```
-Si ha ido bien en unos segundos (tarda un poquito más al comienzo) estará disponible la REACT APP web_service
-por LOCALHOST:3005 para poder hacer las peticiones con el frontend web_service
+Si ha ido bien en unos segundos (tarda un poquito más al comienzo) estará disponible la REACT APP ui_react
+por LOCALHOST:3005 para poder hacer las peticiones con el frontend ui_react
 (entrar por el navegador a http://localhost:3005
 y te responderá con un texto como mensaje en la pantalla)
 
@@ -87,34 +87,34 @@ docker ps
 docker logs --tail 100 -f ${NOMBRE_CONTENEDOR} 
 
 # NOMBRE_CONTENEDOR puede ser una de las siguientes opciones: 
-# ["mysql_service", "admindb_service", "api_service", "web_service"]
+# ["db_mysql", "db_adminer", "api_express", "ui_react"]
 # Ejemplo:
-docker logs --tail 100 -f api_service
+docker logs --tail 100 -f api_express
 
 # Finaliza el monitor de este proceso combinando las teclas "CTRL + C"
 ```
 
-2. Cómo iniciar el "mysql_service" + "adminer_service" para programar localmente:
+2. Cómo iniciar el "db_mysql" + "db_adminer" para programar localmente:
 ```
 # pararse en el directorio correspondiente, ejecute:
-cd ./mysql_service 
+cd ./db_mysql 
 # iniciar el servicio manualmente con este comando, ejecute:
 docker-compose up
 ```
 
-3. Cómo iniciar el "api_service" para programar localmente:
+3. Cómo iniciar el "api_express" para programar localmente:
 ```
 # pararse en el directorio correspondiente, ejecute:
-cd ./api_service 
+cd ./api_express 
 # iniciar el servicio manualmente con este comando, ejecute:
 yarn 
 yarn dev
 ```
 
-4. Cómo iniciar el "web_service" para programar localmente:
+4. Cómo iniciar el "ui_react" para programar localmente:
 ```
 # pararse en el directorio correspondiente, ejecute:
-cd ./web_service 
+cd ./ui_react 
 # iniciar el servicio manualmente con este comando, ejecute:
 yarn
 yarn dev
