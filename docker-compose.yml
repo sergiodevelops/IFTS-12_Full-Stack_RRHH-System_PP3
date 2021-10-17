@@ -30,8 +30,6 @@ services:
     ports:
       - ${HTTP_PORT}:${VIRTUAL_ADMINER_PORT}
       - ${HTTPS_PORT}:${VIRTUAL_ADMINER_PORT}
-    env_file:
-      - 'db_adminer/.env'
     restart: 'unless-stopped'
 
   # UI - REACT JS client
@@ -91,6 +89,4 @@ services:
     ports:
       - ${REAL_PROXY_PORT}:${HTTP_PORT}
       - ${REAL_PROXY_PORT}:${HTTPS_PORT}
-    env_file:
-      - 'proxy_nginx/.env'
     restart: 'always'
