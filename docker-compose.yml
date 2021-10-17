@@ -8,14 +8,15 @@ services:
     build:
       dockerfile: 'Dockerfile'
       context: 'db_mysql'
+    cap_add:
+      - SYS_NICE
     volumes:
       - "./db_mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql"
-#    hostname: 'localhost'
+    hostname: 'localhost'
     env_file:
-#      - '.env'
       - 'db_mysql/.env'
     ports:
-      - ${VIRTUAL_DB_PORT}:${REAL_DB_PORT}
+      - ${REAL_DB_PORT}:${VIRTUAL_DB_PORT}
     restart: 'always'
 
   # DB - ADMINER client
@@ -26,10 +27,9 @@ services:
     build:
       dockerfile: 'Dockerfile'
       context: 'db_adminer'
-#    hostname: 'localhost'
+    hostname: 'localhost'
     ports:
-      - ${HTTP_PORT}:${VIRTUAL_ADMINER_PORT}
-      - ${HTTPS_PORT}:${VIRTUAL_ADMINER_PORT}
+      - ${REAL_ADMINER_PORT}:${VIRTUAL_ADMINER_PORT}
     restart: 'unless-stopped'
 
   # UI - REACT JS client
@@ -44,10 +44,9 @@ services:
     dns:
       - '8.8.8.8'
       - '8.8.4.4'
-#    hostname: 'localhost'
+    hostname: 'localhost'
     ports:
-      - ${HTTP_PORT}:${VIRTUAL_UI_PORT}
-      - ${HTTPS_PORT}:${VIRTUAL_UI_PORT}
+      - ${UI_PORT}:${UI_PORT}
     env_file:
       - 'ui_react/.env'
     tty: true
@@ -68,10 +67,9 @@ services:
     dns:
       - '8.8.8.8'
       - '8.8.4.4'
-#    hostname: 'localhost'
+    hostname: 'localhost'
     ports:
-      - ${HTTP_PORT}:${VIRTUAL_API_PORT}
-      - ${HTTPS_PORT}:${VIRTUAL_API_PORT}
+      - ${API_PORT}:${API_PORT}
     env_file:
       - 'api_express/.env'
     tty: true
@@ -88,5 +86,4 @@ services:
       context: 'proxy_nginx'
     ports:
       - ${REAL_PROXY_PORT}:${HTTP_PORT}
-      - ${REAL_PROXY_PORT}:${HTTPS_PORT}
     restart: 'always'

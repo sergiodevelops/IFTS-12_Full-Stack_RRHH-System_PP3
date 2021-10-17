@@ -34,7 +34,10 @@
     "dev": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject"
+    "eject": "react-app-rewired eject",
+    "docker:build": "docker build . -t sergioarieljuarez/rrhh-react",
+    "docker:run": "docker run -p 8080:80 sergioarieljuarez/rrhh-client --name rrhh-react",
+    "docker:stop": "docker rm -f rrhh-react"
   },
   "repository": "https://github.com/sergioarieljuarez/rrhh-express-react",
   "eslintConfig": {

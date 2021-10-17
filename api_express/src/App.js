@@ -24,6 +24,7 @@ db.sequelize.sync({force: true}) //En desarrollo, es posible que deba eliminar l
     });
 */
 
+
 // puerto "de donde provienen" las peticiones (ui_react)
 const webPort = WEB_PORT || 3005;
 let corsOptions = {
