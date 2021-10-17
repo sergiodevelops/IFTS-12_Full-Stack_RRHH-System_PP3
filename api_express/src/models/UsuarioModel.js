@@ -29,8 +29,8 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(35),
         },
         startDate: {
-            allowNull: true,
-            defaultValue: fechaActual,
+            allowNull: false,
+            // defaultValue: fechaActual,
             type: DataTypes.STRING(10),
         },
     }, {
