@@ -3,7 +3,7 @@ version: '3.2'
 services:
   # DB - MYSQL server
   db_mysql:
-    container_name: 'db_mysql_dev'
+    container_name: 'db_mysql'
     build:
       dockerfile: 'Dockerfile'
       context: '.'

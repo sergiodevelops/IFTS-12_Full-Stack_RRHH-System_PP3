@@ -76,7 +76,7 @@ export default function AltaUsuarioForm() {
         // const result = await usuarioService.create(newUserPost);
         usuarioService.create(newUserPost)
             .then((result) => {
-                message = "Alta de alumno exitoso";
+                message = "Alta de usuario exitosa";
                 alert(message);
                 cleanInputValues();
             })

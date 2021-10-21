@@ -145,7 +145,7 @@ export default function DoubleSideBar() {
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" noWrap component="div">
-                            {currentUser?.fullname}
+                            {currentUser?.userFullname}
                         </Typography>
                         {currentUser && (
                             <div>
@@ -293,7 +293,7 @@ export default function DoubleSideBar() {
 
                     {/*<Divider/>*/}
                     <List>
-                        {['Objetivo', 'Vision', 'Misión', 'fafafa'].map((text, index) => (
+                        {['Objetivo', 'Vision', 'Misión', 'Alcance'].map((text, index) => (
                             <ListItem button key={text}>
                                 {/*<ListItemIcon>*/}
                                 {/*    {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}*/}
