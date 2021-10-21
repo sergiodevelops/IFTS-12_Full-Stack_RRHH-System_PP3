@@ -15,5 +15,5 @@ services:
     env_file:
       - '.env'
     ports:
-      - ${REAL_DB_PORT}:${VIRTUAL_DB_PORT}
+      - ${VIRTUAL_DB_PORT}:${VIRTUAL_DB_PORT}
     restart: 'always'

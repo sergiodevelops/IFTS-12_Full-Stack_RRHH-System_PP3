@@ -13,8 +13,8 @@ const {API_PORT, WEB_PORT} = process.env;
 
 app.use(logger('dev'));
 
-db.sequelize.sync() //En PRODUCCIÓN
-/*
+// db.sequelize.sync() //En PRODUCCIÓN
+
 db.sequelize.sync({force: true}) //En desarrollo, es posible que deba eliminar las tablas existentes y volver a sincronizar la base de datos
     .then(() => { //modo dev
         console.log("Drop and re-sync db.");
@@ -22,7 +22,7 @@ db.sequelize.sync({force: true}) //En desarrollo, es posible que deba eliminar l
     .catch((error) => {
         console.log('el error es:', error)
     });
-*/
+
 
 
 // puerto "de donde provienen" las peticiones (ui_react)
