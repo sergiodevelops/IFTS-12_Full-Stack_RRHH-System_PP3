@@ -1,27 +1,19 @@
 version: '3.2'
 
 services:
-  # MYSQL service --> puerto 3306(pc):3306(docker)
+  # DB - MYSQL server
   db_mysql:
-    container_name: 'db_mysql'
-    build: .
-    image: 'mysql:5.7.35'
+    container_name: 'db_mysql_dev'
+    build:
+      dockerfile: 'Dockerfile'
+      context: '.'
+    cap_add:
+      - SYS_NICE
     volumes:
-      - './.mysql-data/db:/var/lib/mysql'
-    command: '--default-authentication-plugin=mysql_native_password --sql_mode=""'
-    ports:
-      - '3306:3306'
-    hostname: 'db_mysql'
+      - "./setup.sql:/docker-entrypoint-initdb.d/setup.sql"
+    hostname: 'localhost'
     env_file:
-      - './.env'
-  #    restart: 'always'
-
-  # MYSQL web adminer --> puerto 8080(pc):8080(docker)
-  db_adminer:
-    container_name: 'db_adminer'
-    depends_on:
-      - 'db_mysql'
-    image: 'adminer'
+      - '.env'
     ports:
-      - '8080:8080'
-  #    restart: 'always'
+      - ${REAL_DB_PORT}:${VIRTUAL_DB_PORT}
+    restart: 'always'
