@@ -28,6 +28,7 @@ export default function AltaUsuarioForm() {
     };
     const [newUser, setNewUser] = useState(emptyUser);
     const [password2, setPassword2] = useState("");
+    const [userExistInDB, setUserExistInDB] = useState(false);
 
     const [showPassword1, setShowPassword1] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
@@ -38,6 +39,7 @@ export default function AltaUsuarioForm() {
     const cleanInputValues = () => {
         setNewUser(emptyUser);
         setPassword2("");
+        setUserExistInDB(false);
     }
 
     const handleClick = async () => {
@@ -67,22 +69,22 @@ export default function AltaUsuarioForm() {
         }
 
         const newUserPost = {
-            userType: newUser.userType.id,
+            userType: newUser.userType.id, // mapeo para la base, envia un number
             userFullname: newUser.userFullname,
             username: newUser.username,
             password: newUser.userFullname,
         };
-        console.log(newUserPost);
-        // const result = await usuarioService.create(newUserPost);
+
         usuarioService.create(newUserPost)
-            .then((result) => {
-                message = "Alta de usuario exitosa";
-                alert(message);
+            .then((resp) => {
+                console.log("INFO en FE", resp)
+                alert(`El usuario "${newUser.username}" se persistió correctamente`);
                 cleanInputValues();
             })
             .catch((err) => {
-                console.error(err);
-                alert(err.message);
+                console.error("ERROR en FE", err);
+                alert(`${err.message}`);
+                setUserExistInDB(true);
             });
     };
 
@@ -143,11 +145,15 @@ export default function AltaUsuarioForm() {
                                 fullWidth
                                 disabled={!newUser?.userFullname}
                                 value={!!newUser?.userFullname && newUser?.username || ""}
-                                error={!!newUser?.userFullname && !newUser?.username}
-                                onChange={(e) => setNewUser({
-                                    ...newUser,
-                                    username: e.target.value.toLowerCase()
-                                })}
+                                error={!!newUser?.userFullname && !newUser?.username || userExistInDB}
+                                helperText={userExistInDB && "Este usuario ya existe, ingrese otro por favor"}
+                                onChange={(e) => {
+                                    setNewUser({
+                                        ...newUser,
+                                        username: e.target.value.toLowerCase()
+                                    });
+                                    setUserExistInDB(false);
+                                }}
                                 label="Usuario"
                                 name="username"
                                 size="small"

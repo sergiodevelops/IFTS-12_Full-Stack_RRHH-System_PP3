@@ -8,21 +8,20 @@ const db = require("./models/index");
 // const UsuarioRouter = require("./routes/UsuarioRouter");
 const router = require("./routes/");
 require('dotenv').config();
-const {API_PORT, WEB_PORT} = process.env;
+const {API_PORT, WEB_PORT, DB_PORT} = process.env;
 
 
 app.use(logger('dev'));
 
-// db.sequelize.sync() //En PRODUCCIÓN
 
-db.sequelize.sync({force: true}) //En desarrollo, es posible que deba eliminar las tablas existentes y volver a sincronizar la base de datos
-    .then(() => { //modo dev
-        console.log("Drop and re-sync db.");
+// db.sequelize.sync({force: true}) //MODO desarrollo, fuerza la sincronización con la DB
+db.sequelize.sync() //MODO produccion
+    .then((data) => { //modo dev
+        console.log("Drop and re-sync db.", data.message);
     })
     .catch((error) => {
         console.log('el error es:', error)
     });
-
 
 
 // puerto "de donde provienen" las peticiones (ui_react)
@@ -62,6 +61,8 @@ router(app);
 
 // puerto "a donde se reciben" las peticiones del frontend ui_react (api_express)
 const apiPort = API_PORT || 4005;
+const dbPort = DB_PORT || 3306;
 app.listen(apiPort, () => {
-    console.log("Corriendo en ", (apiPort ? "API_PORT --> " : "API_PORT hardcodeado --> "), apiPort);
+    console.log("API PORT --> ", (apiPort ? ".env API_PORT --> " : "API_PORT hardcodeado --> "), apiPort);
+    console.log("DATABASE  --> ", (dbPort ? ".env DB_PORT --> " : "DB_PORT hardcodeado --> "), dbPort);
 });

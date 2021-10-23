@@ -57,18 +57,15 @@ exports.create = (req, res) => {
         startDate: fechaActual || "", // lo genera la API
     };
 
-    // Save User in the database
+    // Save User in the database if "username" not exist
     UsuarioModel
-        .create(newDbUser)
+        .create(newDbUser, { username: req.body.username })
         .then(data => {
-            res.send(data);
+            res.status(201).send(data);
         })
         .catch(err => {
-            res.status(500).send({
-                message: err.message || "error 500 occurred while creating the USER."
-            });
-            res.status(404).send({
-                message: err.message || "error 404 occurred while creating the USER."
+            res.status(405).send({
+                message: `El nombre de usuario ${req.body.username} ya existe, intente con uno diferente.`,
             });
         });
 };

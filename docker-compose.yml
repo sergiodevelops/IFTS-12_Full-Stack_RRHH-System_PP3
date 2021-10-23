@@ -1,46 +1,69 @@
-version: '3.2'
-# (proxy) + (react) + (express) + (mysql + adminer)
-
+version: '3'
+# PROXY (nginx) + UI (react) + API (express) + DB (mysql + adminer)
 services:
+
+  # PROXY - NGINX server
+#  proxy_nginx:
+#    container_name: 'proxy_nginx'
+#    ports:
+#      - ${HTTP_PORT}:${HTTP_PORT}
+#      - ${HTTPS_PORT}:${HTTPS_PORT}
+#    volumes:
+#      - './proxy_nginx/default.conf:/etc/nginx/default.conf'
+#    depends_on:
+#      - 'api_express'
+#      - 'ui_react'
+#    image: 'nginx:latest'
+#    restart: 'unless-stopped'
+
+
   # DB - MYSQL server
   db_mysql:
     container_name: 'db_mysql'
-    build:
-      dockerfile: 'Dockerfile'
-      context: 'db_mysql'
-    cap_add:
-      - SYS_NICE
+#    build:
+#      dockerfile: 'Dockerfile'
+#      context: 'db_mysql'
+#    cap_add:
+#      - SYS_NICE
+    image: 'mysql:5.7.35'
     volumes:
-      - "./db_mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql"
+      - './db_mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql'
+      - './db_mysql/my-datavolume:/var/lib/mysql'
     hostname: 'localhost'
     env_file:
+      - '.env'
       - 'db_mysql/.env'
     ports:
       - ${REAL_DB_PORT}:${VIRTUAL_DB_PORT}
     restart: 'always'
 
+
   # DB - ADMINER client
   db_adminer:
-    container_name: 'db_adminer'
     depends_on:
       - 'db_mysql'
-    build:
-      dockerfile: 'Dockerfile'
-      context: 'db_adminer'
+    container_name: 'db_adminer'
+#    build:
+#      dockerfile: 'Dockerfile'
+#      context: 'db_adminer'
+    image: 'adminer:latest'
     hostname: 'localhost'
     ports:
       - ${REAL_ADMINER_PORT}:${VIRTUAL_ADMINER_PORT}
     restart: 'unless-stopped'
 
+
   # UI - REACT JS client
   ui_react:
     container_name: 'ui_react'
-    build:
-      dockerfile: 'Dockerfile'
-      context: 'ui_react'
+#    build:
+#      dockerfile: 'Dockerfile'
+#      context: 'ui_react'
+    image: 'node:14'
+    working_dir: '/var/www/html'
     volumes:
-      - '/app/node_modules'
-      - './ui_react:/app'
+      - './ui_react:/var/www/html'
+    command: 'bash -c "yarn && yarn dev"'
     dns:
       - '8.8.8.8'
       - '8.8.4.4'
@@ -48,22 +71,26 @@ services:
     ports:
       - ${UI_PORT}:${UI_PORT}
     env_file:
+      - '.env'
       - 'ui_react/.env'
     tty: true
     stdin_open: true
     restart: 'always'
 
+
   # API - EXPRESS JS server
   api_express:
-    container_name: 'api_express'
     depends_on:
       - 'db_mysql'
-    build:
-      dockerfile: 'Dockerfile'
-      context: 'api_express'
+    container_name: 'api_express'
+#    build:
+#      dockerfile: 'Dockerfile'
+#      context: 'api_express'
+    image: 'node:14'
+    working_dir: '/var/www/html'
     volumes:
-      - '/app/node_modules'
-      - './api_express:/app'
+      - './api_express:/var/www/html'
+    command: 'bash -c "yarn && yarn dev"'
     dns:
       - '8.8.8.8'
       - '8.8.4.4'
@@ -71,19 +98,7 @@ services:
     ports:
       - ${API_PORT}:${API_PORT}
     env_file:
+      - '.env'
       - 'api_express/.env'
     tty: true
-    restart: 'always'
-
-  # PROXY - NGINX server
-  proxy_nginx:
-    container_name: 'proxy_nginx'
-    depends_on:
-      - 'api_express'
-      - 'ui_react'
-    build:
-      dockerfile: 'Dockerfile'
-      context: 'proxy_nginx'
-    ports:
-      - ${REAL_PROXY_PORT}:${HTTP_PORT}
     restart: 'always'
