@@ -1,30 +1,30 @@
 version: '3'
 # PROXY (nginx) + UI (react) + API (express) + DB (mysql + adminer)
-services:
 
+services:
   # PROXY - NGINX server
-#  proxy_nginx:
-#    container_name: 'proxy_nginx'
-#    ports:
-#      - ${HTTP_PORT}:${HTTP_PORT}
-#      - ${HTTPS_PORT}:${HTTPS_PORT}
-#    volumes:
-#      - './proxy_nginx/default.conf:/etc/nginx/default.conf'
-#    depends_on:
-#      - 'api_express'
-#      - 'ui_react'
-#    image: 'nginx:latest'
-#    restart: 'unless-stopped'
+  #  proxy_nginx:
+  #    container_name: 'proxy_nginx'
+  #    ports:
+  #      - ${HTTP_PORT}:${HTTP_PORT}
+  #      - ${HTTPS_PORT}:${HTTPS_PORT}
+  #    volumes:
+  #      - './proxy_nginx/default.conf:/etc/nginx/default.conf'
+  #    depends_on:
+  #      - 'api_express'
+  #      - 'ui_react'
+  #    image: 'nginx:latest'
+  #    restart: 'unless-stopped'
 
 
   # DB - MYSQL server
   db_mysql:
     container_name: 'db_mysql'
-#    build:
-#      dockerfile: 'Dockerfile'
-#      context: 'db_mysql'
-#    cap_add:
-#      - SYS_NICE
+    #    build:
+    #      dockerfile: 'Dockerfile'
+    #      context: 'db_mysql'
+    #    cap_add:
+    #      - SYS_NICE
     image: 'mysql:5.7.35'
     volumes:
       - './db_mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql'
@@ -43,22 +43,24 @@ services:
     depends_on:
       - 'db_mysql'
     container_name: 'db_adminer'
-#    build:
-#      dockerfile: 'Dockerfile'
-#      context: 'db_adminer'
+    #    build:
+    #      dockerfile: 'Dockerfile'
+    #      context: 'db_adminer'
     image: 'adminer:latest'
     hostname: 'localhost'
     ports:
       - ${REAL_ADMINER_PORT}:${VIRTUAL_ADMINER_PORT}
+    env_file:
+      - './db_adminer/.env'
     restart: 'unless-stopped'
 
 
   # UI - REACT JS client
   ui_react:
     container_name: 'ui_react'
-#    build:
-#      dockerfile: 'Dockerfile'
-#      context: 'ui_react'
+    #    build:
+    #      dockerfile: 'Dockerfile'
+    #      context: 'ui_react'
     image: 'node:14'
     working_dir: '/var/www/html'
     volumes:
@@ -83,9 +85,9 @@ services:
     depends_on:
       - 'db_mysql'
     container_name: 'api_express'
-#    build:
-#      dockerfile: 'Dockerfile'
-#      context: 'api_express'
+    #    build:
+    #      dockerfile: 'Dockerfile'
+    #      context: 'api_express'
     image: 'node:14'
     working_dir: '/var/www/html'
     volumes:

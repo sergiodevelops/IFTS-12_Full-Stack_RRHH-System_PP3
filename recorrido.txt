@@ -267,6 +267,225 @@ message: "problema de conexión con el servidor, intente mas tarde"
 
 ---------------------------------------------------------------
 
+
 INCORPORAMOS REDUX
 https://www.youtube.com/watch?v=IlM7497j6LY
 https://stackoverflow.com/questions/65481217/useselector-state-returns-undefined-react-redux
+
+integración de SCRIPTS para el inicio de la APP
+https://github.com/timarney/react-app-rewired/issues/431
+
+sumando con LIENDRO ESTE MODELO de diseño
+https://www.w3schools.com/js/default.asp
+
+Update Arrays with React useState Hook Without Push
+https://www.techiediaries.com/react-usestate-hook-update-array/
+
+1
+te paras en el raiz del proyecto
+2
+git branch
+3
+git pull origin dev
+4
+git fetch --all
+5
+docker-compose -f
+6
+ir al navegador y poner
+http://localhost:3005
+
+
+para iniciar cada proyecto por separado
+yarn
+yarn dev <--- inicia
+
+para saber donde estamos parados con git (en cual rama)
+git branch
+git checkout -b nombre-nueva-rama <-- crea nueva rama
+git status
+git add . <--- agrega todos los cambios que hiciste hasta ahora
+git commit -m "el comentario sobre tus cambios que hiciste"
+git status
+git branch -D nombre-nueva-rama <-- para borrar la rama
+
+
+
+Casos de uso caracteristicas funcionalidades features de la App RRHH
+-----------------------------------------------
+EL USUARIO INGRESO AL SISTEMA
+-----------------------------------
+* si es POSTULANTE:
+-------------------
+- registrarse.
+- inicia sesion.
+- ingreso al sistema:
+	- cargar o modificar sus datos postulante a llenar en el sistema.
+	- si completo telefono y mail:
+		- puede ver ofertas.
+		- puede des-suscribirse / postularse a la oferta.
+
+-----------------------------------
+* si es SELECTOR (RRHH):
+-------------------
+- registrarse.
+- inicia sesion.
+- si ya se registro e ingreso al sistema:
+	- filtro: 'TODOS' separa entre 'elegidos' y los demas los 'descarta'.
+	- fin de seleccion: 'ELEGIDOS' presiona un boton que "cierra busqueda".
+- boton con el cual va a cerrar la busqueda.
+
+-----------------------------------
+
+FEATURES DE TU APP
+https://platzi.com/discusiones/1754-diseno-interfaces-ux/16505-8a61affc-834f-492a-bba0-d77196e92781/
+
+RUTAS RELATIVAS alias con JavaScript para React, Vuejs..
+https://dev.to/mrluisfer/rutas-relativas-en-javascript-utilizando-vscode-5c7f
+
+
+RUTAS RELATIVAS alias con TypeScript para React, Vuejs..
+https://blog.nubecolectiva.com/como-usar-path-aliases-alias-de-ruta-con-typescript-en-node-js-13-7/
+
+SISTEMA DE MODULOS a utilizar EN API REST
+
+-Using TypeScript and nodemon: SyntaxError: Cannot use import statement outside a module
+https://stackoverflow.com/questions/58778055/using-typescript-and-nodemon-syntaxerror-cannot-use-import-statement-outside-a/59126595
+
+-jsconfig.json
+https://code.visualstudio.com/docs/languages/jsconfig
+
+-How can I use an ES6 import in Node.js
+https://stackoverflow.com/questions/45854169/how-can-i-use-an-es6-import-in-node-js
+
+-Error [ERR_MODULE_NOT_FOUND]: Cannot find module
+https://stackoverflow.com/questions/65384754/error-err-module-not-found-cannot-find-module
+
+-Getting error TypeError [ERR_UNKNOWN_FILE_EXTENSION]: Unknown file extension "" for D:\Projects\matri-site\bin\www for Node Js v14
+https://stackoverflow.com/questions/61536473/getting-error-typeerror-err-unknown-file-extension-unknown-file-extension
+
+- module.exports vs export default en Node.js y ES6
+https://stackoverflow.com/questions/40294870/module-exports-vs-export-default-in-node-js-and-es6
+
+- Using Node.js require vs ES6 import/export
+https://stackoverflow.com/questions/31354559/using-node-js-require-vs-es6-import-export
+
+- import and export modules commonjs (use require import statment)
+https://blog.nubecolectiva.com/exportar-e-importar-modulos-en-javascript/
+
+GITHUB
+
+- como hacer un git restore --staged .... pero de TODO
+git restore --staged
+git reset HEAD
+https://stackoverflow.com/questions/19730565/how-to-remove-files-from-git-staging-area
+
+ROUTES TYPESCRIPT
+https://reactrouter.com/web/example/auth-workflow
+
+EJECUTA CODIGO JAVASCRIPT EN LA TERMINAL o CONSOLA
+https://www.youtube.com/watch?v=9rt2gbXBneU
+
+USANDO CLASES
+https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Classes/Private_class_fields
+
+ERROR 404
+https://www.youtube.com/watch?v=deZP3Z33DJ4
+https://tomasmalio.medium.com/node-js-express-y-mysql-con-sequelize-ec0a7c0ae292
+
+ERROR 204
+https://www.google.com/search?channel=fs&client=ubuntu&q=api+devuelve+204+en+lugar+de+200
+
+.ENV file integrar en docker-compose.yml file
+https://docs.docker.com/compose/environment-variables/
+
+REDES CON DOCKER como hacer que los contenedores esten en la misma red
+https://dockertips.com/algo_sobre_redes
+
+------------------------------
+PC pepe es donde esta el entorno instalado
+para desarrollo
+---------------
+- el tiene instalado
+GIT
+DOCKER y docker-compose
+NODE
+NPM y YARN
+IDE de preferencia (visual studio code o intelli j idea o similar)
+---------------
+Por el momento usaran los
+COMANDOS PARA LEVANTAR EL PROYECTO en cada
+carpeta de cada servicio por separado
+(necesitaras 3 terminales)
+---------------
+antes que todo ya con el proyecto de git bajado
+pararse en la rama que tiene lo que avanzamos hasta ahora:
+git checkout dev
+
+primero pararse en el directorio raiz del proyecto en cada terminal y luego
+
+* en la TERMINAL 1:
+cd mysql_service
+yarn
+yarn dev
+
+* en la TERMINAL 2:
+cd api_service
+yarn
+yarn dev
+
+* en la TERMINAL 3:
+cd web_service
+yarn
+yarn dev
+
+Comunicación entre múltiples proyectos docker-compose
+https://qastack.mx/programming/38088279/communication-between-multiple-docker-compose-projects
+
+No puedo hacer ping al contenedor
+https://es.stackoverflow.com/questions/44388/no-puedo-hacer-ping-a-un-contenedor-docker
+
+Comienza con docker-compose
+https://dockertips.com/utilizando-docker-compose
+https://www.section.io/engineering-education/build-and-dockerize-a-full-stack-react-app-with-nodejs-and-nginx/
+
+fullstack dockerize  node react + express + mysql + nginx
+https://www.section.io/engineering-education/build-and-dockerize-a-full-stack-react-app-with-nodejs-and-nginx/
+
+docker-compose down --remove-orphans doesn't delete stopped containers
+https://github.com/docker/compose/issues/6637
+docker-compose down --remove-orphans
+https://dev.to/bahachammakhi/dockerizing-a-react-app-with-nginx-using-multi-stage-builds-1nfm
+https://github.com/webpack/webpack-dev-server/issues/2132
+
+dockerizando una aplicacion web node js
+https://ricardogeek.com/dockerizando-una-aplicacion-web-node-js
+https://adrianrueda.dev/desplegar-react-app-con-docker/
+https://ualmtorres.github.io/SeminarioDockerPresentacion/
+
+CUANDO INTENTAS HACER BUILD CON DOCKER-COMPOSE Y NO TE LO PERMITE POR LA PERSISTENCIA PREVIA
+sudo chmod 755 -Rv db_mysql/.mysql-data/
+
+PERSISTIR LOS DATOS DEL CONTENEDOR EN LA PC LOCAL
+https://josejuansanchez.org/bd/practica-05/index.html
+https://www.returngis.net/2019/02/gestionar-los-datos-de-tus-contenedores-de-docker/
+
+CREAR CLASES Y OBJETOS CON TYPE SCRIPT
+https://www.youtube.com/watch?v=i0qWMk8lCqo
+
+SSL Y NGINX CON DOCKER-COMPOSE
+https://business-science.github.io/shiny-production-with-aws-book/https-nginx-docker-compose.html
+
+verificar si existe un elemento antes de agregarlo (sequelize)
+https://www.it-swarm-es.com/es/javascript/node-sequelize-como-verificar-si-existe-un-elemento-antes-de-agregarlo-confusion-asincronica/1054487752/
+
+RESPUESTAS HTTP
+https://diego.com.es/codigos-de-estado-http
+https://www.lucushost.com/blog/codigos-http-mas-comunes/#Ejemplo_de_codigos_HTTP
+https://stackoverflow.com/questions/942951/rest-api-error-return-good-practices
+https://rosolutions.com.mx/blog/index.php/2018/10/29/manejo-de-errores-al-utilizar-fetch/
+
+EXCEPCIONES PERSONALIZADAS JAVASCRIPT
+https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Control_flow_and_error_handling
+
+
