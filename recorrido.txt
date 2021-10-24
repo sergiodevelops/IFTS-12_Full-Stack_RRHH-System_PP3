@@ -485,7 +485,14 @@ https://www.lucushost.com/blog/codigos-http-mas-comunes/#Ejemplo_de_codigos_HTTP
 https://stackoverflow.com/questions/942951/rest-api-error-return-good-practices
 https://rosolutions.com.mx/blog/index.php/2018/10/29/manejo-de-errores-al-utilizar-fetch/
 
+Códigos de respuesta y mensajes de error de la API REST
+https://www.ibm.com/docs/es/odm/8.5.1?topic=api-rest-response-codes-error-messages
+
 EXCEPCIONES PERSONALIZADAS JAVASCRIPT
 https://developer.mozilla.org/es/docs/Web/JavaScript/Guide/Control_flow_and_error_handling
 
+CONTROL DE ERRORES MANEJO EN JAVASCRIPT
+https://es.javascript.info/try-catch
 
+ERRORES AL PARSEAR EN EL FRONT JSON QUE PROVIENE DE LA API
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/JSON_bad_parse

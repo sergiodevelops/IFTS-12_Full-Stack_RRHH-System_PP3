@@ -54,7 +54,7 @@ exports.create = (req, res) => {
         username: req.body.username,
         password: req.body.password,
 
-        startDate: fechaActual || "", // lo genera la API
+        startDate: fechaActual || "" // lo genera la API
     };
 
     // Save User in the database if "username" not exist
@@ -64,8 +64,9 @@ exports.create = (req, res) => {
             res.status(201).send(data);
         })
         .catch(err => {
-            res.status(405).send({
-                message: `El nombre de usuario ${req.body.username} ya existe, intente con uno diferente.`,
+            res.status(409).send({
+                name: "DuplicateUsernameEntry",
+                message: `El usuario "${req.body.username}" ya existe, intente con uno diferente.`
             });
         });
 };

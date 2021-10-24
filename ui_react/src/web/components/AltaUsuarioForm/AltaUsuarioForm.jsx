@@ -72,19 +72,23 @@ export default function AltaUsuarioForm() {
             userType: newUser.userType.id, // mapeo para la base, envia un number
             userFullname: newUser.userFullname,
             username: newUser.username,
-            password: newUser.userFullname,
+            password: newUser.password,
         };
 
-        usuarioService.create(newUserPost)
-            .then((resp) => {
-                console.log("INFO en FE", resp)
+        usuarioService
+            .create(newUserPost)
+            .then(resp => {
+                console.log("INFO en FE", resp);
                 alert(`El usuario "${newUser.username}" se persistió correctamente`);
                 cleanInputValues();
             })
-            .catch((err) => {
-                console.error("ERROR en FE", err);
-                alert(`${err.message}`);
-                setUserExistInDB(true);
+            .catch(err => {
+                err.then(err => {
+                        console.error("ERROR en FE", err.message);
+                        alert(`${err.message}`);
+                        setUserExistInDB(true);
+                    }
+                )
             });
     };
 
