@@ -17,7 +17,7 @@ app.use(logger('dev'));
 // db.sequelize.sync({force: true}) //MODO desarrollo, fuerza la sincronización con la DB
 db.sequelize.sync() //MODO produccion
     .then((data) => { //modo dev
-        console.log("Drop and re-sync db.", data.message);
+        console.log("Drop and re-sync db.");
     })
     .catch((error) => {
         console.log('el error es:', error)

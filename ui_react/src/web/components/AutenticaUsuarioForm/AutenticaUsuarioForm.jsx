@@ -9,8 +9,10 @@ import {Visibility, VisibilityOff} from "@mui/icons-material";
 import userActions from "../../redux/actions/userActions";
 import Container from "@material-ui/core/Container";
 import useStyles from "./styles";
+import UsuarioService from "../../services/UsuarioService";
 
 export default function AutenticaUsuarioForm() {
+    const usuarioService = new UsuarioService("find");
     const classes = useStyles();
     const dispatch = useDispatch();
     const usersListStore = useSelector((state) => state.userReducers.usersList);
@@ -19,7 +21,7 @@ export default function AutenticaUsuarioForm() {
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(!showPassword);
 
-    const handleClick = async () => {
+    /*const handleClick = async () => {
         const authIsCorrect = await usersListStore && usersListStore.findIndex((user) =>
             user.username === currentUser.username &&
             user.password === currentUser.password ) !== -1;
@@ -33,16 +35,46 @@ export default function AutenticaUsuarioForm() {
             // dispatch(notificationActions.enqueueMessage(message));  //TODO ver despues snackbar integration
             alert(message);
         } else {
-            cleanInputValues();
+            // cleanInputValues();
             dispatch(userActions.setCurrentAuthenticatedUser(currentUser));
         }
-    };
+    };*/
 
     const validateInputData = (e, typeText) => {
         const inputDataChecked = e.target.value.replace(/ /g, "");
         if (typeText === "username") return inputDataChecked.toLowerCase();
         return inputDataChecked;
     }
+
+    const findUser = async () => {
+        if (!currentUser.username ||
+            !currentUser.password) {
+            alert("Por favor complete los campos requeridos");
+            // store.dispatch(notifierActions.enqueueNotification(new Notification('error', 'Error', 'Por favor complete los campos requeridos')));
+            return;
+        }
+
+        const userToFind = {
+            username: currentUser.username,
+            password: currentUser.password
+        };
+
+        usuarioService
+            .login(userToFind)
+            .then(foundUser => {
+                console.log("foundUser en FE ",foundUser)
+                dispatch(userActions.setCurrentAuthenticatedUser(foundUser));
+            })
+            .catch(err => {
+                console.error(err);
+                err.then(err => {
+                        console.error("ERROR en FE", err.message);
+                        alert(`${err.message}`);
+                        // setUserExistInDB(true);
+                    }
+                )
+            });
+    };
 
     return (
         <Container className={classes.container} maxWidth="xs" >
@@ -104,7 +136,7 @@ export default function AutenticaUsuarioForm() {
                         fullWidth type="submit"
                         variant="contained"
                         disabled={!currentUser.username || !currentUser.password}
-                        onClick={handleClick}
+                        onClick={findUser}
                     >
                         ingresar
                     </Button>

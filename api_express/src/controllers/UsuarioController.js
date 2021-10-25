@@ -65,21 +65,49 @@ exports.create = (req, res) => {
         })
         .catch(err => {
             res.status(409).send({
-                name: "DuplicateUsernameEntry",
+                name: "Duplicate Username Entry",
                 message: `El usuario "${req.body.username}" ya existe, intente con uno diferente.`
             });
         });
 };
 
-// Update a User by the id in the request
-/*exports.update = (req, res) => {};*/
 
-// List all user with the specified data filtered
-/*exports.list=(_, res) =>{
-    return UsuarioModel.findAll({})
-        .then(usuario => res.status(200).send(usuario))
-        .catch(error => res.status(400).send(error))
-};*/
-// Delete a User with the specified id in the request
-/*
-exports.delete = (req, res) => {};*/
+// login User (hace un "findOne")
+exports.login = (req, res) => {
+    // Validate "username"
+    if (!req.body.username) {
+        res.status(400).send({
+            name: "UsernameEmptyEntry",
+            message: "Debe enviar un 'username' para poder iniciar sesión!"
+        });
+        return;
+    }
+    // Validate "password"
+    if (!req.body.password) {
+        res.status(400).send({
+            name: "PasswordEmptyEntry",
+            message: "Debe ingresar una 'password' para poder iniciar sesión!"
+        });
+        return;
+    }
+
+    // Find User in the database by "username" and "password"
+    UsuarioModel
+        .findOne({where: {username: req.body.username}})
+        .then((user) => {
+                if (user && user.password === req.body.password) {
+                    res.status(200).send(user);
+                }
+                res.status(404).send({
+                    name: "Credentials Wrong",
+                    message: `Las credenciales ingresadas para autenticarse no son validas, intente nuevamente`
+                });
+            }
+        )
+        .catch((err) => {
+            res.status(500).send({
+                name: `${err.name}`,
+                message: `${err.message}`
+            });
+        });
+};

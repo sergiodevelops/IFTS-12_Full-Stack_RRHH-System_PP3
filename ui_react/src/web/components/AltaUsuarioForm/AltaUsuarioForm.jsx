@@ -77,8 +77,9 @@ export default function AltaUsuarioForm() {
 
         usuarioService
             .create(newUserPost)
-            .then(resp => {
-                console.log("INFO en FE", resp);
+            .then(createdUser => {
+                console.log("createdUser en FE ",createdUser);
+                dispatch(userActions.setCurrentAuthenticatedUser(createdUser));
                 alert(`El usuario "${newUser.username}" se persistió correctamente`);
                 cleanInputValues();
             })

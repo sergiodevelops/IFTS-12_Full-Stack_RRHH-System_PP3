@@ -15,13 +15,14 @@ export default (
             // si vino (vacio o null) o usuario ya existe en la DB
             if (!action.payload.user || userExist) return state; // no hace nada
             // si no existe aun el usuario a crear, lo crea
-            if (!userExist) return {...state, usersList:[...state.usersList, action.payload.user]};
+            if (!userExist) return {...state, usersList: [...state.usersList, action.payload.user]};
 
         case "SET_CURRENT_AUTHENTICATED_USER":
             if (!action.payload.user) return {...state, currentUser: null}; // no hace nada
-            const currentUserData = state.usersList.find((user) =>
-                user.username === action.payload.user.username && user.password === action.payload.user.password);
-            return {...state,currentUser: currentUserData};
+            // const currentUserData = state.usersList.find((user) =>
+            //     user.username === action.payload.user.username && user.password === action.payload.user.password);
+            // return {...state,currentUser: currentUserData};
+            return {...state, currentUser: action.payload.user};
         default:
             return state;
     }

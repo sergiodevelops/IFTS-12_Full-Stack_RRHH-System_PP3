@@ -37,6 +37,7 @@ export default function Principal() {
 
     useEffect(() => {
         //para que vuelva al login cuando se desloguee
+        console.log("para que vuelva al login cuando se desloguee")
         setExisteUsuario(true);
         setSesionActiva(userIsLoggedIn);
     }, [userIsLoggedIn]);
