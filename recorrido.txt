@@ -496,3 +496,9 @@ https://es.javascript.info/try-catch
 
 ERRORES AL PARSEAR EN EL FRONT JSON QUE PROVIENE DE LA API
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/JSON_bad_parse
+
+https://code.tutsplus.com/es/tutorials/a-beginners-guide-to-http-and-rest--net-16340
+https://desarrolloweb.com/articulos/autenticacion-token.html
+
+Usa siempre POST para datos sensibles y SSL HTTPS... si quieres estar seguro y · !
+https://es.stackoverflow.com/questions/34904/cuando-debo-usar-los-m%C3%A9todos-post-y-get
