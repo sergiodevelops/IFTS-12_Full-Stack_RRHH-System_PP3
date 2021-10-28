@@ -9,7 +9,7 @@ const store = createStore(
     allReducers,
     persistedState,
     composeWithDevTools(
-        applyMiddleware(logger)
+        // applyMiddleware(logger)
     )
 );
 

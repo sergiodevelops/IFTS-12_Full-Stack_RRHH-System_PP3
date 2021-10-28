@@ -37,7 +37,6 @@ export default function Principal() {
 
     useEffect(() => {
         //para que vuelva al login cuando se desloguee
-        console.log("para que vuelva al login cuando se desloguee")
         setExisteUsuario(true);
         setSesionActiva(userIsLoggedIn);
     }, [userIsLoggedIn]);
@@ -45,14 +44,10 @@ export default function Principal() {
     return (
         <div className={`${classes.root}`}>
             <div className={`${classes.content}`}>
-                <div>
                     {sesionActiva && <DoubleSideBar/>}
                     {!sesionActiva && (existeUsuario ? <AutenticaUsuarioForm/> : <AltaUsuarioForm/>)}
                     {!userIsLoggedIn && <SignInUpSwitch onClick={handleClick} existeUsuario={existeUsuario}/>}
-                </div>
-                <div>
                     {sesionActiva && <PieDePagina/>}
-                </div>
             </div>
         </div>
     );

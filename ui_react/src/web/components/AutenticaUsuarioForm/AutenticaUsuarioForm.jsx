@@ -62,7 +62,7 @@ export default function AutenticaUsuarioForm() {
         usuarioService
             .login(userToFind)
             .then(foundUser => {
-                console.log("foundUser en FE ",foundUser)
+                // console.log("foundUser en FE ",foundUser)
                 dispatch(userActions.setCurrentAuthenticatedUser(foundUser));
             })
             .catch(err => {
