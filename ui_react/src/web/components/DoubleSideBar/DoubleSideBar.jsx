@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {styled, useTheme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -22,6 +22,10 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import userActions from "../../redux/actions/userActions";
+import userTypes from "../../constants/userTypes";
+import MainTabs from "../MainTabs/MainTabs";
+import layoutActions from "../../redux/actions/layoutActions";
+import SubMenuTabs from "../SubMenuTabs/SubMenuTabs";
 
 const drawerWidth = 240;
 
@@ -92,6 +96,17 @@ export default function DoubleSideBar() {
     const [openLeft, setOpenLeft] = React.useState(true);
     const [openRight, setOpenRight] = React.useState(true);
 
+    const [subMenuTabValue, setSubMenuTabValue] = React.useState("0");
+
+    useEffect(() => {
+        dispatch(layoutActions.setSubMenuTabValue(subMenuTabValue))
+    }, [subMenuTabValue]);
+
+    useEffect(() => {
+        !openLeft && setOpenRight(false);
+    }, [openLeft]);
+
+
     const handleLogOut = () => {
         handleClose();
         dispatch(userActions.setCurrentAuthenticatedUser(null));
@@ -145,7 +160,7 @@ export default function DoubleSideBar() {
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" noWrap component="div">
-                            {currentUser?.userFullname}
+                            {currentUser?.userFullname} ({userTypes.map((user) => user.id === currentUser?.userType && user.name) || ""})
                         </Typography>
                         {currentUser && (
                             <div>
@@ -187,13 +202,14 @@ export default function DoubleSideBar() {
                             aria-label="open drawer"
                             onClick={handleDrawerOpenRight}
                             edge="end"
-                            sx={{ml: 2, ...(openRight && {display: 'none'})}}
+                            sx={{ml: 2, ...((openRight || !openLeft) && {display: 'none'})}}
                         >
                             <MenuIcon/>
                         </IconButton>
 
                     </Toolbar>
                 </AppBar>
+
                 {/*Drawer IZQUIERDO*/}
                 <Drawer
                     sx={{
@@ -207,6 +223,7 @@ export default function DoubleSideBar() {
                     variant="persistent"
                     anchor="left"
                     open={openLeft}
+                    onClick={setOpenRight}
                 >
                     <DrawerHeaderLeft>
                         <IconButton onClick={handleDrawerCloseLeft}>
@@ -216,7 +233,7 @@ export default function DoubleSideBar() {
                     <Divider/>
 
                     {
-                        (currentUser?.type === "postulante") &&
+                        (currentUser?.userType === 3 /*postulante*/) &&
                         <List>
                             {[
                                 'Datos Personales',
@@ -236,14 +253,17 @@ export default function DoubleSideBar() {
                     }
 
                     {
-                        (currentUser?.type === "selector") &&
+                        (currentUser?.userType === 1 || currentUser?.userType === 2 /* administrativo (selector) o solicitante */) &&
                         <List>
                             {[
-                                'Ofertas',
-                                'Solicitantes',
-                                'Seleccionados',
+                                'CONSULTAS',
+                                'ABM',
                             ].map((text, index) => (
-                                <ListItem button key={text}>
+                                <ListItem
+                                    button
+                                    key={`${text}-${index}`}
+                                    onClick={()=>setSubMenuTabValue((index+1).toString())}
+                                >
                                     {/*<ListItemIcon>
                                     {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
                                 </ListItemIcon>*/}
@@ -269,9 +289,11 @@ export default function DoubleSideBar() {
                     {/*separador para que el appBar no tape el main*/}
                     <DrawerHeaderLeft/>
                     <DrawerHeaderRight/>
-                    {/*contenido del main*/}
 
+                    {/*contenido del main*/}
+                    <MainTabs/>
                 </Main>
+
                 {/*Drawer DERECHO*/}
                 <Drawer
                     sx={{
@@ -292,16 +314,17 @@ export default function DoubleSideBar() {
                     </DrawerHeaderRight>
 
                     {/*<Divider/>*/}
-                    <List>
-                        {['Objetivo', 'Vision', 'Misión', 'Alcance'].map((text, index) => (
-                            <ListItem button key={text}>
-                                {/*<ListItemIcon>*/}
-                                {/*    {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}*/}
-                                {/*</ListItemIcon>*/}
-                                <ListItemText primary={text}/>
-                            </ListItem>
-                        ))}
-                    </List>
+                    <SubMenuTabs/>
+                    {/*<List>*/}
+                    {/*    {['Objetivo', 'Vision', 'Misión', 'Alcance'].map((text, index) => (*/}
+                    {/*        <ListItem button key={text}>*/}
+                    {/*            /!*<ListItemIcon>*!/*/}
+                    {/*            /!*    {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}*!/*/}
+                    {/*            /!*</ListItemIcon>*!/*/}
+                    {/*            <ListItemText primary={text}/>*/}
+                    {/*        </ListItem>*/}
+                    {/*    ))}*/}
+                    {/*</List>*/}
 
                     {/*<Divider/>
                     <List>

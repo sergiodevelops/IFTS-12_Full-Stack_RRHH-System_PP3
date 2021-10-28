@@ -199,17 +199,22 @@ docker-compose up --build -f docker-compose.yml
 - HOSTING servicio de certificado de conexión web: para una conexión segura entre navegador web cliente y servidor web
 
 ## Tareas pendientes por resolver:
-- [x] USER LOGIN section (frontend)
-- [x] USER REGISTRATION section (frontend)
+- [x] USER administrativo LOGIN section (frontend)
+- [x] USER administrativo REGISTRATION section (frontend)
 - [x] HOME section (frontend)
-- [ ] CV data section  (frontend)
+- [x] FOOTER component inside HOME section (frontend)
+- [x] APPBAR component inside HOME section (frontend)
+- [x] DOUBLE SIDEBAR component inside HOME section (frontend)
 - [x] ALTA NUEVO USUARIO en mysql database (backend)
-- [ ] task 1 (backend)
-- [ ] task 2 (backend)
-- [ ] task 3 (backend)
-- [ ] task 4 (frontend)
-- [ ] task 5 (frontend)
-- [ ] task 6 (frontend)
+- [x] USER LOGIN con mysql database (backend)
 
+- [ ] MENU "Consultas" para USER administrativo (frontend)
+  - [ ] subMENU Postulantes menu Consultas (frontend)
+  - [ ] subMENU Solicitantes menu Consultas (frontend)
+  - [ ] subMENU Solicitudes menu Consultas (frontend)
+  - [ ] subMENU Solicitudes-Postulantes menu Consultas (frontend)
 
-
+- [ ] MENU "ABM" para USER administrativo (frontend)
+  - [ ] subMENU Solicitudes menu ABM (frontend)
+  - [ ] subMENU Datos menu ABM (frontend)
+  - [ ] subMENU Antecedentes menu ABM (frontend)

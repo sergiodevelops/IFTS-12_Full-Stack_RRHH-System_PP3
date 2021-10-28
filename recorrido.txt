@@ -502,3 +502,20 @@ https://desarrolloweb.com/articulos/autenticacion-token.html
 
 Usa siempre POST para datos sensibles y SSL HTTPS... si quieres estar seguro y · !
 https://es.stackoverflow.com/questions/34904/cuando-debo-usar-los-m%C3%A9todos-post-y-get
+
+https://stackoverflow.com/questions/57899608/how-to-make-my-custom-tab-component-work-with-passing-index-to-children-and-hidi
+
+EVENTOS CON REACT
+https://es.reactjs.org/docs/handling-events.html
+https://blog.logrocket.com/guide-to-custom-react-hooks-with-mutationobserver/
+
+useRef
+https://dev.to/duxtech/como-rayos-funciona-el-hook-useref-en-react-2lah
+https://ichi.pro/es/reaccionar-usando-refs-con-el-gancho-useref-149872118029353
+https://www.youtube.com/watch?v=4RGObDegoXw
+
+TypeScript
+https://www.youtube.com/watch?v=wMcPJMnv1V0
+
+addEventListener in React
+https://stackoverflow.com/questions/33211672/how-to-submit-a-form-using-enter-key-in-react-js/59147255#59147255
