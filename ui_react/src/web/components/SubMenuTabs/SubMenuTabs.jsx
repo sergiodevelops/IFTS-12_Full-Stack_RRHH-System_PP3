@@ -29,13 +29,6 @@ export default function SubMenuTabs(){
     return (
         <Box sx={{ width: '100%', typography: 'body1' }}>
             <TabContext value={subMenuTab}>
-                {/*<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList aria-label="lab API tabs example">
-                        <Tab label="Postulantes" value="0" />
-                        <Tab label="Postulantes" value="1" />
-                        <Tab label="Solicitantes" value="2" />
-                    </TabList>
-                </Box>*/}
 
                 {/*SubMenues BIENVENIDO*/}
                 <TabPanel value="0">
@@ -46,10 +39,10 @@ export default function SubMenuTabs(){
                 <TabPanel value="1">
                     <List>
                         {[
-                            'CONSULTAS 1',
-                            'CONSULTAS 2',
-                            'CONSULTAS 3',
-                            'CONSULTAS 4',
+                            'Postulantes',
+                            'Solicitantes',
+                            'Solicitudes',
+                            'Solicitudes-Postulantes',
                         ].map((text, index) => (
                             <ListItem
                                 button
@@ -65,15 +58,14 @@ export default function SubMenuTabs(){
                 <TabPanel value="2">
                     <List>
                         {[
-                            'ABM 1',
-                            'ABM 2',
-                            'ABM 3',
-                            'ABM 4',
+                            'Solicitudes',
+                            'Datos',
+                            'Antecedentes',
                         ].map((text, index) => (
                             <ListItem
                                 button
                                 key={`${text}-${index}`}
-                                onClick={()=>setMainTabValue((index+1).toString())}                            >
+                                onClick={()=>setMainTabValue((index+5).toString())}                            >
                                 <ListItemText primary={text}/>
                             </ListItem>
                         ))}

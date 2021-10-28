@@ -223,7 +223,6 @@ export default function DoubleSideBar() {
                     variant="persistent"
                     anchor="left"
                     open={openLeft}
-                    onClick={setOpenRight}
                 >
                     <DrawerHeaderLeft>
                         <IconButton onClick={handleDrawerCloseLeft}>
@@ -231,47 +230,48 @@ export default function DoubleSideBar() {
                         </IconButton>
                     </DrawerHeaderLeft>
                     <Divider/>
-
-                    {
-                        (currentUser?.userType === 3 /*postulante*/) &&
-                        <List>
-                            {[
-                                'Datos Personales',
-                                'Experiencia',
-                                'Estudios formales',
-                                'Idiomas',
-                                'Conocimientos',
-                            ].map((text, index) => (
-                                <ListItem button key={text}>
-                                    {/*<ListItemIcon>
+                    <div onClick={setOpenRight}>
+                        {
+                            (currentUser?.userType === 3 /*postulante*/) &&
+                            <List>
+                                {[
+                                    'Datos Personales',
+                                    'Experiencia',
+                                    'Estudios formales',
+                                    'Idiomas',
+                                    'Conocimientos',
+                                ].map((text, index) => (
+                                    <ListItem button key={text}>
+                                        {/*<ListItemIcon>
                                     {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
                                 </ListItemIcon>*/}
-                                    <ListItemText primary={text}/>
-                                </ListItem>
-                            ))}
-                        </List>
-                    }
+                                        <ListItemText primary={text}/>
+                                    </ListItem>
+                                ))}
+                            </List>
+                        }
 
-                    {
-                        (currentUser?.userType === 1 || currentUser?.userType === 2 /* administrativo (selector) o solicitante */) &&
-                        <List>
-                            {[
-                                'CONSULTAS',
-                                'ABM',
-                            ].map((text, index) => (
-                                <ListItem
-                                    button
-                                    key={`${text}-${index}`}
-                                    onClick={()=>setSubMenuTabValue((index+1).toString())}
-                                >
-                                    {/*<ListItemIcon>
+                        {
+                            (currentUser?.userType === 1 || currentUser?.userType === 2 /* administrativo (selector) o solicitante */) &&
+                            <List>
+                                {[
+                                    'CONSULTAS',
+                                    'ABM',
+                                ].map((text, index) => (
+                                    <ListItem
+                                        button
+                                        key={`${text}-${index}`}
+                                        onClick={() => setSubMenuTabValue((index + 1).toString())}
+                                    >
+                                        {/*<ListItemIcon>
                                     {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
                                 </ListItemIcon>*/}
-                                    <ListItemText primary={text}/>
-                                </ListItem>
-                            ))}
-                        </List>
-                    }
+                                        <ListItemText primary={text}/>
+                                    </ListItem>
+                                ))}
+                            </List>
+                        }
+                    </div>
 
                     {/*<Divider/>*/}
                     {/*<List>
