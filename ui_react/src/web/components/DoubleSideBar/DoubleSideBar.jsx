@@ -26,6 +26,8 @@ import userTypes from "../../constants/userTypes";
 import MainTabs from "../MainTabs/MainTabs";
 import layoutActions from "../../redux/actions/layoutActions";
 import SubMenuTabs from "../SubMenuTabs/SubMenuTabs";
+import useStyles from "./styles";
+
 
 const drawerWidth = 240;
 
@@ -88,6 +90,7 @@ const DrawerHeaderRight = styled('div')(({theme}) => ({
 
 export default function DoubleSideBar() {
     const theme = useTheme();
+    const classes = useStyles();
 
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.userReducers.currentUser);
@@ -131,8 +134,7 @@ export default function DoubleSideBar() {
     };
 
     return (
-        <Box>
-
+        <Box className={classes.root}>
             <Box sx={{display: 'flex'}}>
                 <CssBaseline/>
                 {/*<FormGroup>*/}
