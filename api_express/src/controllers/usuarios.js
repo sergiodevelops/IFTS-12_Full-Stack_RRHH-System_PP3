@@ -7,17 +7,17 @@ const UsuarioModel = require('../models').usuarios;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
-    // Validate "userType"
-    if (!req.body.userType) {
+    // Validate "tipo_usuario"
+    if (!req.body.tipo_usuario) {
         res.status(400).send({
-            message: "Debe enviar un 'userType' para crear el User!"
+            message: "Debe enviar un 'tipo_usuario' para crear el User!"
         });
         return;
     }
-    // Validate "userFullname"
-    if (!req.body.userFullname) {
+    // Validate "nombre_completo"
+    if (!req.body.nombre_completo) {
         res.status(400).send({
-            message: "Debe enviar un 'userFullname' para crear el User!"
+            message: "Debe enviar un 'nombre_completo' para crear el User!"
         });
         return;
     }
@@ -47,14 +47,14 @@ exports.create = (req, res) => {
     const fechaActual = formatoFecha(new Date(), 'YYYY-MM-DD');
 
     const newDbUser = {
-        id: req.body.id, // lo autoincrementa la API
+        // id: req.body.id, // lo autoincrementa la API
 
-        userType: req.body.userType,
-        userFullname: req.body.userFullname,
+        tipo_usuario: req.body.tipo_usuario,
+        nombre_completo: req.body.nombre_completo,
         username: req.body.username,
         password: req.body.password,
 
-        startDate: fechaActual || "" // lo genera la API
+        // startDate: fechaActual || "" // lo genera la API
     };
 
     // Save User in the database if "username" not exist

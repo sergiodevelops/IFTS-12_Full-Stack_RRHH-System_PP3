@@ -26,6 +26,8 @@ import userTypes from "../../constants/userTypes";
 import MainTabs from "../MainTabs/MainTabs";
 import layoutActions from "../../redux/actions/layoutActions";
 import SubMenuTabs from "../SubMenuTabs/SubMenuTabs";
+import useStyles from "./styles";
+
 
 const drawerWidth = 240;
 
@@ -82,12 +84,13 @@ const DrawerHeaderRight = styled('div')(({theme}) => ({
     alignItems: 'center',
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
-    // ...theme.mixins.toolbar,
+    ...theme.mixins.toolbar,
     justifyContent: 'flex-start',
 }));
 
 export default function DoubleSideBar() {
     const theme = useTheme();
+    const classes = useStyles();
 
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.userReducers.currentUser);
@@ -131,8 +134,7 @@ export default function DoubleSideBar() {
     };
 
     return (
-        <Box>
-
+        <Box className={classes.root}>
             <Box sx={{display: 'flex'}}>
                 <CssBaseline/>
                 {/*<FormGroup>*/}
@@ -160,7 +162,7 @@ export default function DoubleSideBar() {
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" noWrap component="div">
-                            {currentUser?.userFullname} ({userTypes.map((user) => user.id === currentUser?.userType && user.name) || ""})
+                            {currentUser?.nombre_completo} ({userTypes.map((user) => user.id === currentUser?.tipo_usuario && user.name) || ""})
                         </Typography>
                         {currentUser && (
                             <div>
@@ -232,7 +234,7 @@ export default function DoubleSideBar() {
                     <Divider/>
                     <div onClick={setOpenRight}>
                         {
-                            (currentUser?.userType === 3 /*postulante*/) &&
+                            (currentUser?.tipo_usuario === 3 /*postulante*/) &&
                             <List>
                                 {[
                                     'Datos Personales',
@@ -252,7 +254,7 @@ export default function DoubleSideBar() {
                         }
 
                         {
-                            (currentUser?.userType === 1 || currentUser?.userType === 2 /* administrativo (selector) o solicitante */) &&
+                            (currentUser?.tipo_usuario === 1 || currentUser?.tipo_usuario === 2 /* administrativo (selector) o solicitante */) &&
                             <List>
                                 {[
                                     'CONSULTAS',
@@ -312,9 +314,11 @@ export default function DoubleSideBar() {
                             {theme.direction === 'rtl' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
                         </IconButton>
                     </DrawerHeaderRight>
+                    <Divider/>
+                    <div>
+                        <SubMenuTabs/>
+                    </div>
 
-                    {/*<Divider/>*/}
-                    <SubMenuTabs/>
                     {/*<List>*/}
                     {/*    {['Objetivo', 'Vision', 'Misión', 'Alcance'].map((text, index) => (*/}
                     {/*        <ListItem button key={text}>*/}

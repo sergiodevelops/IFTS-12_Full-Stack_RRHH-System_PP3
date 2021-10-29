@@ -11,7 +11,7 @@ import {ListItem, ListItemText, Tab} from "@material-ui/core";
 import {TabList} from "@material-ui/lab";
 import layoutReducers from "../../redux/reducers/layoutReducers";
 
-export default function SubMenuTabs(){
+export default function SubMenuTabs() {
     const dispatch = useDispatch();
 
     const subMenuTabValueStore = useSelector((state) => state.layoutReducers.subMenuTabValueStore);
@@ -27,12 +27,12 @@ export default function SubMenuTabs(){
     }, [mainTabValue]);
 
     return (
-        <Box sx={{ width: '100%', typography: 'body1' }}>
+        <Box sx={{width: '100%', typography: 'body1'}}>
             <TabContext value={subMenuTab}>
 
                 {/*SubMenues BIENVENIDO*/}
                 <TabPanel value="0">
-                    Bienvenido
+                    {/*Bienvenido*/}
                 </TabPanel>
 
                 {/*SubMenues de CONSULTAS*/}
@@ -47,7 +47,7 @@ export default function SubMenuTabs(){
                             <ListItem
                                 button
                                 key={`${text}-${index}`}
-                                onClick={()=>setMainTabValue((index+1).toString())}                            >
+                                onClick={() => setMainTabValue((index + 1).toString())}>
                                 <ListItemText primary={text}/>
                             </ListItem>
                         ))}
@@ -65,7 +65,8 @@ export default function SubMenuTabs(){
                             <ListItem
                                 button
                                 key={`${text}-${index}`}
-                                onClick={()=>setMainTabValue((index+5).toString())}                            >
+                                onClick={() => setMainTabValue((index + 5).toString())}
+                            >
                                 <ListItemText primary={text}/>
                             </ListItem>
                         ))}

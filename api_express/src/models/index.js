@@ -5,7 +5,7 @@ const {Sequelize} = require("sequelize");
 //importa config para conexión a la base con sequelize
 const dbConfig = require("../dbConfig");
 //importa los modelos para virtualizar la DB con sequelize
-const UsuarioModel = require("./UsuarioModel");
+const UsuarioModel = require("./usuarios");
 
 const sequelize = new Sequelize(
     dbConfig.DB,
