@@ -211,6 +211,10 @@ npx sequelize-cli model:create --name usuario --attributes username:string,statu
 npx sequelize-cli init
 npx sequelize-cli model:create --name usuario --attributes username:string,status:char
 
+CREA LOS MODELOS AUTOMATICAMENTE DESDE UNA BASE YA EXISTENTE
+https://www.it-swarm-es.com/es/node.js/sequelizar-como-importar-definiciones-desde-una-base-de-datos-existente/1065763077/
+https://github.com/sequelize/sequelize-auto
+npx sequelize-auto -h "localhost" -d "rrhh1" -u "root" -x "root" -p 9906  --dialect "mysql" -c "./path/to/config" -o "/path/to/models" -t "tableName"
 
 INSTALAR O ACTUALIZAR YARN en tu linux:
 Source: https://stackoverflow.com/questions/49689174/yarn-how-to-upgrade-yarn-version-using-terminal
@@ -519,3 +523,9 @@ https://www.youtube.com/watch?v=wMcPJMnv1V0
 
 addEventListener in React
 https://stackoverflow.com/questions/33211672/how-to-submit-a-form-using-enter-key-in-react-js/59147255#59147255
+
+https://es.reactjs.org/docs/hooks-reference.html
+https://stackoverflow.com/questions/41486296/convert-object-to-array-in-javascript-react
+
+MIGRAR JAVASCRIPT A TYPESCRIPT
+https://apiumhub.com/es/tech-blog-barcelona/como-migrar-de-javascript-a-typescript/

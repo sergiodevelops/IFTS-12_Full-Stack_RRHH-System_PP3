@@ -14,8 +14,8 @@ const {API_PORT, WEB_PORT, DB_PORT} = process.env;
 app.use(logger('dev'));
 
 
-// db.sequelize.sync({force: true}) //MODO desarrollo, fuerza la sincronización con la DB
-db.sequelize.sync() //MODO produccion
+db.sequelize.sync({force: true}) //MODO desarrollo, fuerza la sincronización con la DB
+// db.sequelize.sync() //MODO produccion
     .then((data) => { //modo dev
         console.log("Drop and re-sync db.");
     })

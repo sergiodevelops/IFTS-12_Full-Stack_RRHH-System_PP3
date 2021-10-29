@@ -6,17 +6,18 @@ const formatoFecha = (fecha, formato) => {
         .replace('MM', fecha.getMonth() + 1)
         .replace('DD', fecha.getDate());
 }
+
 const today = new Date();
 const formato = "YYYY-MM-DD";
 const fechaActual = formatoFecha(today, formato);
 
 module.exports = (sequelize, DataTypes) => {
     const UsuarioModel = sequelize.define('usuario', {
-        userType: {
+        tipo_usuario: {
             allowNull: false,
             type: DataTypes.TINYINT(3),
         },
-        userFullname: {
+        nombre_completo: {
             allowNull: false,
             type: DataTypes.STRING(50),
         },

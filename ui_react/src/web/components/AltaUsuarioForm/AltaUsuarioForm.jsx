@@ -69,8 +69,8 @@ export default function AltaUsuarioForm() {
         }
 
         const newUserPost = {
-            userType: newUser.userType.id, // mapeo para la base, envia un number
-            userFullname: newUser.userFullname,
+            tipo_usuario: newUser.userType.id, // mapeo para la base, envia un number
+            nombre_completo: newUser.userFullname,
             username: newUser.username,
             password: newUser.password,
         };
