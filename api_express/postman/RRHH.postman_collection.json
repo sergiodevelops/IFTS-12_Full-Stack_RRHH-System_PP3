@@ -1,0 +1,69 @@
+{
+	"info": {
+		"_postman_id": "377b8782-8f9e-44b9-9378-568fba097fac",
+		"name": "RRHH",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "...api/users/create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"tipo_usuario\": 1,\n    \"nombre_completo\": \"Sergio Ariel Juárez\",\n    \"username\": \"sjuarez\",\n    \"password\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4005/api/users/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4005",
+					"path": [
+						"api",
+						"users",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "...api/users/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"sjuarez\",\n    \"password\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4005/api/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4005",
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
