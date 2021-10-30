@@ -1,0 +1,28 @@
+{
+	"compilerOptions": {
+		"target": "es6",
+		"allowJs": true,
+		"checkJs": true,
+		"outDir": "./built",
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": false,
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"jsx": "react",
+		"tsx": "react",
+		"allowSyntheticDefaultImports": true,
+		"moduleResolution": "Node"
+	},
+	"include": [
+		"./src/**/*"
+	],
+	"baseUrl": ".",
+	"paths": {
+		"@entrypoint/*": [
+			"src/entrypoint/*",
+		],
+		"@constants/*": [
+			"src/constants/*",
+		]
+	}
+}
