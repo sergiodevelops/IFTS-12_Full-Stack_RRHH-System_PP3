@@ -1,12 +1,10 @@
 import React from 'react';
 import useStyles from "./styles";
 
-
-
 export default function PieDePagina(props:{openLeft: boolean, openRight: boolean, drawerWidth: number}) {
     const {openLeft, openRight, drawerWidth} = props;
     const classes = useStyles();
-    console.log("props",props)
+
     return (
             <footer
                 className={`${classes.root}`}
