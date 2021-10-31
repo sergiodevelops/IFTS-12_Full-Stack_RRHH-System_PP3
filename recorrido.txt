@@ -529,3 +529,5 @@ https://stackoverflow.com/questions/41486296/convert-object-to-array-in-javascri
 
 MIGRAR JAVASCRIPT A TYPESCRIPT
 https://apiumhub.com/es/tech-blog-barcelona/como-migrar-de-javascript-a-typescript/
+https://dev-yakuza.posstree.com/en/react/create-react-app/typescript/
+--> Error: ENOENT: no such file or directory, open '/var/www/html/src/index.jsx'
