@@ -13,18 +13,6 @@ import useStyles from "./styles";
 export default function MainTabs() {
     const mainTabValueStore = useSelector((state: RootState) => state.layoutReducers.mainTabValueStore);
     const currentUser = useSelector((state: RootState) => state?.userReducers.currentUser);
-    // const titleTabs = [
-    //     `Bienvenido ${currentUser?.nombre_completo}!`,
-    //
-    //     'CONSULTAS (Postulantes)',
-    //     'CONSULTAS (Solicitantes)',
-    //     'CONSULTAS (Solicitudes)',
-    //     'CONSULTAS (Solicitudes-Postulantes)',
-    //
-    //     'ABM (Solicitudes)',
-    //     'ABM (Datos)',
-    //     'ABM (Antecedentes)',
-    // ]
     const classes = useStyles();
 
     const [menuTab, setMenuTab] = useState("0");
