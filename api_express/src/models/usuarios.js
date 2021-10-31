@@ -32,8 +32,8 @@ module.exports = function(sequelize, DataTypes) {
     fecha_alta: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
-      comment: "Fecha en que se dió de alta el usuario"
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      comment: "Fecha en que se da el alta al usuario"
     }
   }, {
     sequelize,

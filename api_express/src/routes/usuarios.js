@@ -1,15 +1,16 @@
+const UsuarioController = require("../controllers/usuarios");
 module.exports = (app) => {
     const UsuarioController = require("../controllers/usuarios");
-    let router = require("express").Router();
+    const router = require("express").Router();
 
-    // Create a new User in DB
+    // Create a new User in DB if username not exist
     router.post("/create", UsuarioController.create);
-    // Find a User in DB
+    // Login a User in DB by username and password
     router.post("/login", UsuarioController.login);
-    // Delete a User with id
-    /*router.delete("/delete:id", UsuarioController.delete);*/
     // Retrieve all Users
-    /*router.get("/list", UsuarioController.list);*/
+    router.get("/", UsuarioController.findAll);
+    // Retrieve all published Users
+    router.get("/published", UsuarioController.findAllByUserType);
 
     app.use('/api/users', router);
 };
