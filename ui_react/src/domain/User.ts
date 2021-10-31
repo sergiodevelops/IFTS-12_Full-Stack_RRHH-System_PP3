@@ -1,6 +1,6 @@
 export default class User {
     public id: number;
-    public tipo_usuario: string;
+    public tipo_usuario: number;
     public nombre_completo: string;
     public username: string;
     public password: string;
@@ -8,7 +8,7 @@ export default class User {
 
     constructor(
         id: number,
-        tipo_usuario: string,
+        tipo_usuario: number,
         nombre_completo: string,
         username: string,
         password: string,
@@ -16,6 +16,7 @@ export default class User {
     ) {
         this.id = id;
         this.tipo_usuario = tipo_usuario;
+        this.nombre_completo = nombre_completo;
         this.username = username;
         this.password = password;
         this.fecha_alta = fecha_alta;
