@@ -1,10 +1,7 @@
-const usuarioController = require('../controllers/usuarios');
+const generalRoutes = require('../routes/api');
+const userRoutes = require('../routes/usuarios');
 
 module.exports = (app) => {
-    app.get('/api', (req, res) => res.status(200).send({
-        message: 'Example project did not give you access to the api web services',
-    }));
-    //usuarioController
-    app.post('/api/users/create', usuarioController.create);
-    app.post('/api/users/login', usuarioController.login);
+    generalRoutes(app)
+    userRoutes(app)
 };

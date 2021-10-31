@@ -483,6 +483,15 @@ https://business-science.github.io/shiny-production-with-aws-book/https-nginx-do
 verificar si existe un elemento antes de agregarlo (sequelize)
 https://www.it-swarm-es.com/es/javascript/node-sequelize-como-verificar-si-existe-un-elemento-antes-de-agregarlo-confusion-asincronica/1054487752/
 
+recuperar lista de items con filtro y paginación
+https://www.bezkoder.com/node-js-sequelize-pagination-mysql/
+Por ejemplo, hay un total de 8 elementos.
+- { offset: 3 }: omita los primeros 3 elementos, recupere los 5 elementos restantes.
+- { limit: 2 }: recupera los 2 primeros elementos.
+- { offset: 3, limit: 2 }: omita los primeros 3 elementos, recupere el cuarto y quinto elemento.
+
+
+
 RESPUESTAS HTTP
 https://diego.com.es/codigos-de-estado-http
 https://www.lucushost.com/blog/codigos-http-mas-comunes/#Ejemplo_de_codigos_HTTP
