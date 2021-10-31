@@ -26,16 +26,13 @@ export default function Principal() {
     return (
         <>
             {sesionActiva ?
-                (<>
-                    <DoubleSideBar/>
-                    <PieDePagina/>
-                </>) :
-                (<>
+                <DoubleSideBar/> :
+                (<div>
                     {authMode ? <AutenticaUsuarioForm/> : <AltaUsuarioForm/>}
                     <div onClick={handleClick}>
                         <AuthLoginSwitch authMode={authMode}/>
                     </div>
-                </>)
+                </div>)
             }
         </>
     );

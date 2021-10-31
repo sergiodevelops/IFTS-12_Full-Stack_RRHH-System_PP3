@@ -1,11 +1,19 @@
 import React from 'react';
 import useStyles from "./styles";
 
-export default function PieDePagina() {
-    const classes = useStyles();
 
+
+export default function PieDePagina(props:{openLeft: boolean, openRight: boolean, drawerWidth: number}) {
+    const {openLeft, openRight, drawerWidth} = props;
+    const classes = useStyles();
+    console.log("props",props)
     return (
-            <footer className={`${classes.root}`}>
+            <footer
+                className={`${classes.root}`}
+                style={{
+                    paddingLeft: openLeft ? `${drawerWidth+25}px`:`25px`,
+                    paddingRight: openRight ? `${drawerWidth+25}px`:`25px`
+                }}>
                 <p className={`${classes.body}`}>
                     ¿Cómo lo hacemos? Diseñamos el mejor proceso de selección de personal para nuestros clientes eligiendo de entre todos
                     los candidatos los mejores profesionales que se adapten a cada puesto de trabajo.

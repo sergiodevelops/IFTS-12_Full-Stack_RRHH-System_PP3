@@ -29,6 +29,7 @@ import MainTabs from "@web/components/MainTabs/MainTabs";
 import layoutActions from "@redux/actions/layoutActions";
 import SubMenuTabs from "@web/components/SubMenuTabs/SubMenuTabs";
 import useStyles from "./styles";
+import PieDePagina from "@components/PieDePagina/PieDePagina";
 
 
 export default function DoubleSideBar() {
@@ -39,9 +40,11 @@ export default function DoubleSideBar() {
     const dispatch = useDispatch();
     const currentUser = useSelector((state: RootState) => state.userReducers.currentUser);
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
     const [openLeft, setOpenLeft] = React.useState(true);
     const [openRight, setOpenRight] = React.useState(true);
+
     const [subMenuTabValue, setSubMenuTabValue] = React.useState("0");
     const drawerWidth = 240;
 
@@ -52,7 +55,7 @@ export default function DoubleSideBar() {
 
     const AppBar = styled(MuiAppBar, {
         // shouldForwardProp: (prop) => prop !== 'open',
-    })<AppBarProps>(({theme,openLeft,openRight}) => ({
+    })<AppBarProps>(({theme, openLeft, openRight}) => ({
         left: 'auto',
         right: 'auto',
         transition: theme.transitions.create(['margin', 'width'], {
@@ -72,7 +75,7 @@ export default function DoubleSideBar() {
 
     const Main = styled('main', {
         // shouldForwardProp: (prop) => prop !== 'open'
-    })<AppBarProps>(({ theme, openLeft, openRight }) => ({
+    })<AppBarProps>(({theme, openLeft, openRight}) => ({
             flexGrow: 1,
             padding: theme.spacing(3),
             transition: theme.transitions.create('margin', {
@@ -115,13 +118,12 @@ export default function DoubleSideBar() {
         !openLeft && setOpenRight(false);
     }, [openLeft]);
 
-
     const handleLogOut = () => {
         handleClose();
         dispatch(userActions.setCurrentAuthenticatedUser(null));
     };
-    const handleMenu = (e: any) => {
-        setAnchorEl(e.currentTarget);
+    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
         setAnchorEl(null);
@@ -156,7 +158,8 @@ export default function DoubleSideBar() {
                 {/*    />*/}
                 {/*</FormGroup>*/}
                 {/* BARRA AZUL DE ARRIBA*/}
-                <AppBar position="fixed" openLeft={openLeft} openRight={openRight}>
+                <AppBar position="fixed" openLeft={openLeft}
+                        openRight={openRight}>
                     <Toolbar>
                         <IconButton
                             color="inherit"
@@ -168,7 +171,7 @@ export default function DoubleSideBar() {
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" noWrap component="div">
-                            {currentUser?.nombre_completo} {userTypes.map((userType)=>userType.id === currentUser?.tipo_usuario && !!userType.description) || ""}
+                            {currentUser?.nombre_completo} {userTypes.map((userType) => userType.id === currentUser?.tipo_usuario && !!userType.description) || ""}
                         </Typography>
                         {currentUser && (
                             <div>
@@ -197,11 +200,9 @@ export default function DoubleSideBar() {
                                     open={Boolean(anchorEl)}
                                     onClose={handleClose}
                                 >
+                                    {/*<MenuItem onClick={handleClose}>Profile</MenuItem>*/}
                                     <MenuItem
-                                        onClick={handleLogOut}
-                                    >
-                                        LogOut
-                                    </MenuItem>
+                                        onClick={handleLogOut}>LogOut</MenuItem>
                                 </Menu>
                             </div>
                         )}
@@ -294,7 +295,8 @@ export default function DoubleSideBar() {
                         ))}
                     </List>*/}
                 </Drawer>
-                <Main style={{paddingBottom: '150px'}} openLeft={openLeft} openRight={openRight}>
+                <Main style={{paddingBottom: '150px'}} openLeft={openLeft}
+                      openRight={openRight}>
                     {/*header para cada drawer izq y der*/}
                     <DrawerHeaderLeft/>
                     <DrawerHeaderRight/>
@@ -351,6 +353,7 @@ export default function DoubleSideBar() {
                     </List>*/}
                 </Drawer>
             </Box>
+            <PieDePagina {...{openLeft, openRight, drawerWidth}}/>
         </Box>
     );
 }

@@ -7,7 +7,6 @@ export default makeStyles(() => ({
         position: "fixed",
         width: "100%",
         bottom: "0",
-        padding: "0 250px",
     },
     body:{
         textAlign:"justify",
