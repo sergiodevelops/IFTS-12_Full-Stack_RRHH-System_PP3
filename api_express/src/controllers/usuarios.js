@@ -4,23 +4,24 @@
 const Sequelize = require('sequelize');
 const UsuarioModel = require('../models').usuarios;
 const db = require("../models");
+const {where} = require("sequelize");
 const Op = db.Sequelize.Op;
 
 // UsuarioModel.sync({force: true});
 
-const getPagination = (page, size) => {
-    const limit = size ? +size : 3;
+const getPagination = (size, page) => {
+    const limit = size ? +size : 10;
     const offset = page ? page * limit : 0;
 
     return {limit, offset};
 };
 
 const getPagingData = (data, page, limit) => {
-    const {count: totalItems, rows: tutorials} = data;
+    const {count: totalItems, rows: users} = data;
     const currentPage = page ? +page : 0;
     const totalPages = Math.ceil(totalItems / limit);
 
-    return {totalItems, tutorials, totalPages, currentPage};
+    return {totalItems, users, totalPages, currentPage};
 };
 
 // Create and Save a new Tutorial
@@ -130,7 +131,7 @@ exports.login = (req, res) => {
         });
 };
 
-// Retrieve all Users from the database.
+/*// Retrieve all Users from the database.
 exports.findAll = (req, res) => {
     const {page, size, title} = req.query;
     var condition = title ? {title: {[Op.like]: `%${title}%`}} : null;
@@ -146,18 +147,20 @@ exports.findAll = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving tutorials."
+                    err.message || "Some error occurred while retrieving users."
             });
         });
-};
+};*/
 
 // find all published? Users
 exports.findAllByUserType = (req, res) => {
-    const {page, size} = req.query;
-    const {limit, offset} = getPagination(page, size);
+    let {size,page,tipo_usuario} = req.query;
+    const userTypeIsValid = (tipo_usuario > 0 && tipo_usuario < 4) ;
+    const condition = tipo_usuario ? { tipo_usuario: userTypeIsValid ? tipo_usuario : null} : null;
+    const {limit, offset} = getPagination(size,page);
 
     UsuarioModel
-        .findAndCountAll({where: {tipo_usuario: true}, limit, offset})
+        .findAndCountAll({ where: condition, limit, offset })
         .then(data => {
             const response = getPagingData(data, page, limit);
             res.send(response);
@@ -165,7 +168,7 @@ exports.findAllByUserType = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving tutorials."
+                    err.message || "Some error occurred while retrieving users."
             });
         });
 

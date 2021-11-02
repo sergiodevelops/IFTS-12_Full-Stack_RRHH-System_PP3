@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
-import AutenticaUsuarioForm
-    from '@components/AutenticaUsuarioForm/AutenticaUsuarioForm';
-import AltaUsuarioForm from '../../components/AltaUsuarioForm/AltaUsuarioForm';
+import UserAuthForm
+    from '@components/UserAuthForm/UserAuthForm';
+import UserLoginForm from '@components/UserLoginForm/UserLoginForm';
 import DoubleSideBar from "../../components/DoubleSideBar/DoubleSideBar";
 import PieDePagina from "../../components/PieDePagina/PieDePagina";
 import {RootState} from "@redux/reducers/allReducers";
@@ -28,7 +28,7 @@ export default function Principal() {
             {sesionActiva ?
                 <DoubleSideBar/> :
                 (<div>
-                    {authMode ? <AutenticaUsuarioForm/> : <AltaUsuarioForm/>}
+                    {authMode ? <UserAuthForm/> : <UserLoginForm/>}
                     <div onClick={handleClick}>
                         <AuthLoginSwitch authMode={authMode}/>
                     </div>

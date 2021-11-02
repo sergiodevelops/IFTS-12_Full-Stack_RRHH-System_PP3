@@ -295,7 +295,7 @@ export default function DoubleSideBar() {
                         ))}
                     </List>*/}
                 </Drawer>
-                <Main style={{paddingBottom: '150px'}} openLeft={openLeft}
+                <Main style={{paddingBottom: '240px'}} openLeft={openLeft}
                       openRight={openRight}>
                     {/*header para cada drawer izq y der*/}
                     <DrawerHeaderLeft/>

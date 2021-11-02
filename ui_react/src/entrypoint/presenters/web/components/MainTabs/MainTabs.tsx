@@ -9,6 +9,8 @@ import {singlePageContentList} from "@web/constants/mainTabsContent";
 import ISinglePageContentDto
     from "@application/usecases/singlePage/list/ISinglePageContentDto";
 import useStyles from "./styles";
+import TableData from "@components/TableData/TableData";
+import UsuarioService from "@web/services/UsuarioService";
 
 export default function MainTabs() {
     const mainTabValueStore = useSelector((state: RootState) => state.layoutReducers.mainTabValueStore);
@@ -16,6 +18,7 @@ export default function MainTabs() {
     const classes = useStyles();
 
     const [menuTab, setMenuTab] = useState("0");
+
     useEffect(() => {
         setMenuTab(mainTabValueStore);
     }, [mainTabValueStore]);
@@ -26,11 +29,14 @@ export default function MainTabs() {
                 {
                     singlePageContentList
                         .map((content: ISinglePageContentDto, index: number) => {
-                            return <TabPanel value={index.toString()}>
-                                <Typography variant={"h6"} noWrap component={"div"} textAlign={'center'}>
+                            return <TabPanel key={`singlePageContentList-${index}`} value={index.toString()}>
+                                <Typography variant={"h6"} noWrap
+                                            component={"div"}
+                                            textAlign={'center'}>
                                     {index === 0 ? `${content.title} ${currentUser?.nombre_completo}!` : content.title}
                                 </Typography>
                                 <p>{content.body}</p>
+                                <TableData valueTabQueryExec={menuTab}/>
                             </TabPanel>
                         })
                 }

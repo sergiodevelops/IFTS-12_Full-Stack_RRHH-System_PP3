@@ -1,6 +1,10 @@
-import IUserCreateReqDto from "@application/usecases/user/create/IUserCreateReqDto";
+import IUserCreateReqDto
+    from "@application/usecases/user/create/IUserCreateReqDto";
 import IUserLoginReqDto
     from "@application/usecases/user/login/IUserLoginReqDto";
+import IPaginationSetDto
+    from "@application/usecases/pagination/set/IPaginationSetDto";
+import IFilterSetDto from "@application/usecases/filter/add/IFilterSetDto";
 
 type ApiResponse = {
     name: string;
@@ -8,12 +12,12 @@ type ApiResponse = {
 }
 
 export default class BaseService {
-    private static API_HOST = process.env.REACT_APP_API_HOST || "http://localhost:4005";
+    private static API_HOST = process.env.REACT_APP_API_HOST || "http://localhost:4005/api";
     private readonly api_url;
     private readonly headers;
     private readonly resource;
 
-    constructor(resource:string) {
+    constructor(resource: string) {
         this.resource = resource;
         this.api_url = `${BaseService.API_HOST}`;
         this.headers = new Headers();
@@ -33,7 +37,7 @@ export default class BaseService {
     }
 
     async create(baseModel: IUserCreateReqDto) {
-        const url = `${this.api_url}/api/${this.getResource()}/create`;
+        const url = `${this.api_url}/${this.getResource()}/create`;
 
         const params = {
             method: "POST",
@@ -65,7 +69,7 @@ export default class BaseService {
     }
 
     async login(baseModel: IUserLoginReqDto) {
-        const url = `${this.api_url}/api/${this.getResource()}/login`;
+        const url = `${this.api_url}/${this.getResource()}/login`;
 
         const params = {
             method: "POST",
@@ -82,6 +86,87 @@ export default class BaseService {
         }
 
         const results = await fetch(url, params)
+            .then((resp: Response) => {
+                checkResp(resp);
+                return resp.json();
+            })
+            .catch(throwError);
+
+        if (typeof results === 'undefined' || results.errors) {
+            if (typeof results === 'undefined') throw Error(`La API REST se encunetra fuera de servicio, puede comprobar su funcionamiento ingresando a ${this.api_url}`);
+            return null;
+        }
+
+        return results;
+    }
+
+    /*async findAll(pagination: Pagination, filters: Filter) {
+        let url = new URL(`${this.api_url}/${this.getResource()}`);
+        const filtersAny: any = filters.filters;
+
+        Object.keys(filtersAny).forEach(key => {
+            if (filtersAny[key] !== undefined && filtersAny[key] !== "") {
+                const filterString = filtersAny[key].toString();
+                url.searchParams.append(key, filterString);
+            }
+        });
+        url.searchParams.append("size", pagination.limit.toString());
+        url.searchParams.append("page", pagination.getCurrentPage().toString());
+
+        const params = {
+            method: "GET",
+            headers: this.headers,
+        };
+
+        const checkResp = (resp: Response) => {
+            if (resp.status !== 200) throw resp.json();
+        }
+
+        const throwError = (err: ApiResponse) => {
+            throw err;
+        }
+
+        const results = await fetch(url, params)
+            .then((resp: Response) => {
+                checkResp(resp);
+                return resp.json();
+            })
+            .catch(throwError);
+
+        if (typeof results === 'undefined' || results.errors) {
+            if (typeof results === 'undefined') throw Error(`La API REST se encunetra fuera de servicio, puede comprobar su funcionamiento ingresando a ${this.api_url}`);
+            return null;
+        }
+
+        return results;
+    }*/
+
+    async findAllByUserType(pagination?: IPaginationSetDto, filters?: IFilterSetDto[]) {
+        console.log("pagination",pagination);
+        let url = new URL(`${this.api_url}/${this.getResource()}`);
+        pagination?.size && url.searchParams.append("size", pagination?.size);
+        pagination?.page && url.searchParams.append("page", pagination?.page);
+        !!filters?.length && filters.map((filter: IFilterSetDto )=>{
+            if(!!filter.key && !!filter.value) {
+                console.log("filter", filter);
+                url.searchParams.append(filter.key, filter.value);
+            }
+        })
+
+        const params = {
+            method: "GET",
+            headers: this.headers,
+        };
+
+        const checkResp = (resp: Response) => {
+            if (resp.status !== 200) throw resp.json();
+        }
+
+        const throwError = (err: ApiResponse) => {
+            throw err;
+        }
+
+        const results = await fetch(url.toString(), params)
             .then((resp: Response) => {
                 checkResp(resp);
                 return resp.json();

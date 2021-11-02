@@ -540,3 +540,13 @@ MIGRAR JAVASCRIPT A TYPESCRIPT
 https://apiumhub.com/es/tech-blog-barcelona/como-migrar-de-javascript-a-typescript/
 https://dev-yakuza.posstree.com/en/react/create-react-app/typescript/
 --> Error: ENOENT: no such file or directory, open '/var/www/html/src/index.jsx'
+
+OCULTAR ELEMENTOS MATERIAL-UI MUI
+https://mui.com/system/screen-readers/
+https://stackoverflow.com/questions/57722093/no-overload-matches-this-call-type-string-is-not-assignable-to-type-signals
+
+TABLAS CONTENIDO MATERIAL UI
+https://mui.com/components/tables/#sorting-amp-selecting
+
+CONVERT ARRAY TO ARGUMENTS JAVASCRIPT
+https://stackoverflow.com/questions/1316371/converting-an-array-to-a-function-arguments-list

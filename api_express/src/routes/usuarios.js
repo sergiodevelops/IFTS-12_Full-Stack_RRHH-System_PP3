@@ -8,9 +8,9 @@ module.exports = (app) => {
     // Login a User in DB by username and password
     router.post("/login", UsuarioController.login);
     // Retrieve all Users
-    router.get("/", UsuarioController.findAll);
+    // router.get("/", UsuarioController.findAll);
     // Retrieve all published Users
-    router.get("/published", UsuarioController.findAllByUserType);
+    router.get("/", UsuarioController.findAllByUserType);
 
     app.use('/api/users', router);
 };

@@ -15,9 +15,10 @@ import UsuarioService from "../../services/UsuarioService";
 import useStyles from "./styles";
 import IUserCreateReqDto from "@application/usecases/user/create/IUserCreateReqDto";
 
-export default function AltaUsuarioForm() {
-    const buttonRef = useRef<HTMLButtonElement>(null);
+export default function UserLoginForm() {
     const usuarioService = new UsuarioService();
+
+    const buttonRef = useRef<HTMLButtonElement>(null);
     const dispatch = useDispatch();
     // const usersListStore = useSelector((state) => state?.userReducers.usersList);
     const classes = useStyles();

@@ -12,9 +12,10 @@ import UsuarioService from "../../services/UsuarioService";
 import useStyles from "./styles";
 import allActions from "@redux/actions";
 
-export default function AutenticaUsuarioForm() {
-    const buttonRef = useRef<HTMLButtonElement>(null);
+export default function UserAuthForm() {
     const usuarioService = new UsuarioService();
+
+    const buttonRef = useRef<HTMLButtonElement>(null);
     const classes = useStyles();
     const dispatch = useDispatch();
     // const usersListStore = useSelector((state) => state.userReducers.usersList);
