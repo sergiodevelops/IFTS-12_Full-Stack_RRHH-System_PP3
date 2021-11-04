@@ -13,11 +13,12 @@ import userActions from "../../redux/actions/userActions";
 import userTypes from "../../constants/userTypes";
 import UsuarioService from "../../services/UsuarioService";
 import useStyles from "./styles";
-import IUserCreateReqDto from "@application/usecases/user/create/IUserCreateReqDto";
+import IUserCreateReqDto
+    from "@application/usecases/user/create/IUserCreateReqDto";
 import IUserUpdateReqDto
     from "@application/usecases/user/update/IUserUpdateReqDto";
 
-export default function UserModDeleteForm(props:{
+export default function UserModDeleteForm(props: {
     registerFormTitle: string,
     currentQueryUser: IUserUpdateReqDto,
 }) {
@@ -41,6 +42,8 @@ export default function UserModDeleteForm(props:{
     const [userExistInDB, setUserExistInDB] = useState(false);
     const [showPassword1, setShowPassword1] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
+    // const currentUserType = React.useState(userTypes.map((userType) => userType.id === currentQueryUser?.tipo_usuario && userType) || userTypes[0]);
+    const currentUserType = userTypes.find(element => element.id === currentQueryUser?.tipo_usuario);
 
     const handleClickShowPassword1 = () => setShowPassword1(!showPassword1);
     const handleClickShowPassword2 = () => setShowPassword2(!showPassword2);
@@ -117,10 +120,10 @@ export default function UserModDeleteForm(props:{
             });
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         const newState = !!currentQueryUser ? currentQueryUser : emptyUserModify;
-            setReplaceOrDeleteUser(newState);
-    },[currentQueryUser])
+        setReplaceOrDeleteUser(newState);
+    }, [currentQueryUser])
 
 
     return (
@@ -137,9 +140,9 @@ export default function UserModDeleteForm(props:{
                                 <Autocomplete
                                     className={`tipo_usuario`}
                                     disabled={!replaceOrDeleteUser}
-                                    options={userTypes}
+                                    options={userTypes || []}
                                     getOptionLabel={(option) => option.description || ""}
-                                    // value={newUser?. || ""}
+                                    defaultValue={currentUserType ? currentUserType : userTypes[0]}
                                     onChange={(e: React.ChangeEvent<{}>, selectedOption) => setReplaceOrDeleteUser({
                                         ...replaceOrDeleteUser,
                                         tipo_usuario: selectedOption?.id || 0,
