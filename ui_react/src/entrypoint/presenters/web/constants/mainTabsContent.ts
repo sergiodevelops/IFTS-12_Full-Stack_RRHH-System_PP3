@@ -16,26 +16,31 @@ export const singlePageContentList = [
     },
     {
         tabValue: "3",
-        title: "Solicitudes",
+        title: "Administrativos",
         body: ""
     },
     {
         tabValue: "4",
-        title: "Solicitudes-Postulantes",
-        body: ""
-    },
-    {
-        tabValue: "5",
         title: "Solicitudes",
         body: ""
     },
     {
+        tabValue: "5",
+        title: "Solicitudes-Postulantes",
+        body: ""
+    },
+    {
         tabValue: "6",
-        title: "Datos",
+        title: "Solicitudes",
         body: ""
     },
     {
         tabValue: "7",
+        title: "Datos",
+        body: ""
+    },
+    {
+        tabValue: "8",
         title: "Antecedentes",
         body: ""
     },

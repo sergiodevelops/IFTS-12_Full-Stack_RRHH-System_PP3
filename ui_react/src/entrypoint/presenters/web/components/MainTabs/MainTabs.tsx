@@ -10,6 +10,7 @@ import ISinglePageContentDto
     from "@application/usecases/singlePage/list/ISinglePageContentDto";
 import useStyles from "./styles";
 import TableData from "@components/TableData/TableData";
+import Building from "@components/Building/Building";
 
 export default function MainTabs() {
     const mainTabValueStore = useSelector((state: RootState) => state.layoutReducers.mainTabValueStore);
@@ -44,6 +45,7 @@ export default function MainTabs() {
                                         }
                                     </Typography>
                                     <p>{content.body}</p>
+                                    {index>3 && <Building/>}
                                     <TableData valueTabQueryExec={menuTab}/>
                                 </TabPanel>
                             )

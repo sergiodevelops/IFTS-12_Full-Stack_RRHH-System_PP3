@@ -40,6 +40,7 @@ export default function SubMenuTabs() {
                         {[
                             'Postulantes',
                             'Solicitantes',
+                            'Administrativos',
                             'Solicitudes',
                             'Solicitudes-Postulantes',
                         ].map((text, index) => (

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {styled, useTheme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -30,7 +30,7 @@ import layoutActions from "@redux/actions/layoutActions";
 import SubMenuTabs from "@web/components/SubMenuTabs/SubMenuTabs";
 import useStyles from "./styles";
 import PieDePagina from "@components/PieDePagina/PieDePagina";
-import {useResizeDetector} from "react-resize-detector";
+// import {useResizeDetector} from "react-resize-detector";
 
 
 export default function DoubleSideBar() {
@@ -57,6 +57,12 @@ export default function DoubleSideBar() {
 
     const [openLeft, setOpenLeft] = React.useState(true);
     const [openRight, setOpenRight] = React.useState(true);
+    const currentUserType = React.useState(userTypes.map(
+        (userType) => {
+            if (userType.id === currentUser?.tipo_usuario && !!userType.description) return (userType.description);
+            return ("")
+        }
+    ));
 
     const [subMenuTabValue, setSubMenuTabValue] = React.useState("0");
     const drawerWidth = 240;
@@ -134,7 +140,7 @@ export default function DoubleSideBar() {
 
     const handleClickMenu = (index: number) => {
         setSubMenuTabValue((index + 1).toString());
-        dispatch(layoutActions.setMainTabValue(index>0 ? '3' : '2'));
+        dispatch(layoutActions.setMainTabValue(index > 0 ? '6' : '1'));
     };
     const handleLogOut = () => {
         handleClose();
@@ -193,7 +199,7 @@ export default function DoubleSideBar() {
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" noWrap component="div">
-                            {currentUser?.nombre_completo} {userTypes.map((userType) => userType.id === currentUser?.tipo_usuario && !!userType.description) || ""}
+                                {currentUser?.nombre_completo} ({currentUserType})
                         </Typography>
                         {currentUser && (
                             <div>
@@ -293,7 +299,7 @@ export default function DoubleSideBar() {
                                     <ListItem
                                         button
                                         key={`${text}-${index}`}
-                                        onClick={()=>handleClickMenu(index)}
+                                        onClick={() => handleClickMenu(index)}
                                     >
                                         {/*<ListItemIcon>
                                     {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
