@@ -270,7 +270,7 @@ export default function DoubleSideBar() {
                     <Divider/>
                     <div onClick={handleDrawerOpenRight}>
                         {
-                            (currentUser?.tipo_usuario === 3 /*postulante*/) &&
+                            (currentUser?.tipo_usuario === 3 || currentUser?.tipo_usuario === 2 /*postulante*/) &&
                             <List>
                                 {[
                                     'Datos Personales',
@@ -279,7 +279,11 @@ export default function DoubleSideBar() {
                                     'Idiomas',
                                     'Conocimientos',
                                 ].map((text: string/*, index: number*/) => (
-                                    <ListItem button key={text}>
+                                    <ListItem
+                                        key={text}
+                                        button
+                                        disabled
+                                    >
                                         {/*<ListItemIcon>
                                     {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
                                 </ListItemIcon>*/}
@@ -290,7 +294,7 @@ export default function DoubleSideBar() {
                         }
 
                         {
-                            (currentUser?.tipo_usuario === 1 || currentUser?.tipo_usuario === 2 /* administrativo (selector) o solicitante */) &&
+                            (currentUser?.tipo_usuario === 1 /* administrativo (selector) o solicitante */) &&
                             <List>
                                 {[
                                     'CONSULTAS',
