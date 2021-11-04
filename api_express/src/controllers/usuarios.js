@@ -24,7 +24,7 @@ const getPagingData = (data, page, limit) => {
     return {totalItems, users, totalPages, currentPage};
 };
 
-// Create and Save a new Tutorial
+// ALTA (crea nuevo usuario)
 exports.create = (req, res) => {
     // Validate "tipo_usuario"
     if (!req.body.tipo_usuario) {
@@ -90,8 +90,7 @@ exports.create = (req, res) => {
         });
 };
 
-
-// login User (hace un "findOne")
+// LOGIN (recupera si existe el usuario que coincida por username y pass)
 exports.login = (req, res) => {
     // Validate "username"
     if (!req.body.username) {
@@ -131,12 +130,12 @@ exports.login = (req, res) => {
         });
 };
 
-/*// Retrieve all Users from the database.
-exports.findAll = (req, res) => {
-    const {page, size, title} = req.query;
-    var condition = title ? {title: {[Op.like]: `%${title}%`}} : null;
-
-    const {limit, offset} = getPagination(page, size);
+// CONSULTA (obtiene los usuarios segun filtros)
+exports.findAllByUserType = (req, res) => {
+    let {size, page, tipo_usuario} = req.query;
+    const userTypeIsValid = (tipo_usuario > 0 && tipo_usuario < 4);
+    const condition = tipo_usuario ? {tipo_usuario: userTypeIsValid ? tipo_usuario : null} : null;
+    const {limit, offset} = getPagination(size, page);
 
     UsuarioModel
         .findAndCountAll({where: condition, limit, offset})
@@ -150,27 +149,81 @@ exports.findAll = (req, res) => {
                     err.message || "Some error occurred while retrieving users."
             });
         });
-};*/
 
-// find all published? Users
-exports.findAllByUserType = (req, res) => {
-    let {size,page,tipo_usuario} = req.query;
-    const userTypeIsValid = (tipo_usuario > 0 && tipo_usuario < 4) ;
-    const condition = tipo_usuario ? { tipo_usuario: userTypeIsValid ? tipo_usuario : null} : null;
-    const {limit, offset} = getPagination(size,page);
+    // other CRUD functions
+};
+
+// MODIFICACIÓN DE USUARIO COMPLETO (reemplazo)
+exports.update = (req, res) => {
+    const id = req.params.id;
 
     UsuarioModel
-        .findAndCountAll({ where: condition, limit, offset })
+        .update(req.body, {where: {id: id}})
         .then(data => {
-            const response = getPagingData(data, page, limit);
-            res.send(response);
+            if (data == 1) {
+                res.send({
+                    message: "User was updated successfully."
+                });
+            } else {
+                res.send({
+                    message: `Cannot update Tutorial with id=${id}. Maybe User was not found or req.body is empty!`
+                });
+            }
         })
         .catch(err => {
             res.status(500).send({
-                message:
-                    err.message || "Some error occurred while retrieving users."
+                message: "Error updating User with id=" + id + err.message
             });
         });
+};
 
-    // other CRUD functions
+// MODIFICACIÓN DE USUARIO PARCIAL (actualización)
+exports.replace = (req, res) => {
+    const {id} = req.query;
+
+    UsuarioModel
+        .update(
+            req.body,
+            {where: {id: id}})
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "User was updated successfully."
+                });
+            } else {
+                res.send({
+                    message: `Cannot update Tutorial with id=${id}. Maybe User was not found or req.body is empty!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating User with id=" + id
+            });
+        });
+};
+
+// BAJA (elimina el usuario)
+exports.delete = (req, res) => {
+    const {id} = req.query;
+
+    UsuarioModel.destroy({
+        where: { id: id }
+    })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "User was deleted successfully!" + id
+                });
+            } else {
+                res.send({
+                    message: `Cannot delete User with id=${id}. Maybe User was not found!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Could not delete User with id=" + id
+            });
+        });
 };

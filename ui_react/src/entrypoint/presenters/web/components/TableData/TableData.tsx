@@ -29,6 +29,18 @@ import IUserFindResDto from "@application/usecases/user/find/IUserFindResDto";
 import IUserLoginResDto
     from "@application/usecases/user/login/IUserLoginResDto";
 import Grid from "@material-ui/core/Grid";
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import useStyles from "@components/TableData/styles";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "@redux/reducers/allReducers";
+import ISinglePageContentDto
+    from "@application/usecases/singlePage/list/ISinglePageContentDto";
+import useWindowDimensions from "@components/customHooks/useWindowDimensions";
+import BasicModal from "@components/BasicModal/BasicModal";
+import layoutActions from "@redux/actions/layoutActions";
+import userActions from "@redux/actions/userActions";
+
 
 /*interface Data {
     calories: number;
@@ -274,21 +286,33 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 };
 
 export default function TableData(props: { valueTabQueryExec: string }) {
+    const dispatch = useDispatch();
+
+    const classes = useStyles();
+    const currentUser = useSelector((state: RootState) => state?.userReducers.currentUser);
+    const {viewportHeight} = useWindowDimensions();
+    const currentMainTabHeight = useSelector((state: RootState) => state.layoutReducers);
+    const [minHeightTable, setMinHeightTable] = useState<number>(600);
+
     const {valueTabQueryExec} = props;
-    const [order, setOrder] = React.useState<Order>('asc');
-    const [orderBy, setOrderBy] = React.useState<string/*keyof Data*/>('calories');
-    const [selected, setSelected] = React.useState<readonly string[]>([]);
-    const [dense, setDense] = React.useState(false);
+    const [order, setOrder] = useState<Order>('asc');
+    const [orderBy, setOrderBy] = useState<string/*keyof Data*/>('calories');
+    const [selected, setSelected] = useState<readonly string[]>([]);
+    const [dense, setDense] = useState<boolean>(false);
 
     const [headCells, setHeadCells] = useState<HeadCell[] | undefined>();
     const [rows, setRows] = useState<IUserLoginResDto[]>([]);
-    const paginationDefault = {size: '10', page: '0'};
+    const paginationDefault = {size: 1, page: -1};
     const [pagination, setPagination] = useState<IPaginationSetDto>(paginationDefault);
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const [arrowPage, setArrowPage] = useState<number>(0);
+    const [intervalPage, setIntervalPage] = useState<number>(1);
+    const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+    const [totalPages, setTotalPages] = useState<number>(0);
+    const [totalItems, setTotalItems] = useState<number>(0);
     const [filters, setFilters] = useState<IFilterSetDto[] | undefined>();
-    const [totalPages, setTotalPages] = useState<string>('0');
-    const [totalItems, setTotalItems] = useState<string>('0');
+    const [currentQueryUser, setCurrentQueryUser] = useState<IUserLoginResDto | undefined>();
+
 
     const getUsersByFilters = (
         pagination?: IPaginationSetDto,
@@ -297,7 +321,7 @@ export default function TableData(props: { valueTabQueryExec: string }) {
         const usuarioService = new UsuarioService();
         usuarioService.findAllByUserType(pagination, filters)
             .then((response: IUserFindResDto) => {
-                // console.log("response", response);
+                console.log("response", response);
                 const {users, totalPages, totalItems, currentPage} = response;
                 if (!!users.length) {
                     const titles = Object.keys(users[0]);
@@ -312,11 +336,12 @@ export default function TableData(props: { valueTabQueryExec: string }) {
 
                     setHeadCells(headCells); // titulos header tabla columna  (header table)
                     setRows(users);
-                    setTotalPages(totalPages.toString());
-                    setTotalItems(totalItems.toString());
+                    setTotalPages(totalPages);
+                    console.log("totalPages", totalPages)
+                    setTotalItems(totalItems);
                     setPagination({
-                        size: users.length.toString(),
-                        page: currentPage.toString(),
+                        size: users.length,
+                        page: currentPage,
                     });
                 }
             })
@@ -327,6 +352,11 @@ export default function TableData(props: { valueTabQueryExec: string }) {
                     }
                 )
             });
+    }
+    const handleTableBodyRowClick = (row: any) => {
+        console.log("registro click", row);
+        setCurrentQueryUser(row);
+        dispatch(layoutActions.setOpenModal(true));
     }
 
     const handleRequestSort = (
@@ -364,64 +394,100 @@ export default function TableData(props: { valueTabQueryExec: string }) {
         }
         setSelected(newSelected);
     };
-    const handleChangePage = (event: unknown, newPage: number) => {
-        setPage(newPage);
+    const handleArrowChangePage = (intervalPage: number) => { // -5 , + 5 , +1 , -1
+        const sumatoria = currentPage + intervalPage;
+        const validateNewPage = (): boolean => {
+            return (sumatoria >= 0 && sumatoria <= totalPages) // dentro del rango valido? [0,lim]
+        };
+        const calcNewPage = (): number => {
+            if (!validateNewPage()) { // si se fue del rango poner al inicio o al final
+                return (sumatoria < 0 ? 0 : totalPages);
+            }
+            return (sumatoria);
+        };
+        validateNewPage() && setCurrentPage(calcNewPage());
+        console.log(
+            "currentPageHook", currentPage,
+            "intervalPage", intervalPage,
+            "totalPages", totalPages,
+            "validateNewPage?", validateNewPage(),
+            "calcNewPage", calcNewPage()
+        );
+    };
+    const handleChangePage = (e: unknown, newPage: number) => {
+        setCurrentPage(newPage);
     };
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-        setPagination({...pagination, page: '0'})
+        setCurrentPage(0);
+        setPagination({...pagination, page: 0})
     };
     const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDense(event.target.checked);
     };
     const isSelected = (name: string) => selected.indexOf(name) !== -1;
     // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    const emptyRows = currentPage > 0 ? Math.max(0, (1 + currentPage) * rowsPerPage - rows.length) : 0;
 
     useEffect(() => {
-        let filters;
-        let pagination;
-        switch (valueTabQueryExec) {
-            case '0':
-                // SP bienvenida !!
-                break;
-            case '1':
-                // SP CONSULTAS (Postulantes)
-                filters = [{key: 'tipo_usuario', value: '3'}];
-                getUsersByFilters(undefined,filters);
-                break;
-            case '2':
-                // SP CONSULTAS (Solicitantes)
-                filters = [{key: 'tipo_usuario', value: '2'}];
-                getUsersByFilters(undefined,filters);
-                break;
-            case '3':
-                // SP CONSULTAS (Solicitudes)
+        setMinHeightTable(currentMainTabHeight.footerDimensions.height - 64);
+    }, [currentMainTabHeight])
 
-                break;
-            case '4':
-                // SP CONSULTAS (Solicitudes-Postulantes)
+    useEffect(() => {
+        handleArrowChangePage(arrowPage); // si alguna flecha seteo el arrowPage
+    }, [arrowPage])
 
-                break;
-            case '5':
-                // SP ABM (Solicitudes)
+    useEffect(() => {
+        setCurrentPage(pagination.page);
+    }, [pagination.page])
 
-                break;
-            case '6':
-                // SP ABM (Datos)
+    useEffect(() => {
+        if (currentPage !== pagination.page && currentPage >= 0) {
+            let filters;
+            let pagination;
+            switch (valueTabQueryExec) {
+                case '0':
+                    // SP bienvenida !!
+                    break;
+                case '1':
+                    // SP CONSULTAS (Postulantes)
+                    pagination = {size: 2, page: currentPage };
+                    // filters = [{key: 'tipo_usuario', value: '3'}];
+                    getUsersByFilters(pagination, filters);
+                    break;
+                case '2':
+                    // SP CONSULTAS (Solicitantes)
+                    pagination = {size: 7, page: currentPage};
+                    filters = [{key: 'tipo_usuario', value: '2'}];
+                    getUsersByFilters(pagination, filters);
+                    break;
+                case '3':
+                    // SP CONSULTAS (Solicitudes)
 
-                break;
-            case '7':
-                // SP ABM (Antecedentes)
+                    break;
+                case '4':
+                    // SP CONSULTAS (Solicitudes-Postulantes)
 
-                break;
-            default:
-                // default
-                setRows([]);
-                break;
+                    break;
+                case '5':
+                    // SP ABM (Solicitudes)
+
+                    break;
+                case '6':
+                    // SP ABM (Datos)
+
+                    break;
+                case '7':
+                    // SP ABM (Antecedentes)
+
+                    break;
+                default:
+                    // default
+                    setRows([]);
+                    break;
+            }
         }
-    }, []); // si cambio contenido de tabla se actualiza el mismo para mostrar en la tabla
+    }, [currentPage]); // si cambio contenido de tabla se actualiza el mismo para mostrar en la tabla
 
     // const findAllUsers = (
     //     service: Function,
@@ -451,132 +517,87 @@ export default function TableData(props: { valueTabQueryExec: string }) {
     // }
 
     return (
-        !rows.length ? // si hay contenido para mostrar en la tabla
-            (<Box sx={{width: '100%'}}>
-                <Paper sx={{width: '100%', mb: 2}}>
-                    <EnhancedTableToolbar numSelected={selected.length}/>
-                    <TableContainer>
-                        <Table
-                            sx={{minWidth: 750}}
-                            aria-labelledby="tableTitle"
-                            size={dense ? 'small' : 'medium'}
-                        >
-                            <EnhancedTableHead
-                                numSelected={selected.length}
-                                order={order}
-                                orderBy={orderBy}
-                                onSelectAllClick={handleSelectAllClick}
-                                onRequestSort={handleRequestSort}
-                                rowCount={rows.length}
-                                headCells={headCells}
-                            />
-                            <TableBody>
-                                {
-                                    stableSort(rows, getComparator(order, orderBy))
-                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map((row: IUserLoginResDto, index: number) => {
-                                            const isItemSelected = isSelected(row.nombre_completo);
-                                            const labelId = `enhanced-table-checkbox-${index}`;
+        !!rows.length ? // si hay contenido para mostrar en la tabla
+            <Grid container className={`${classes.root}`}>
+                <Grid
+                    className={`${classes.arrowChangeQueryPage}`}
+                    onClick={() => handleArrowChangePage(-intervalPage)}
+                    item xs={1}
+                >
+                    <ArrowLeftIcon fontSize={'large'}/>
+                </Grid>
 
-                                            return (
-                                                <TableRow
-                                                    hover
-                                                    onClick={(event: React.MouseEvent<HTMLTableRowElement>) => handleClick(event, row.nombre_completo)}
-                                                    role="checkbox"
-                                                    aria-checked={isItemSelected}
-                                                    tabIndex={-1}
-                                                    key={`${row.nombre_completo}-${index}`}
-                                                    selected={isItemSelected}
-                                                >
-                                                    <TableCell
-                                                        padding="checkbox">
-                                                        <Checkbox
-                                                            color="primary"
-                                                            // checked={isItemSelected}
-                                                            inputProps={{
-                                                                'aria-labelledby': labelId,
-                                                            }}
-                                                        />
-                                                    </TableCell>
-
-                                                    <TableCell
-                                                        component="th"
-                                                        id={labelId}
-                                                        scope="row"
-                                                        padding="none"
-                                                    >
-                                                        {row.nombre_completo}
-                                                    </TableCell>
-
-                                                    <TableCell
-                                                        align="right">{row}</TableCell>
-                                                    <TableCell
-                                                        align="right">{row}</TableCell>
-                                                    <TableCell
-                                                        align="right">{row}</TableCell>
-                                                    <TableCell
-                                                        align="right">{row}</TableCell>
-                                                </TableRow>
-                                            );
-                                        })}
-                                {emptyRows > 0 && (
-                                    <TableRow
-                                        style={{
-                                            height: (dense ? 33 : 53) * emptyRows,
-                                        }}
-                                    >
-                                        <TableCell colSpan={6}/>
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[5, 10, 25]}
-                        component="div"
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage} //
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                </Paper>
-                <FormControlLabel
-                    control={<Switch checked={dense}
-                                     onChange={handleChangeDense}/>}
-                    label="Dense padding"
-                />
-            </Box>) ://: <div>No hay resultados para mostrar</div>
-
-            <Grid container className={'table'}>
-                {Object.keys(rows[0])
-                    .map((cell: string, index: number) =>
-                        <Grid
-                            style={{width: `${100 / Object.keys(rows[0]).length}%`}}
-                            className={'cell'}
-                            item
-                            key={`fefa-${index}`}
-                        >{cell}</Grid>)}
-                {rows.map((row: IUserLoginResDto, index: number) => {
-                    return (
-                        <Grid
-                            container
-                            className={'row'}
-                            style={{width: '100%'}}
-                            key={`fafa-${index}`}
-                        >
-                            {Object
-                                .values(row)
+                <Grid
+                    item xs={10}
+                    style={{
+                        minHeight: viewportHeight && minHeightTable ?
+                            `${viewportHeight - minHeightTable - 64 * 2}px` :
+                            '100vh'
+                    }}
+                    className={classes.queryTable}
+                >
+                    <Grid
+                        key={`tableHeadRow`}
+                        container
+                        className={'tableHeadRow'}
+                        style={{width: '100%', background: '#2a77d263'}}
+                    >
+                        {
+                            Object
+                                .keys(rows[0])
                                 .map((cell: string, index: number) =>
                                     <Grid
-                                        style={{width: `${100 / Object.keys(row).length}%`}}
-                                        className={'cell'}
+                                        key={`tableHeadCell-${index}`}
                                         item
-                                        key={`fefa-${index}`}
-                                    >{cell}</Grid>)}
-                        </Grid>
-                    )
-                })}
-            </Grid>
+                                        style={{
+                                            width: `${100 / Object.keys(rows[0]).length}%`,
+                                        }}
+                                        className={'tableHeadCell'}
+                                    >{cell}</Grid>)
+                        }
+                    </Grid>
+
+                    {
+                        rows
+                            .map((row: IUserLoginResDto, index: number) => {
+                                return (
+                                    <Grid
+                                        key={`tableBodyRow-${index}`}
+                                        onClick={() => {
+                                            handleTableBodyRowClick(row)
+                                        }}
+                                        container
+                                        className={'row'}
+                                        style={{
+                                            width: '100%',
+                                            background: index % 2 == 0 ? '#b6b6b6' : '#eaeaea',
+                                        }}
+                                    >
+                                        {Object
+                                            .values(row)
+                                            .map((cell: string, index: number) =>
+                                                <Grid
+                                                    key={`tableBodyCell-${index}`}
+                                                    style={{width: `${100 / Object.keys(row).length}%`}}
+                                                    className={'cell'}
+                                                    item
+                                                >{cell}</Grid>)}
+                                    </Grid>
+                                )
+                            })
+                    }
+                </Grid>
+                <Grid
+                    className={`${classes.arrowChangeQueryPage}`}
+                    onClick={() => handleArrowChangePage(+intervalPage)}
+                    item xs={1}
+                >
+                    <ArrowRightIcon
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        fontSize={'large'}/>
+                </Grid>
+                {currentQueryUser &&
+                <BasicModal currentQueryUser={currentQueryUser}/>}
+            </Grid> : null
     );
 }

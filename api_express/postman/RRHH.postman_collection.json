@@ -11,7 +11,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4005/api/users?size=1&page=0&tipo_usuario=3",
+					"raw": "http://localhost:4005/api/users",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -24,18 +24,21 @@
 					"query": [
 						{
 							"key": "size",
-							"value": "1",
-							"description": "maxima cantidad a obtener"
+							"value": "14",
+							"description": "maxima cantidad a obtener por pagina default (10)",
+							"disabled": true
 						},
 						{
 							"key": "page",
 							"value": "0",
-							"description": "numero de pagina a obtener"
+							"description": "numero de pagina a obtener su contenido default (0)",
+							"disabled": true
 						},
 						{
 							"key": "tipo_usuario",
-							"value": "3",
-							"description": "filtra por tipo de usuario"
+							"value": "4",
+							"description": "filtra por tipo de usuario",
+							"disabled": true
 						}
 					]
 				}
@@ -132,6 +135,76 @@
 						"api",
 						"users",
 						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": ".../api/users",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"tipo_usuario\": 2,\n            \"nombre_completo\": \"cuchuflo\",\n            \"username\": \"sjuarez\",\n            \"password\": \"1111\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4005/api/users?id=6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4005",
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": ".../api/users",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"tipo_usuario\": 2,\n            \"nombre_completo\": \"cuchuflo\",\n            \"username\": \"sjuarez\",\n            \"password\": \"1111\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4005/api/users?id=6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4005",
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "6"
+						}
 					]
 				}
 			},

@@ -1,34 +1,42 @@
 export const singlePageContentList = [
     {
+        tabValue: "0",
         title: "Bienvenido",
         body: ""
     },
     {
-        title: "CONSULTAS (Postulantes)",
-        body: "Postulantes"
+        tabValue: "1",
+        title: "Postulantes",
+        body: ""
     },
     {
-        title: "CONSULTAS (Solicitantes)",
-        body: "Solicitantes"
+        tabValue: "2",
+        title: "Solicitantes",
+        body: ""
     },
     {
-        title: "CONSULTAS (Solicitudes)",
-        body: "Solicitudes"
+        tabValue: "3",
+        title: "Solicitudes",
+        body: ""
     },
     {
-        title: "CONSULTAS (Solicitudes-Postulantes)",
-        body: "Solicitudes DE Postulantes"
+        tabValue: "4",
+        title: "Solicitudes-Postulantes",
+        body: ""
     },
     {
-        title: "ABM (Solicitudes)",
-        body: "Solicitudes"
+        tabValue: "5",
+        title: "Solicitudes",
+        body: ""
     },
     {
-        title: "ABM (Datos)",
-        body: "Datos"
+        tabValue: "6",
+        title: "Datos",
+        body: ""
     },
     {
-        title: "ABM (Antecedentes)",
-        body: "Antecedentes"
+        tabValue: "7",
+        title: "Antecedentes",
+        body: ""
     },
 ];

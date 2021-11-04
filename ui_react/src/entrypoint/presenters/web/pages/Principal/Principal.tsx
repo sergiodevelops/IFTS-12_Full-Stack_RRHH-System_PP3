@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import UserAuthForm
     from '@components/UserAuthForm/UserAuthForm';
-import UserLoginForm from '@components/UserLoginForm/UserLoginForm';
+import UserRegisterForm from '@components/UserRegisterForm/UserRegisterForm';
 import DoubleSideBar from "../../components/DoubleSideBar/DoubleSideBar";
 import PieDePagina from "../../components/PieDePagina/PieDePagina";
 import {RootState} from "@redux/reducers/allReducers";
@@ -24,16 +24,16 @@ export default function Principal() {
     }, [userIsLoggedIn]);
 
     return (
-        <>
+        <div style={{minHeight: '100vh'}}>
             {sesionActiva ?
                 <DoubleSideBar/> :
                 (<div>
-                    {authMode ? <UserAuthForm/> : <UserLoginForm/>}
+                    {authMode ? <UserAuthForm/> : <UserRegisterForm registerFormTitle={"Crear una nueva cuenta"}/>}
                     <div onClick={handleClick}>
                         <AuthLoginSwitch authMode={authMode}/>
                     </div>
                 </div>)
             }
-        </>
+        </div>
     );
 };

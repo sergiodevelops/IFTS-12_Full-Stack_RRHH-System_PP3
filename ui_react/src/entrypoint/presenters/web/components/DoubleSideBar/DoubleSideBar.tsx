@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {styled, useTheme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -30,12 +30,25 @@ import layoutActions from "@redux/actions/layoutActions";
 import SubMenuTabs from "@web/components/SubMenuTabs/SubMenuTabs";
 import useStyles from "./styles";
 import PieDePagina from "@components/PieDePagina/PieDePagina";
+import {useResizeDetector} from "react-resize-detector";
 
 
 export default function DoubleSideBar() {
 
     const theme = useTheme();
     const classes = useStyles();
+    // const onResize = useCallback(() => {
+    // }, []);
+    // const { ref, width, height } = useResizeDetector({ onResize });
+    // useEffect(()=>{
+    //     let newAppBarDimensions = {width: 600,height: 600};
+    //     newAppBarDimensions = {
+    //         ...newAppBarDimensions,
+    //         width: width ? width: newAppBarDimensions.width,
+    //         height: height ? height: newAppBarDimensions.height,
+    //     };
+    //     dispatch(layoutActions.setAppBarDimensions(newAppBarDimensions));
+    // },[width, height])
 
     const dispatch = useDispatch();
     const currentUser = useSelector((state: RootState) => state.userReducers.currentUser);
@@ -77,7 +90,7 @@ export default function DoubleSideBar() {
         // shouldForwardProp: (prop) => prop !== 'open'
     })<AppBarProps>(({theme, openLeft, openRight}) => ({
             flexGrow: 1,
-            padding: theme.spacing(3),
+            padding: theme.spacing(0),
             transition: theme.transitions.create('margin', {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen,
@@ -112,12 +125,17 @@ export default function DoubleSideBar() {
     }));
 
     useEffect(() => {
-        dispatch(layoutActions.setSubMenuTabValue(subMenuTabValue))
+        dispatch(layoutActions.setSubMenuTabValue(subMenuTabValue));
     }, [subMenuTabValue]);
+
     useEffect(() => {
         !openLeft && setOpenRight(false);
     }, [openLeft]);
 
+    const handleClickMenu = (index: number) => {
+        setSubMenuTabValue((index + 1).toString());
+        dispatch(layoutActions.setMainTabValue(index>0 ? '3' : '2'));
+    };
     const handleLogOut = () => {
         handleClose();
         dispatch(userActions.setCurrentAuthenticatedUser(null));
@@ -158,8 +176,12 @@ export default function DoubleSideBar() {
                 {/*    />*/}
                 {/*</FormGroup>*/}
                 {/* BARRA AZUL DE ARRIBA*/}
-                <AppBar position="fixed" openLeft={openLeft}
-                        openRight={openRight}>
+                <AppBar
+                    // ref={ref}
+                    position="fixed"
+                    openLeft={openLeft}
+                    openRight={openRight}
+                >
                     <Toolbar>
                         <IconButton
                             color="inherit"
@@ -266,12 +288,12 @@ export default function DoubleSideBar() {
                             <List>
                                 {[
                                     'CONSULTAS',
-                                    'ABM',
-                                ].map((text, index) => (
+                                    'ALTA',
+                                ].map((text: string, index: number) => (
                                     <ListItem
                                         button
                                         key={`${text}-${index}`}
-                                        onClick={() => setSubMenuTabValue((index + 1).toString())}
+                                        onClick={()=>handleClickMenu(index)}
                                     >
                                         {/*<ListItemIcon>
                                     {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
@@ -295,7 +317,8 @@ export default function DoubleSideBar() {
                         ))}
                     </List>*/}
                 </Drawer>
-                <Main style={{paddingBottom: '240px'}} openLeft={openLeft}
+
+                <Main style={{/*paddingBottom: '240px'*/}} openLeft={openLeft}
                       openRight={openRight}>
                     {/*header para cada drawer izq y der*/}
                     <DrawerHeaderLeft/>

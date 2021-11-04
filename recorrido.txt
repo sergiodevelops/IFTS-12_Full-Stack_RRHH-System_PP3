@@ -550,3 +550,10 @@ https://mui.com/components/tables/#sorting-amp-selecting
 
 CONVERT ARRAY TO ARGUMENTS JAVASCRIPT
 https://stackoverflow.com/questions/1316371/converting-an-array-to-a-function-arguments-list
+
+SIZE ADD EVENT LISTENER
+https://stackoverflow.com/questions/62846043/react-js-useeffect-with-window-resize-event-listener-not-working
+https://matiashernandez.dev/blog/post/cuando-usar-el-hook-uselayouteffect
+
+MODIFICA PROPIEDAD DE UN OBJETO JAVASCRIPT
+https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty

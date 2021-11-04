@@ -32,9 +32,7 @@ export default function SubMenuTabs() {
             <TabContext value={subMenuTab}>
 
                 {/*SubMenues BIENVENIDO*/}
-                <TabPanel value="0">
-                    {/*Bienvenido*/}
-                </TabPanel>
+                <TabPanel value="0"></TabPanel>
 
                 {/*SubMenues de CONSULTAS*/}
                 <TabPanel value="1">
