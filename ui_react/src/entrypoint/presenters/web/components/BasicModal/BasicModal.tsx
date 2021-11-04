@@ -12,10 +12,6 @@ import UserRegisterForm from "@components/UserRegisterForm/UserRegisterForm";
 import UserModDeleteForm from "@components/UserModDeleteForm/UserModDeleteForm";
 import IUserLoginResDto
     from "@application/usecases/user/login/IUserLoginResDto";
-import IUserCreateReqDto
-    from "@application/usecases/user/create/IUserCreateReqDto";
-import IUserUpdateReqDto
-    from "@application/usecases/user/update/IUserUpdateReqDto";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -29,7 +25,7 @@ const style = {
     p: 4,
 };
 
-export default function BasicModal(props:{currentQueryUser:IUserUpdateReqDto}) {
+export default function BasicModal(props:{currentQueryUser:IUserLoginResDto}) {
     const dispatch = useDispatch();
     const modalIsOpen = useSelector((state: RootState) => state?.layoutReducers.openModal);
 
@@ -39,6 +35,8 @@ export default function BasicModal(props:{currentQueryUser:IUserUpdateReqDto}) {
     useEffect(() => {
         setOpen(modalIsOpen);
     }, [modalIsOpen])
+
+
 
     return (
         <div>

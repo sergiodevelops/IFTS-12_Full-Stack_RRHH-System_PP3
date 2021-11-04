@@ -5,6 +5,10 @@ import IUserLoginReqDto
 import IPaginationSetDto
     from "@application/usecases/pagination/set/IPaginationSetDto";
 import IFilterSetDto from "@application/usecases/filter/add/IFilterSetDto";
+import IUserUpdateReqDto
+    from "@application/usecases/user/update/IUserUpdateReqDto";
+import IUserDeleteReqDto
+    from "@application/usecases/user/delete/IUserDeleteReqDto";
 
 type ApiResponse = {
     name: string;
@@ -101,7 +105,7 @@ export default class BaseService {
     }
 
     async findAllByUserType(pagination?: IPaginationSetDto, filters?: IFilterSetDto[]) {
-        console.log("pagination",pagination);
+        console.log("pagination",pagination,"filters",filters);
         let url = new URL(`${this.api_url}/${this.getResource()}`);
         pagination?.size && url.searchParams.append("size", pagination?.size.toString());
         pagination?.page && url.searchParams.append("page", pagination?.page.toString());
@@ -140,11 +144,12 @@ export default class BaseService {
         return results;
     }
 
-    async replace(baseModel: IUserCreateReqDto) {
-        const url = `${this.api_url}/${this.getResource()}/create`;
+    async replace(baseModel: IUserUpdateReqDto, userId: number) {
+        let url = new URL(`${this.api_url}/${this.getResource()}`);
+        url.searchParams.append('id', userId.toString());
 
         const params = {
-            method: "POST",
+            method: "PUT",
             headers: this.headers,
             body: JSON.stringify(baseModel)
         };
@@ -157,7 +162,7 @@ export default class BaseService {
             throw err;
         }
 
-        const results = await fetch(url, params)
+        const results = await fetch(url.toString(), params)
             .then((resp: Response) => {
                 checkResp(resp);
                 return resp.json();
@@ -172,13 +177,14 @@ export default class BaseService {
         return results;
     }
 
-    async delete(baseModel: IUserCreateReqDto) {
-        const url = `${this.api_url}/${this.getResource()}/create`;
+    async delete(userId: number) {
+        let url = new URL(`${this.api_url}/${this.getResource()}`);
+        url.searchParams.append('id', userId.toString());
 
         const params = {
-            method: "POST",
+            method: "DELETE",
             headers: this.headers,
-            body: JSON.stringify(baseModel)
+            // body: JSON.stringify(idUser.toString())
         };
 
         const checkResp = (resp: Response) => {
@@ -189,7 +195,7 @@ export default class BaseService {
             throw err;
         }
 
-        const results = await fetch(url, params)
+        const results = await fetch(url.toString(), params)
             .then((resp: Response) => {
                 checkResp(resp);
                 return resp.json();

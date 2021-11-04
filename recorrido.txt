@@ -534,6 +534,7 @@ addEventListener in React
 https://stackoverflow.com/questions/33211672/how-to-submit-a-form-using-enter-key-in-react-js/59147255#59147255
 
 https://es.reactjs.org/docs/hooks-reference.html
+https://www.youtube.com/watch?v=4RGObDegoXw
 https://stackoverflow.com/questions/41486296/convert-object-to-array-in-javascript-react
 
 MIGRAR JAVASCRIPT A TYPESCRIPT
