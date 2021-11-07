@@ -9,7 +9,7 @@ import {useEffect} from "react";
 import layoutActions from "@redux/actions/layoutActions";
 import UserAuthForm from "@components/UserAuthForm/UserAuthForm";
 import UserRegisterForm from "@components/UserRegisterForm/UserRegisterForm";
-import UserModDeleteForm from "@components/UserModDeleteForm/UserModDeleteForm";
+import UserUpdateDeleteForm from "@components/UserUpdateDeleteForm/UserUpdateDeleteForm";
 import IUserLoginResDto
     from "@application/usecases/user/login/IUserLoginResDto";
 
@@ -36,8 +36,6 @@ export default function BasicModal(props:{currentQueryUser:IUserLoginResDto}) {
         setOpen(modalIsOpen);
     }, [modalIsOpen])
 
-
-
     return (
         <div>
             <Modal
@@ -47,7 +45,7 @@ export default function BasicModal(props:{currentQueryUser:IUserLoginResDto}) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <UserModDeleteForm registerFormTitle={"Modificar o eliminar"} {...props}/>
+                    <UserUpdateDeleteForm registerFormTitle={"Modificar o eliminar"} {...props}/>
                 </Box>
             </Modal>
         </div>

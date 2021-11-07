@@ -20,6 +20,7 @@
     "@types/material-ui": "^0.21.12",
     "@types/react-dom": "^17.0.10",
     "@types/redux": "^3.6.0",
+    "@types/webfontloader": "^1.6.33",
     "inversify": "^6.0.1",
     "module-alias": "^2.2.2",
     "mysql": "^2.18.1",
@@ -34,7 +35,8 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6",
     "typescript": "^4.4.4",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "webfontloader": "^1.6.28"
   },
   "scripts": {
     "start": "react-app-rewired start",

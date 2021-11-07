@@ -14,28 +14,27 @@ import {RootState} from "../../redux/reducers/allReducers";
 
 export default function SubMenuTabs() {
     const dispatch = useDispatch();
-
     const subMenuTabValueStore = useSelector((state:RootState) => state.layoutReducers.subMenuTabValueStore);
     // const currentUser = useSelector((state) => state?.userReducers.currentUser);
     const [subMenuTab, setSubMenuTab] = useState("0");
+    const [mainTabValue, setMainTabValue] = React.useState("0");
+
+
     useEffect(() => {
         setSubMenuTab(subMenuTabValueStore);
     }, [subMenuTabValueStore]);
 
-    const [mainTabValue, setMainTabValue] = React.useState("0");
     useEffect(() => {
         dispatch(layoutActions.setMainTabValue(mainTabValue))
     }, [mainTabValue]);
+
 
     return (
         <Box sx={{width: '100%', typography: 'body1'}}>
             <TabContext value={subMenuTab}>
 
-                {/*SubMenues BIENVENIDO*/}
-                <TabPanel value="0"></TabPanel>
-
-                {/*SubMenues de CONSULTAS*/}
-                <TabPanel value="1">
+                {/*SubMenues de CONSULTAS [0 a 4]*/}
+                <TabPanel value="0">
                     <List>
                         {[
                             'Postulantes',
@@ -47,21 +46,22 @@ export default function SubMenuTabs() {
                             <ListItem
                                 button
                                 key={`${text}-${index}`}
-                                onClick={() => setMainTabValue((index + 1).toString())}>
+                                onClick={() => setMainTabValue((index).toString())}>
                                 <ListItemText primary={text}/>
                             </ListItem>
                         ))}
                     </List>
                 </TabPanel>
 
-                {/*SubMenues de ABM*/}
-                <TabPanel value="2">
+                {/*SubMenues de ABM [5 a 8]*/}
+                <TabPanel value="1">
                     <List>
                         {[
                             'Solicitudes',
                             'Datos',
                             'Antecedentes',
-                        ].map((text, index) => (
+                            'Usuarios',
+                        ].map((text: string, index: number) => (
                             <ListItem
                                 button
                                 key={`${text}-${index}`}

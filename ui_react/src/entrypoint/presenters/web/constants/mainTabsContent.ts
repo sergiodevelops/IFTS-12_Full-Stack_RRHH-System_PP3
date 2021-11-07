@@ -1,47 +1,47 @@
 export const singlePageContentList = [
     {
-        tabValue: "0",
-        title: "Bienvenido",
-        body: ""
-    },
-    {
-        tabValue: "1",
         title: "Postulantes",
-        body: ""
+        body: "",
+        moduleName: "TableData",
     },
     {
-        tabValue: "2",
         title: "Solicitantes",
-        body: ""
+        body: "",
+        moduleName: "TableData",
     },
     {
-        tabValue: "3",
         title: "Administrativos",
-        body: ""
+        body: "",
+        moduleName: "TableData",
     },
     {
-        tabValue: "4",
-        title: "Solicitudes",
-        body: ""
+        title: "Consulta de Solicitudes",
+        body: "",
+        moduleName: "Building",
     },
     {
-        tabValue: "5",
-        title: "Solicitudes-Postulantes",
-        body: ""
+        title: "Consulta de Solicitudes-Postulantes",
+        body: "",
+        moduleName: "Building",
     },
     {
-        tabValue: "6",
-        title: "Solicitudes",
-        body: ""
+        title: "Alta de Solicitudes",
+        body: "",
+        moduleName: "Building",
     },
     {
-        tabValue: "7",
-        title: "Datos",
-        body: ""
+        title: "Alta de Datos",
+        body: "",
+        moduleName: "Building",
     },
     {
-        tabValue: "8",
-        title: "Antecedentes",
-        body: ""
+        title: "Alta de Antecedentes",
+        body: "",
+        moduleName: "Building",
+    },
+    {
+        title: "Alta de Usuarios",
+        body: "",
+        moduleName: "UserRegisterForm",
     },
 ];

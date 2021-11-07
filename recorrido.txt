@@ -558,3 +558,10 @@ https://matiashernandez.dev/blog/post/cuando-usar-el-hook-uselayouteffect
 
 MODIFICA PROPIEDAD DE UN OBJETO JAVASCRIPT
 https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
+
+ADD GOOGLE FONTS TO REACT PROJECT
+https://stackoverflow.com/questions/40769551/how-to-use-google-fonts-in-react-js
+https://blog.greenroots.info/3-quick-ways-to-add-fonts-to-your-react-app <-- typescript
+
+INPUT TEXT FIELD NOT REMEMBER MATERIAL UI
+https://stackoverflow.com/questions/48304062/material-ui-textfield-disable-browser-autocomplete

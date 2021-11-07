@@ -15,8 +15,7 @@ import UsuarioService from "../../services/UsuarioService";
 import useStyles from "./styles";
 import IUserCreateReqDto from "@application/usecases/user/create/IUserCreateReqDto";
 
-export default function UserRegisterForm(props:{registerFormTitle: string}) {
-    const {registerFormTitle} = props;
+export default function UserRegisterForm(props:{registerFormTitle?: string}) {
     const usuarioService = new UsuarioService();
 
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -89,7 +88,7 @@ export default function UserRegisterForm(props:{registerFormTitle: string}) {
             .create(newUserPost)
             .then(createdUser => {
                 console.log("createdUser en FE ", createdUser);
-                dispatch(userActions.setCurrentAuthenticatedUser(createdUser));
+                // dispatch(userActions.setCurrentAuthenticatedUser(createdUser));
                 alert(`El usuario "${newUser.username}" se persistió correctamente`);
                 cleanInputValues();
             })
@@ -107,7 +106,7 @@ export default function UserRegisterForm(props:{registerFormTitle: string}) {
         <Container className={classes.container} maxWidth="xs">
             <Grid>
                 <Grid item xs={12}>
-                    <h1 className={classes.titulo}>{registerFormTitle}</h1>
+                    <h1 className={classes.titulo}>{props?.registerFormTitle || "Alta"}</h1>
                 </Grid>
                 <Grid item xs={12}>
                     <Grid container spacing={2}>

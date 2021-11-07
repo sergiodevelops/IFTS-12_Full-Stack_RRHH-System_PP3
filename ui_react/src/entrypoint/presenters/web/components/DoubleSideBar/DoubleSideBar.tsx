@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {styled, useTheme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -56,6 +56,7 @@ export default function DoubleSideBar() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const [openLeft, setOpenLeft] = React.useState(true);
+    const [isWelcomePage, setIsWelcomePage] = useState(true);
     const [openRight, setOpenRight] = React.useState(true);
     const currentUserType = React.useState(userTypes.map(
         (userType) => {
@@ -139,8 +140,9 @@ export default function DoubleSideBar() {
     }, [openLeft]);
 
     const handleClickMenu = (index: number) => {
-        setSubMenuTabValue((index + 1).toString());
-        dispatch(layoutActions.setMainTabValue(index > 0 ? '6' : '1'));
+        setSubMenuTabValue((index).toString());
+        setIsWelcomePage(false);
+        dispatch(layoutActions.setMainTabValue(index === 0 ? '0' : '5'));
     };
     const handleLogOut = () => {
         handleClose();
@@ -230,7 +232,10 @@ export default function DoubleSideBar() {
                                 >
                                     {/*<MenuItem onClick={handleClose}>Profile</MenuItem>*/}
                                     <MenuItem
-                                        onClick={handleLogOut}>LogOut</MenuItem>
+                                        onClick={handleLogOut}
+                                    >
+                                        LogOut
+                                    </MenuItem>
                                 </Menu>
                             </div>
                         )}
@@ -335,7 +340,7 @@ export default function DoubleSideBar() {
                     <DrawerHeaderRight/>
 
                     {/*contenido del main*/}
-                    <MainTabs/>
+                    <MainTabs isWelcomePage={isWelcomePage}/>
                 </Main>
 
                 {/*Drawer DERECHO*/}
@@ -358,7 +363,7 @@ export default function DoubleSideBar() {
                         </IconButton>
                     </DrawerHeaderRight>
                     <Divider/>
-                    <div>
+                    <div onClick={()=>handleClickMenu(0)}>
                         <SubMenuTabs/>
                     </div>
 

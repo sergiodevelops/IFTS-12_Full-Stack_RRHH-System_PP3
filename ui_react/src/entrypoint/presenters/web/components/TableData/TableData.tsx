@@ -19,7 +19,7 @@ import * as React from 'react';
 // import Switch from '@mui/material/Switch';
 // import DeleteIcon from '@mui/icons-material/Delete';
 // import FilterListIcon from '@mui/icons-material/FilterList';
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 // import {visuallyHidden} from '@mui/utils';
 import UsuarioService from "@web/services/UsuarioService";
 import IPaginationSetDto
@@ -37,17 +37,20 @@ import {RootState} from "@redux/reducers/allReducers";
 import useWindowDimensions from "@components/customHooks/useWindowDimensions";
 import BasicModal from "@components/BasicModal/BasicModal";
 import layoutActions from "@redux/actions/layoutActions";
+import Typography from "@mui/material/Typography";
+import ModalSpinner from "@components/ModalSpinner/ModalSpinner";
+import Spinner from "@components/ModalSpinner/Spinner/Spinner";
 
-export default function TableData(props: { valueTabQueryExec: string }) {
+export default function TableData() {
     const dispatch = useDispatch();
 
     const classes = useStyles();
-    // const currentUser = useSelector((state: RootState) => state?.userReducers.currentUser);
+    const queryNumber = useSelector((state: RootState) => state?.layoutReducers.mainTabValueStore);
     const {viewportHeight} = useWindowDimensions();
     const currentMainTabHeight = useSelector((state: RootState) => state.layoutReducers);
     const [minHeightTable, setMinHeightTable] = useState<number>(600);
+    // const rowRef = useRef<HTMLDivElement>();
 
-    const {valueTabQueryExec} = props;
     // const [order, setOrder] = useState<Order>('asc');
     // const [orderBy, setOrderBy] = useState<string/*keyof Data*/>('calories');
     // const [selected, setSelected] = useState<readonly string[]>([]);
@@ -65,12 +68,14 @@ export default function TableData(props: { valueTabQueryExec: string }) {
     const [totalItems, setTotalItems] = useState<number>(0);
     // const [filters, setFilters] = useState<IFilterSetDto[] | undefined>();
     const [currentQueryUser, setCurrentQueryUser] = useState<IUserLoginResDto | undefined>();
+    const [queryInProgress, setQueryInProgress] = useState<boolean>(false);
 
     const getUsersByFilters = (
         pagination?: IPaginationSetDto,
         filters?: IFilterSetDto[],
     ) => {
         const usuarioService = new UsuarioService();
+        setQueryInProgress(true);
         usuarioService.findAllByUserType(pagination, filters)
             .then((response: IUserFindResDto) => {
                 console.log("response", response);
@@ -78,30 +83,27 @@ export default function TableData(props: { valueTabQueryExec: string }) {
                 if (!!users.length) {
                     setRows(users);
                     setTotalPages(totalPages);
-                    console.log("totalPages", totalPages)
                     setTotalItems(totalItems);
-                    setPagination({
-                        size: users.length,
-                        page: currentPage,
-                    });
+                    setCurrentPage(currentPage);
                 }
+                setQueryInProgress(false);
             })
             .catch((err: any) => {
                 err.then((err: any) => {
                         console.error("ERROR en FE", err.message);
                     }
-                )
+                );
+                setQueryInProgress(false);
             });
     }
     const handleTableBodyRowClick = (row: any) => {
-        console.log("registro click", row);
         setCurrentQueryUser(row);
         dispatch(layoutActions.setOpenModal(true));
     }
     const handleArrowChangePage = (intervalPage: number) => { // -5 , + 5 , +1 , -1
         const sumatoria = currentPage + intervalPage;
         const validateNewPage = (): boolean => {
-            return (sumatoria >= 0 && sumatoria <= totalPages) // dentro del rango valido? [0,lim]
+            return (sumatoria >= 0 && sumatoria <= totalPages - 1) // dentro del rango valido? [0,lim]
         };
         const calcNewPage = (): number => {
             if (!validateNewPage()) { // si se fue del rango poner al inicio o al final
@@ -135,47 +137,38 @@ export default function TableData(props: { valueTabQueryExec: string }) {
         if (currentPage !== pagination.page && currentPage >= 0) {
             let filters;
             let pagination;
-            switch (valueTabQueryExec) {
+            // CONSULTAS segun TAB VALUE (Administrativos)
+            switch (queryNumber) {
                 case '0':
-                    // SP bienvenida !!
-                    break;
-                case '1':
-                    // SP CONSULTAS (Postulantes)
-                    pagination = {size: 3, page: currentPage };
+                    //getUsersByFilters []
+                    pagination = {size: 3, page: currentPage};
                     filters = [{key: 'tipo_usuario', value: '3'}]; //Postulantes
                     getUsersByFilters(pagination, filters);
                     break;
-                case '2':
-                    // SP CONSULTAS (Solicitantes)
+                case '1':
                     pagination = {size: 3, page: currentPage};
                     filters = [{key: 'tipo_usuario', value: '2'}]; //Solicitantes
                     getUsersByFilters(pagination, filters);
                     break;
-                case '3':
-                    // SP CONSULTAS (Administrativos)
+                case '2':
                     pagination = {size: 3, page: currentPage};
                     filters = [{key: 'tipo_usuario', value: '1'}]; //Administrativos
                     getUsersByFilters(pagination, filters);
                     break;
+                case '3':
+                    // CONSULTA segun TAB VALUE (Solicitudes)
+                    break;
                 case '4':
-                    // SP CONSULTAS (Solicitudes)
-
+                    // CONSULTA segun TAB VALUE (Solicitudes-Postulantes)
                     break;
                 case '5':
-                    // SP CONSULTAS (Solicitudes-Postulantes)
-
+                    // CONSULTA segun TAB VALUE (Solicitudes)
                     break;
                 case '6':
-                    // SP ABM (Solicitudes)
-
+                    // CONSULTA segun TAB VALUE (Datos)
                     break;
                 case '7':
-                    // SP ABM (Datos)
-
-                    break;
-                case '8':
-                    // SP ABM (Antecedentes)
-
+                    // CONSULTA segun TAB VALUE (Antecedentes)
                     break;
                 default:
                     // default
@@ -185,115 +178,117 @@ export default function TableData(props: { valueTabQueryExec: string }) {
         }
     }, [currentPage]); // si cambio contenido de tabla se actualiza el mismo para mostrar en la tabla
 
-    // const findAllUsers = (
-    //     service: Function,
-    //     pagination?: IPaginationSetDto,
-    //     filters?: IFilterSetDto[]
-    // ) => {
-    //     service(pagination, filters)
-    //         .then((response: IUserFindResDto) => {
-    //             console.log("response", response);
-    //             const {users, totalPages, totalItems, currentPage} = response;
-    //             setRows(users);
-    //             setTotalPages(totalPages.toString());
-    //             setPagination({
-    //                 size: totalItems.toString(),
-    //                 page: currentPage.toString(),
-    //             });
-    //             setRowsPerPage(totalItems)
-    //             setPage(currentPage);
-    //         })
-    //         .catch((err: any) => {
-    //             console.log("err", err);
-    //             err.then((err: any) => {
-    //                     console.error("ERROR en FE", err.message);
-    //                 }
-    //             )
-    //         });
-    // }
-
     return (
         !!rows.length ? // si hay contenido para mostrar en la tabla
-            <Grid container className={`${classes.root}`}>
+            (
                 <Grid
-                    className={`${classes.arrowChangeQueryPage}`}
-                    onClick={() => handleArrowChangePage(-intervalPage)}
-                    item xs={1}
+                    container
+                    className={`${classes.root}`}
                 >
-                    <ArrowLeftIcon fontSize={'large'}/>
-                </Grid>
+                    <Grid
+                        className={`${classes.arrowChangeQueryPage}`}
+                        onClick={() => handleArrowChangePage(-intervalPage)}
+                        item xs={1}
+                        style={{opacity: currentPage > 0 ? '1' : '0.3'}}
+                    >
+                        <ArrowLeftIcon
+                            fontSize={'large'}
+                            style={{color: currentPage > 0 ? '#e8ffe9' : '#2a77d20d'}}
+                        />
+                    </Grid>
 
-                <Grid
-                    item xs={10}
-                    style={{
+                    <Grid
+                        item xs={10}
+                        style={{
+                            minHeight: viewportHeight && minHeightTable ?
+                                `${viewportHeight - minHeightTable - 64 * 2}px` :
+                                '100vh'
+                        }}
+                        className={classes.queryTable}
+                    >
+                        <Grid
+                            key={`tableHeaderRow`}
+                            container
+                            className={classes.tableHeaderRow}
+                            style={{width: '100%', background: '#2a77d263'}}
+                        >
+                            {
+                                Object
+                                    .keys(rows[0])
+                                    .map((cell: string, index: number) =>
+                                        <Grid
+                                            key={`tableHeadCell-${index}`}
+                                            item
+                                            style={{
+                                                width: `${100 / Object.keys(rows[0]).length}%`,
+                                            }}
+                                            className={'tableHeadCell'}
+                                        >{cell.toUpperCase()}</Grid>)
+                            }
+                        </Grid>
+                        {
+                            rows
+                                .map((row: IUserLoginResDto, index: number) => {
+                                    return (
+                                        <Grid
+                                            // ref={rowRef}
+                                            key={`tableBodyRow-${index}`}
+                                            onClick={() => {handleTableBodyRowClick(row)}}
+                                            container
+                                            className={classes.tableBodyRow}
+                                            style={{background: index % 2 == 0 ? '#b6b6b6' : '#eaeaea'}}
+                                        >
+                                            {Object
+                                                .values(row)
+                                                .map((cell: string, index: number) =>
+                                                    <Grid
+                                                        key={`tableBodyCell-${index}`}
+                                                        style={{width: `${100 / Object.keys(row).length}%`}}
+                                                        className={'cell'}
+                                                        item
+                                                    >{cell}</Grid>)}
+                                        </Grid>
+                                    )
+                                })
+                        }
+                    </Grid>
+                    <Grid
+                        className={`${classes.arrowChangeQueryPage}`}
+                        onClick={() => handleArrowChangePage(+intervalPage)}
+                        item xs={1}
+                        style={{opacity: currentPage < totalPages - 1 ? '1' : '0.3'}}
+                    >
+                        <ArrowRightIcon
+                            fontSize={'large'}
+                            style={{color: currentPage < totalPages - 1 ? '#b3b3b3' : '#2a77d20d'}}
+                        />
+                    </Grid>
+                    {currentQueryUser &&
+                    <BasicModal currentQueryUser={currentQueryUser}/>}
+                </Grid>
+            ) :
+            (
+                queryInProgress ?
+                    <Spinner style={{
                         minHeight: viewportHeight && minHeightTable ?
                             `${viewportHeight - minHeightTable - 64 * 2}px` :
                             '100vh'
-                    }}
-                    className={classes.queryTable}
-                >
-                    <Grid
-                        key={`tableHeadRow`}
+                    }}/>
+                    : <Grid
                         container
-                        className={'tableHeadRow'}
-                        style={{width: '100%', background: '#2a77d263'}}
+                        className={`${classes.containerMsgQueryResults}`}
                     >
-                        {
-                            Object
-                                .keys(rows[0])
-                                .map((cell: string, index: number) =>
-                                    <Grid
-                                        key={`tableHeadCell-${index}`}
-                                        item
-                                        style={{
-                                            width: `${100 / Object.keys(rows[0]).length}%`,
-                                        }}
-                                        className={'tableHeadCell'}
-                                    >{cell}</Grid>)
-                        }
+                        <Typography
+                            className={`${classes.msgQueryResults}`}
+                            variant={"h5"}
+                            component={"div"}
+                            textAlign={'center'}
+                            justifyContent={'center'}
+                            alignItems={'center'}
+                        >
+                            No existe aun registros en la base para esta solicitud
+                        </Typography>
                     </Grid>
-
-                    {
-                        rows
-                            .map((row: IUserLoginResDto, index: number) => {
-                                return (
-                                    <Grid
-                                        key={`tableBodyRow-${index}`}
-                                        onClick={() => {
-                                            handleTableBodyRowClick(row)
-                                        }}
-                                        container
-                                        className={'row'}
-                                        style={{
-                                            width: '100%',
-                                            background: index % 2 == 0 ? '#b6b6b6' : '#eaeaea',
-                                        }}
-                                    >
-                                        {Object
-                                            .values(row)
-                                            .map((cell: string, index: number) =>
-                                                <Grid
-                                                    key={`tableBodyCell-${index}`}
-                                                    style={{width: `${100 / Object.keys(row).length}%`}}
-                                                    className={'cell'}
-                                                    item
-                                                >{cell}</Grid>)}
-                                    </Grid>
-                                )
-                            })
-                    }
-                </Grid>
-                <Grid
-                    className={`${classes.arrowChangeQueryPage}`}
-                    onClick={() => handleArrowChangePage(+intervalPage)}
-                    item xs={1}
-                >
-                    <ArrowRightIcon
-                        onClick={() => setCurrentPage(currentPage - 1)}
-                        fontSize={'large'}/>
-                </Grid>
-                {currentQueryUser &&
-                <BasicModal currentQueryUser={currentQueryUser}/>}
-            </Grid> : null
+            )
     );
 }

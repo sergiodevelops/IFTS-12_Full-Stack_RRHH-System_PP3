@@ -1,13 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import {Provider} from 'react-redux';
 import store from '@entrypoint/presenters/web/store/store';
 import * as serviceWorker from './serviceWorker';
-// import {ViewportProvider} from "@components/customHooks/use-viewport";
-// import reportWebVitals from './reportWebVitals';
-
 
 ReactDOM.render(
     <Provider store={store}>

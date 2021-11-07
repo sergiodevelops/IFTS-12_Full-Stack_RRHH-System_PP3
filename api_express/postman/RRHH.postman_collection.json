@@ -155,7 +155,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:4005/api/users?id=6",
+					"raw": "http://localhost:4005/api/users?id=2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -168,7 +168,7 @@
 					"query": [
 						{
 							"key": "id",
-							"value": "6"
+							"value": "2"
 						}
 					]
 				}
@@ -190,7 +190,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:4005/api/users?id=6",
+					"raw": "http://localhost:4005/api/users?id=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -203,7 +203,7 @@
 					"query": [
 						{
 							"key": "id",
-							"value": "6"
+							"value": "1"
 						}
 					]
 				}

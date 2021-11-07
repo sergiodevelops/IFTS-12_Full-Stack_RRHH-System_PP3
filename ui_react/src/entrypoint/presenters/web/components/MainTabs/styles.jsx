@@ -10,5 +10,11 @@ export default makeStyles(() => ({
         '& .css-13xfq8m-MuiTabPanel-root':{
             padding: '0',
         },
-    }
+    },
+    spaTitle:{
+        margin:'10px 0px',
+    },
+    welcomeTitle:{
+
+    },
 }));

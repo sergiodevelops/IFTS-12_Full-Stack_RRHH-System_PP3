@@ -155,7 +155,7 @@ export default class BaseService {
         };
 
         const checkResp = (resp: Response) => {
-            if (resp.status !== 201) throw resp.json();
+            if (resp.status !== 200) throw resp.json();
         }
 
         const throwError = (err: ApiResponse) => {
@@ -188,7 +188,7 @@ export default class BaseService {
         };
 
         const checkResp = (resp: Response) => {
-            if (resp.status !== 201) throw resp.json();
+            if (resp.status !== 200) throw resp.json();
         }
 
         const throwError = (err: ApiResponse) => {

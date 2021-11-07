@@ -19,7 +19,7 @@ import IUserLoginResDto
     from "@application/usecases/user/login/IUserLoginResDto";
 import layoutActions from "@redux/actions/layoutActions";
 
-export default function UserModDeleteForm(props: {
+export default function UserUpdateDeleteForm(props: {
     registerFormTitle: string,
     currentQueryUser: IUserLoginResDto,
 }) {
@@ -42,11 +42,31 @@ export default function UserModDeleteForm(props: {
     const [userExistInDB, setUserExistInDB] = useState(false);
     const [showPassword1, setShowPassword1] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
+    const [updateButtonDisable, setUpdateButtonDisable] = useState(false);
     // const currentUserType = React.useState(userTypes.map((userType) => userType.id === currentQueryUser?.tipo_usuario && userType) || userTypes[0]);
     const currentUserType = userTypes.find(element => element.id === currentQueryUser?.tipo_usuario);
 
     const handleClickShowPassword1 = () => setShowPassword1(!showPassword1);
     const handleClickShowPassword2 = () => setShowPassword2(!showPassword2);
+
+    const handleDisabledUpdateButton = () => {
+        return (
+            (!!originalUser.tipo_usuario &&
+                originalUser.tipo_usuario === updateQueryUser.tipo_usuario)
+            &&
+            (!!originalUser.nombre_completo &&
+                originalUser.nombre_completo === updateQueryUser.nombre_completo)
+            &&
+            (!!originalUser.username &&
+                updateQueryUser.username === originalUser.username)
+            &&
+            (
+                (!!originalUser.password)
+                &&
+                (password2 !== updateQueryUser.password)
+            )
+        )
+    }
 
     const handleClickReplaceRow = async () => {
         let message;
@@ -79,7 +99,7 @@ export default function UserModDeleteForm(props: {
                         console.error("ERROR en FE", err.message);
                         alert(`${err.message}`);
                         setUserExistInDB(true);
-                    dispatch(layoutActions.setOpenModal(false));
+                        dispatch(layoutActions.setOpenModal(false));
                     }
                 )
             });
@@ -116,25 +136,31 @@ export default function UserModDeleteForm(props: {
                         console.error("ERROR en FE", err.message);
                         alert(`${err.message}`);
                         setUserExistInDB(true);
-                    dispatch(layoutActions.setOpenModal(false));
+                        dispatch(layoutActions.setOpenModal(false));
                     }
                 )
             });
     };
 
     useEffect(() => {
-        setOriginalUser(currentQueryUser);
-        const newState = !!currentQueryUser ? currentQueryUser : emptyUserModify;
-        setUpdateQueryUser(newState);
-        setPassword2(newState?.password || "");
+        console.log("useEffect currentQueryUser")
+        !!currentQueryUser && setOriginalUser(currentQueryUser);
+        setUpdateQueryUser({
+            ...currentQueryUser,
+            password: "",
+        });
     }, [currentQueryUser])
+
+    // useEffect(()=>{
+    //     handleDisabledUpdateButton();
+    // },[updateQueryUser])
 
 
     return (
         <Container className={classes.container} maxWidth="xs">
             <Grid>
                 <Grid item xs={12}>
-                    <h1 className={classes.titulo}>{registerFormTitle}</h1>
+                    <h3 className={classes.titulo}>{registerFormTitle}</h3>
                 </Grid>
                 <Grid item xs={12}>
                     <Grid container spacing={2}>
@@ -142,6 +168,7 @@ export default function UserModDeleteForm(props: {
                             <FormControl variant="outlined"
                                          className={classes.formControl}>
                                 <Autocomplete
+                                    disableClearable
                                     className={`tipo_usuario`}
                                     disabled={!updateQueryUser}
                                     options={userTypes || []}
@@ -209,19 +236,19 @@ export default function UserModDeleteForm(props: {
                         <Grid item xs={12}>
                             <TextField
                                 className={`password`}
-                                style={{background: updateQueryUser.password !== originalUser.password ? '#e8ffe9' : 'inherit'}}
+                                style={{background: updateQueryUser.password !== "" ? '#e8ffe9' : 'inherit'}}
                                 autoComplete={"off"}
                                 fullWidth
                                 disabled={!updateQueryUser?.username}
                                 value={!!updateQueryUser?.username && !!updateQueryUser?.password ? updateQueryUser.password : ""}
-                                error={!!updateQueryUser?.username && (!updateQueryUser?.password || updateQueryUser?.password !== password2)}
+                                error={updateQueryUser.password !== "" && (!updateQueryUser?.password || updateQueryUser?.password !== password2)}
                                 label="Contraseña"
                                 name="password1"
                                 size="small"
                                 variant="outlined"
                                 onChange={(e) => setUpdateQueryUser({
                                     ...updateQueryUser,
-                                    password: e.target.value
+                                    password: e.target.value,
                                 })}
                                 type={showPassword1 ? "text" : "password"}
                                 InputProps={{
@@ -240,11 +267,12 @@ export default function UserModDeleteForm(props: {
                                 }}
                             />
                         </Grid>
-                        <Grid item xs={12} hidden={updateQueryUser.password === originalUser.password}>
+                        <Grid item xs={12}
+                              hidden={updateQueryUser.password === ""}>
                             <TextField
                                 className={`password2`}
                                 style={{
-                                    background: updateQueryUser.tipo_usuario !== originalUser.tipo_usuario ? '#e8ffe9' : 'inherit'
+                                    background: updateQueryUser.password === password2 ? '#e8ffe9' : 'inherit'
                                 }}
                                 autoComplete={"off"}
                                 fullWidth
@@ -282,21 +310,7 @@ export default function UserModDeleteForm(props: {
                             color={"primary"}
                             fullWidth type="submit" variant="contained"
                             onClick={handleClickReplaceRow}
-                            disabled={
-                                !updateQueryUser?.tipo_usuario ||
-                                updateQueryUser?.tipo_usuario !== updateQueryUser.tipo_usuario ||
-
-                                !updateQueryUser?.nombre_completo ||
-                                updateQueryUser?.nombre_completo !== updateQueryUser.nombre_completo ||
-
-                                !updateQueryUser?.username ||
-                                updateQueryUser?.username !== updateQueryUser.username ||
-
-                                !updateQueryUser.password ||
-                                updateQueryUser.password !== updateQueryUser.password ||
-
-                                updateQueryUser.password !== password2
-                            }
+                            disabled={updateQueryUser && handleDisabledUpdateButton()}
                         >
                             modificar
                         </Button>
