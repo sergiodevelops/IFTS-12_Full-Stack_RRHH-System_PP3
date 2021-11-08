@@ -66,7 +66,7 @@ export default function UserUpdateDeleteForm(props: {
             tipo_usuario: updateQueryUser?.tipo_usuario, // mapeo para la base, envia un number
             nombre_completo: updateQueryUser?.nombre_completo,
             username: updateQueryUser?.username,
-            password: updateQueryUser?.password,
+            password: !!updateQueryUser?.password ? updateQueryUser?.password :  currentOriginalUser?.password,
         };
 
         usuarioService
