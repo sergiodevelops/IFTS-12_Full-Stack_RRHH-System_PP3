@@ -6,13 +6,13 @@ import TextField from '@material-ui/core/TextField';
 import {InputAdornment} from "@material-ui/core";
 import IconButton from "@mui/material/IconButton";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
-import userActions from "../../redux/actions/userActions";
+import userActions from "@redux/actions/userActions";
 import Container from "@material-ui/core/Container";
-import UsuarioService from "../../services/UsuarioService";
+import UsuarioService from "../../../services/UsuarioService";
 import useStyles from "./styles";
 import allActions from "@redux/actions";
 
-export default function UserAuthForm() {
+export default function UserLoginForm() {
     const usuarioService = new UsuarioService();
 
     const buttonRef = useRef<HTMLButtonElement>(null);

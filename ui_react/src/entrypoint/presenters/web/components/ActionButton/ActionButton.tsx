@@ -1,10 +1,10 @@
-import useStyles from "../../pages/Principal/styles";
+import useStyles from "../Principal/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import React from "react";
 
-export function AuthLoginSwitch(props: { authMode: boolean }) {
+export function ActionButton(props: { authMode: boolean }) {
     const classes = useStyles();
     const {authMode} = props;
 

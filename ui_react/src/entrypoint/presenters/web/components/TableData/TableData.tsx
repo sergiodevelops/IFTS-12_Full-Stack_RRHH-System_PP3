@@ -34,7 +34,7 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import useStyles from "@components/TableData/styles";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@redux/reducers/allReducers";
-import useWindowDimensions from "@components/customHooks/useWindowDimensions";
+import useWindowDimensions from "@components/Hooks/useWindowDimensions";
 import BasicModal from "@components/BasicModal/BasicModal";
 import layoutActions from "@redux/actions/layoutActions";
 import Typography from "@mui/material/Typography";
@@ -76,7 +76,8 @@ export default function TableData() {
     ) => {
         const usuarioService = new UsuarioService();
         setQueryInProgress(true);
-        usuarioService.findAllByUserType(pagination, filters)
+        usuarioService
+            .findAllByUserType(pagination, filters)
             .then((response: IUserFindResDto) => {
                 console.log("response", response);
                 const {users, totalPages, totalItems, currentPage} = response;
@@ -264,7 +265,7 @@ export default function TableData() {
                         />
                     </Grid>
                     {currentQueryUser &&
-                    <BasicModal currentQueryUser={currentQueryUser}/>}
+                    <BasicModal currentOriginalUser={currentQueryUser}/>}
                 </Grid>
             ) :
             (

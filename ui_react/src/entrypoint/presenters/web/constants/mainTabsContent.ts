@@ -42,6 +42,6 @@ export const singlePageContentList = [
     {
         title: "Alta de Usuarios",
         body: "",
-        moduleName: "UserRegisterForm",
+        moduleName: "UserAddForm",
     },
 ];

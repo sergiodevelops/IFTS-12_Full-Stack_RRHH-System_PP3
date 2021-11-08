@@ -9,13 +9,13 @@ import {InputAdornment} from "@material-ui/core";
 import IconButton from "@mui/material/IconButton";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import Container from "@material-ui/core/Container";
-import userActions from "../../redux/actions/userActions";
-import userTypes from "../../constants/userTypes";
-import UsuarioService from "../../services/UsuarioService";
+import userActions from "@redux/actions/userActions";
+import userTypes from "../../../constants/userTypes";
+import UsuarioService from "../../../services/UsuarioService";
 import useStyles from "./styles";
 import IUserCreateReqDto from "@application/usecases/user/create/IUserCreateReqDto";
 
-export default function UserRegisterForm(props:{registerFormTitle?: string}) {
+export default function UserAddForm(props:{registerFormTitle?: string}) {
     const usuarioService = new UsuarioService();
 
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -88,7 +88,7 @@ export default function UserRegisterForm(props:{registerFormTitle?: string}) {
             .create(newUserPost)
             .then(createdUser => {
                 console.log("createdUser en FE ", createdUser);
-                // dispatch(userActions.setCurrentAuthenticatedUser(createdUser));
+                dispatch(userActions.setCurrentAuthenticatedUser(createdUser));
                 alert(`El usuario "${newUser.username}" se persistió correctamente`);
                 cleanInputValues();
             })

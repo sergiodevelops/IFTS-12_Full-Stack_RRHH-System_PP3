@@ -7,9 +7,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@redux/reducers/allReducers";
 import {useEffect} from "react";
 import layoutActions from "@redux/actions/layoutActions";
-import UserAuthForm from "@components/UserAuthForm/UserAuthForm";
-import UserRegisterForm from "@components/UserRegisterForm/UserRegisterForm";
-import UserUpdateDeleteForm from "@components/UserUpdateDeleteForm/UserUpdateDeleteForm";
+import UserLoginForm from "@components/Forms/UserLoginForm/UserLoginForm";
+import UserAddForm from "@components/Forms/UserAddForm/UserAddForm";
+import UserUpdateDeleteForm from "@components/Forms/UserUpdateDeleteForm/UserUpdateDeleteForm";
 import IUserLoginResDto
     from "@application/usecases/user/login/IUserLoginResDto";
 
@@ -25,7 +25,7 @@ const style = {
     p: 4,
 };
 
-export default function BasicModal(props:{currentQueryUser:IUserLoginResDto}) {
+export default function BasicModal(props:{currentOriginalUser:IUserLoginResDto}) {
     const dispatch = useDispatch();
     const modalIsOpen = useSelector((state: RootState) => state?.layoutReducers.openModal);
 

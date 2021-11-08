@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Principal from "./entrypoint/presenters/web/pages/Principal/Principal";
+import Principal from "./entrypoint/presenters/web/components/Principal/Principal";
 import WebFont from 'webfontloader';
 
 function App() {

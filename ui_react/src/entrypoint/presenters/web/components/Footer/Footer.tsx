@@ -5,7 +5,7 @@ import {useResizeDetector} from 'react-resize-detector';
 import useStyles from "./styles";
 
 
-export default function PieDePagina(props: { openLeft: boolean, openRight: boolean, drawerWidth: number }) {
+export default function Footer(props: { openLeft: boolean, openRight: boolean, drawerWidth: number }) {
     const dispatch = useDispatch();
     const classes = useStyles();
     const {openLeft, openRight, drawerWidth} = props;

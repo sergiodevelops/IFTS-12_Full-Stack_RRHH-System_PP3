@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -9,21 +9,22 @@ import {InputAdornment} from "@material-ui/core";
 import IconButton from "@mui/material/IconButton";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import Container from "@material-ui/core/Container";
-import userActions from "../../redux/actions/userActions";
-import userTypes from "../../constants/userTypes";
-import UsuarioService from "../../services/UsuarioService";
+import userActions from "@redux/actions/userActions";
+import userTypes from "../../../constants/userTypes";
+import UsuarioService from "../../../services/UsuarioService";
 import useStyles from "./styles";
 import IUserUpdateReqDto
     from "@application/usecases/user/update/IUserUpdateReqDto";
 import IUserLoginResDto
     from "@application/usecases/user/login/IUserLoginResDto";
 import layoutActions from "@redux/actions/layoutActions";
+import {RootState} from "@redux/reducers/allReducers";
 
 export default function UserUpdateDeleteForm(props: {
     registerFormTitle: string,
-    currentQueryUser: IUserLoginResDto,
+    currentOriginalUser: IUserLoginResDto,
 }) {
-    const {registerFormTitle, currentQueryUser} = props;
+    const {registerFormTitle, currentOriginalUser} = props;
     const usuarioService = new UsuarioService();
 
     const dispatch = useDispatch();
@@ -35,50 +36,32 @@ export default function UserUpdateDeleteForm(props: {
         username: undefined,
         password: undefined,
     }
-    const [updateQueryUser, setUpdateQueryUser] = useState<IUserUpdateReqDto>(emptyUserModify);
-    const [originalUser, setOriginalUser] = useState<IUserUpdateReqDto>(emptyUserModify);
+    const currentUser = useSelector((state: RootState) => state.userReducers.currentUser);
 
+    const [updateQueryUser, setUpdateQueryUser] = useState<IUserUpdateReqDto>(emptyUserModify);
     const [password2, setPassword2] = useState("");
+
     const [userExistInDB, setUserExistInDB] = useState(false);
     const [showPassword1, setShowPassword1] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
     const [updateButtonDisable, setUpdateButtonDisable] = useState(false);
-    // const currentUserType = React.useState(userTypes.map((userType) => userType.id === currentQueryUser?.tipo_usuario && userType) || userTypes[0]);
-    const currentUserType = userTypes.find(element => element.id === currentQueryUser?.tipo_usuario);
+    // const currentUserType = React.useState(userTypes.map((userType) => userType.id === currentOriginalUser?.tipo_usuario && userType) || userTypes[0]);
+    const currentUserType = userTypes.find(element => element.id === currentOriginalUser?.tipo_usuario);
 
     const handleClickShowPassword1 = () => setShowPassword1(!showPassword1);
     const handleClickShowPassword2 = () => setShowPassword2(!showPassword2);
 
-    const handleDisabledUpdateButton = () => {
-        return (
-            (!!originalUser.tipo_usuario &&
-                originalUser.tipo_usuario === updateQueryUser.tipo_usuario)
-            &&
-            (!!originalUser.nombre_completo &&
-                originalUser.nombre_completo === updateQueryUser.nombre_completo)
-            &&
-            (!!originalUser.username &&
-                updateQueryUser.username === originalUser.username)
-            &&
-            (
-                (!!originalUser.password)
-                &&
-                (password2 !== updateQueryUser.password)
-            )
-        )
-    }
-
     const handleClickReplaceRow = async () => {
-        let message;
-        if (!updateQueryUser?.tipo_usuario ||
-            !updateQueryUser.nombre_completo ||
-            !updateQueryUser.username ||
-            !updateQueryUser.password) {
-            message = "Por favor complete los campos requeridos";
-            alert(message);
-            // store.dispatch(notifierActions.enqueueNotification(new Notification('error', 'Error', 'Por favor complete los campos requeridos')));
-            return;
-        }
+        // let message;
+        // if (!updateQueryUser?.tipo_usuario ||
+        //     !updateQueryUser.nombre_completo ||
+        //     !updateQueryUser.username ||
+        //     !updateQueryUser.password) {
+        //     message = "Por favor complete los campos requeridos";
+        //     alert(message);
+        //     // store.dispatch(notifierActions.enqueueNotification(new Notification('error', 'Error', 'Por favor complete los campos requeridos')));
+        //     return;
+        // }
         const userToReplace: IUserUpdateReqDto = {
             tipo_usuario: updateQueryUser?.tipo_usuario, // mapeo para la base, envia un number
             nombre_completo: updateQueryUser?.nombre_completo,
@@ -87,11 +70,11 @@ export default function UserUpdateDeleteForm(props: {
         };
 
         usuarioService
-            .replace(userToReplace, currentQueryUser.id)
+            .replace(userToReplace, currentOriginalUser.id)
             .then(createdUser => {
                 console.log("createdUser en FE ", createdUser);
-                dispatch(userActions.setCurrentAuthenticatedUser(createdUser));
-                alert(`El usuario "${updateQueryUser.username}" se persistió correctamente`);
+                dispatch(userActions.setCurrentAuthenticatedUser(null));
+                alert(`El usuario "${updateQueryUser.username}" se MODIFICÓ correctamente`);
                 dispatch(layoutActions.setOpenModal(false));
             })
             .catch(err => {
@@ -106,29 +89,12 @@ export default function UserUpdateDeleteForm(props: {
     };
 
     const handleClickDeleteRow = async () => {
-        let message;
-        if (!updateQueryUser?.tipo_usuario ||
-            !updateQueryUser?.nombre_completo ||
-            !updateQueryUser?.username ||
-            !updateQueryUser?.password) {
-            message = "Por favor complete los campos requeridos";
-            alert(message);
-            // store.dispatch(notifierActions.enqueueNotification(new Notification('error', 'Error', 'Por favor complete los campos requeridos')));
-            return;
-        }
-        // const userToDelete: IUserCreateReqDto = {
-        //     tipo_usuario: updateQueryUser?.tipo_usuario, // mapeo para la base, envia un number
-        //     nombre_completo: updateQueryUser?.nombre_completo,
-        //     username: updateQueryUser?.username,
-        //     password: updateQueryUser?.password,
-        // };
-
         usuarioService
-            .delete(currentQueryUser.id)
+            .delete(currentOriginalUser.id)
             .then(createdUser => {
                 console.log("createdUser en FE ", createdUser);
-                dispatch(userActions.setCurrentAuthenticatedUser(createdUser));
-                alert(`El usuario "${updateQueryUser.username}" se persistió correctamente`);
+                currentUser?.id === currentOriginalUser.id && dispatch(userActions.setCurrentAuthenticatedUser(null));
+                alert(`El usuario "${updateQueryUser.username}" se ELIMINÓ correctamente`);
                 dispatch(layoutActions.setOpenModal(false));
             })
             .catch(err => {
@@ -143,17 +109,54 @@ export default function UserUpdateDeleteForm(props: {
     };
 
     useEffect(() => {
-        console.log("useEffect currentQueryUser")
-        !!currentQueryUser && setOriginalUser(currentQueryUser);
+        // !!currentOriginalUser && setOriginalUser(currentOriginalUser);
         setUpdateQueryUser({
-            ...currentQueryUser,
+            ...currentOriginalUser,
             password: "",
         });
-    }, [currentQueryUser])
+        setPassword2("");
+    }, [currentOriginalUser])
 
-    // useEffect(()=>{
-    //     handleDisabledUpdateButton();
-    // },[updateQueryUser])
+    useEffect(() => {
+        const originalAt = JSON.stringify({
+            a: currentOriginalUser.tipo_usuario,
+            b: currentOriginalUser.nombre_completo,
+            c: currentOriginalUser.username,
+        })
+        const updateAt = JSON.stringify({
+            a: updateQueryUser.tipo_usuario,
+            b: updateQueryUser.nombre_completo,
+            c: updateQueryUser.username,
+        })
+        const validateFieldsPass = (
+            originalAt !==  updateAt ?
+            (!!currentOriginalUser.tipo_usuario &&
+                currentOriginalUser.tipo_usuario !== updateQueryUser.tipo_usuario)
+            ||
+            (!!currentOriginalUser.nombre_completo &&
+                currentOriginalUser.nombre_completo !== updateQueryUser.nombre_completo)
+            ||
+            (!!currentOriginalUser.username && !!updateQueryUser.username &&
+                currentOriginalUser.username !== updateQueryUser.username) :
+                false
+        );
+        const validatePasswordPass = (
+            updateQueryUser.password !== "" ?
+                updateQueryUser.password === password2  :
+                false
+        );
+        const validateForm =  validatePasswordPass || (validateFieldsPass && updateQueryUser.password === password2)
+        console.log(
+            "validateFieldsPass", validateFieldsPass,
+            "validatePasswordPass", validatePasswordPass,
+            "\n",
+            currentOriginalUser,
+            "\n",
+            updateQueryUser,
+            "\n",
+            "password2", password2);
+        setUpdateButtonDisable(!(validateForm));
+    }, [updateQueryUser, password2])
 
 
     return (
@@ -183,7 +186,7 @@ export default function UserUpdateDeleteForm(props: {
                                         <TextField
                                             {...params}
                                             error={!updateQueryUser?.tipo_usuario}
-                                            style={{background: updateQueryUser.tipo_usuario !== originalUser.tipo_usuario ? '#e8ffe9' : 'inherit'}}
+                                            style={{background: updateQueryUser.tipo_usuario !== currentOriginalUser.tipo_usuario ? '#e8ffe9' : 'inherit'}}
                                             label="Seleccionar una opción"
                                             variant="outlined"
                                         />}
@@ -193,7 +196,7 @@ export default function UserUpdateDeleteForm(props: {
                         <Grid item xs={12}>
                             <TextField
                                 className={`nombre_completo`}
-                                style={{background: updateQueryUser.nombre_completo !== originalUser.nombre_completo ? '#e8ffe9' : 'inherit'}}
+                                style={{background: updateQueryUser.nombre_completo !== currentOriginalUser.nombre_completo ? '#e8ffe9' : 'inherit'}}
                                 autoComplete={"off"}
                                 fullWidth
                                 disabled={!updateQueryUser?.tipo_usuario}
@@ -201,7 +204,7 @@ export default function UserUpdateDeleteForm(props: {
                                 error={!!updateQueryUser?.tipo_usuario && !updateQueryUser?.nombre_completo}
                                 onChange={(e) => setUpdateQueryUser({
                                     ...updateQueryUser,
-                                    nombre_completo: e.target.value.toLowerCase()
+                                    nombre_completo: e.target.value === "" ? currentOriginalUser.nombre_completo : e.target.value.toLowerCase()
                                 })}
                                 label="Nombres y apellidos"
                                 name="nombre_completo"
@@ -213,7 +216,7 @@ export default function UserUpdateDeleteForm(props: {
                         <Grid item xs={12}>
                             <TextField
                                 className={`username`}
-                                style={{background: updateQueryUser.username !== originalUser.username ? '#e8ffe9' : 'inherit'}}
+                                style={{background: updateQueryUser.username !== currentOriginalUser.username ? '#e8ffe9' : 'inherit'}}
                                 autoComplete={"off"}
                                 fullWidth
                                 disabled={!updateQueryUser?.nombre_completo}
@@ -223,7 +226,7 @@ export default function UserUpdateDeleteForm(props: {
                                 onChange={(e) => {
                                     setUpdateQueryUser({
                                         ...updateQueryUser,
-                                        username: e.target.value.toLowerCase()
+                                        username:  e.target.value === "" ? currentOriginalUser.username : e.target.value.toLowerCase()
                                     });
                                     setUserExistInDB(false);
                                 }}
@@ -248,7 +251,7 @@ export default function UserUpdateDeleteForm(props: {
                                 variant="outlined"
                                 onChange={(e) => setUpdateQueryUser({
                                     ...updateQueryUser,
-                                    password: e.target.value,
+                                    password: e.target.value === "" ? "" : e.target.value,
                                 })}
                                 type={showPassword1 ? "text" : "password"}
                                 InputProps={{
@@ -310,14 +313,14 @@ export default function UserUpdateDeleteForm(props: {
                             color={"primary"}
                             fullWidth type="submit" variant="contained"
                             onClick={handleClickReplaceRow}
-                            disabled={updateQueryUser && handleDisabledUpdateButton()}
+                            disabled={updateButtonDisable}
                         >
                             modificar
                         </Button>
                     </Grid>
                     <Grid item xs={12}>
                         <Button
-                            color={"primary"}
+                            color={"secondary"}
                             fullWidth type="submit" variant="contained"
                             onClick={handleClickDeleteRow}
                         >

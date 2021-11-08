@@ -25,11 +25,11 @@ import MenuItem from "@mui/material/MenuItem";
 import userActions from "@redux/actions/userActions";
 import {RootState} from "@redux/reducers/allReducers";
 import userTypes from "@web/constants/userTypes";
-import MainTabs from "@web/components/MainTabs/MainTabs";
+import MainTabs from "@web/components/Tabs/MainTabs/MainTabs";
 import layoutActions from "@redux/actions/layoutActions";
-import SubMenuTabs from "@web/components/SubMenuTabs/SubMenuTabs";
+import SubMenuTabs from "@web/components/Tabs/SubMenuTabs/SubMenuTabs";
 import useStyles from "./styles";
-import PieDePagina from "@components/PieDePagina/PieDePagina";
+import Footer from "@components/Footer/Footer";
 // import {useResizeDetector} from "react-resize-detector";
 
 
@@ -52,6 +52,7 @@ export default function DoubleSideBar() {
 
     const dispatch = useDispatch();
     const currentUser = useSelector((state: RootState) => state.userReducers.currentUser);
+    const [loggedUser, setLoggedUser] = useState(currentUser);
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -60,7 +61,7 @@ export default function DoubleSideBar() {
     const [openRight, setOpenRight] = React.useState(true);
     const currentUserType = React.useState(userTypes.map(
         (userType) => {
-            if (userType.id === currentUser?.tipo_usuario && !!userType.description) return (userType.description);
+            if (userType.id === loggedUser?.tipo_usuario && !!userType.description) return (userType.description);
             return ("")
         }
     ));
@@ -136,6 +137,10 @@ export default function DoubleSideBar() {
     }, [subMenuTabValue]);
 
     useEffect(() => {
+        setLoggedUser(currentUser);
+    }, [currentUser]);
+
+    useEffect(() => {
         !openLeft && setOpenRight(false);
     }, [openLeft]);
 
@@ -175,12 +180,12 @@ export default function DoubleSideBar() {
                 {/*    <FormControlLabel*/}
                 {/*        control={*/}
                 {/*            <Switch*/}
-                {/*                checked={currentUser}*/}
+                {/*                checked={loggedUser}*/}
                 {/*                onChange={handleChange}*/}
                 {/*                aria-label="login switch"*/}
                 {/*            />*/}
                 {/*        }*/}
-                {/*        label={currentUser ? 'Logout' : 'Login'}*/}
+                {/*        label={loggedUser ? 'Logout' : 'Login'}*/}
                 {/*    />*/}
                 {/*</FormGroup>*/}
                 {/* BARRA AZUL DE ARRIBA*/}
@@ -201,9 +206,9 @@ export default function DoubleSideBar() {
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" noWrap component="div">
-                                {currentUser?.nombre_completo} ({currentUserType})
+                                {loggedUser?.nombre_completo} ({currentUserType})
                         </Typography>
-                        {currentUser && (
+                        {loggedUser && (
                             <div>
                                 <IconButton
                                     size="large"
@@ -275,7 +280,7 @@ export default function DoubleSideBar() {
                     <Divider/>
                     <div onClick={handleDrawerOpenRight}>
                         {
-                            (currentUser?.tipo_usuario === 3 || currentUser?.tipo_usuario === 2 /*postulante*/) &&
+                            (loggedUser?.tipo_usuario === 3 || loggedUser?.tipo_usuario === 2 /*postulante*/) &&
                             <List>
                                 {[
                                     'Datos Personales',
@@ -299,7 +304,7 @@ export default function DoubleSideBar() {
                         }
 
                         {
-                            (currentUser?.tipo_usuario === 1 /* administrativo (selector) o solicitante */) &&
+                            (loggedUser?.tipo_usuario === 1 /* administrativo (selector) o solicitante */) &&
                             <List>
                                 {[
                                     'CONSULTAS',
@@ -391,7 +396,7 @@ export default function DoubleSideBar() {
                     </List>*/}
                 </Drawer>
             </Box>
-            <PieDePagina {...{openLeft, openRight, drawerWidth}}/>
+            <Footer {...{openLeft, openRight, drawerWidth}}/>
         </Box>
     );
 }

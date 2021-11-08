@@ -12,7 +12,8 @@ import useStyles from "./styles";
 import TableData from "@components/TableData/TableData";
 import Building from "@components/Building/Building";
 import Grid from "@material-ui/core/Grid";
-import UserRegisterForm from "@components/UserRegisterForm/UserRegisterForm";
+import UserAddForm from "@components/Forms/UserAddForm/UserAddForm";
+import SwipeableViews from "react-swipeable-views";
 
 export default function MainTabs(props: { isWelcomePage: boolean }) {
     const [isWelcomePage, setIsWelcomePage] = useState(props.isWelcomePage);
@@ -59,36 +60,40 @@ export default function MainTabs(props: { isWelcomePage: boolean }) {
                                 fullnameUserAuth={currentUser?.nombre_completo}
                             />
                         </div> :
-                        singlePageContentList
-                            .map((content: ISinglePageContentDto, index: number) => {
-                                return (
-                                    <TabPanel
-                                        className={classes.singlePageContentList}
-                                        key={`singlePageContentList-${index}`}
-                                        value={index.toString()}
-                                    >
-                                        {!!content.title &&
-                                        <Typography variant={"h3"}
-                                                    noWrap
-                                                    className={classes.spaTitle}
-                                                    component={"div"}
-                                                    textAlign={'center'}
-                                                    marginY={'2vh'}
-                                        >
-                                            {content.title}
-                                        </Typography>}
+                        <SwipeableViews index={parseInt(mainTabValueStore)}>
+                            {
+                                singlePageContentList
+                                    .map((content: ISinglePageContentDto, index: number) => {
+                                        return (
+                                            <TabPanel
+                                                className={classes.singlePageContentList}
+                                                key={`singlePageContentList-${index}`}
+                                                value={index.toString()}
+                                            >
+                                                {!!content.title &&
+                                                <Typography variant={"h3"}
+                                                            noWrap
+                                                            className={classes.spaTitle}
+                                                            component={"div"}
+                                                            textAlign={'center'}
+                                                            marginY={'2vh'}
+                                                >
+                                                    {content.title}
+                                                </Typography>}
 
-                                        {content.moduleName === 'Building' &&
-                                        <Building/>}
+                                                {content.moduleName === 'Building' &&
+                                                <Building/>}
 
-                                        {content.moduleName === 'TableData' &&
-                                        <TableData/>}
+                                                {content.moduleName === 'TableData' &&
+                                                <TableData/>}
 
-                                        {content.moduleName === 'UserRegisterForm' &&
-                                        <UserRegisterForm/>}
-                                    </TabPanel>
-                                )
-                            })
+                                                {content.moduleName === 'UserAddForm' &&
+                                                <UserAddForm/>}
+                                            </TabPanel>
+                                        )
+                                    })
+                            }
+                        </SwipeableViews>
                 }
             </TabContext>
         </Box>
