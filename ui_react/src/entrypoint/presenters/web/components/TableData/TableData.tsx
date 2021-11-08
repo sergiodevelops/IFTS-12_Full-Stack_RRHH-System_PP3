@@ -19,7 +19,7 @@ import * as React from 'react';
 // import Switch from '@mui/material/Switch';
 // import DeleteIcon from '@mui/icons-material/Delete';
 // import FilterListIcon from '@mui/icons-material/FilterList';
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 // import {visuallyHidden} from '@mui/utils';
 import UsuarioService from "@web/services/UsuarioService";
 import IPaginationSetDto
@@ -38,7 +38,6 @@ import useWindowDimensions from "@components/Hooks/useWindowDimensions";
 import BasicModal from "@components/BasicModal/BasicModal";
 import layoutActions from "@redux/actions/layoutActions";
 import Typography from "@mui/material/Typography";
-import ModalSpinner from "@components/ModalSpinner/ModalSpinner";
 import Spinner from "@components/ModalSpinner/Spinner/Spinner";
 
 export default function TableData() {
@@ -69,6 +68,7 @@ export default function TableData() {
     // const [filters, setFilters] = useState<IFilterSetDto[] | undefined>();
     const [currentQueryUser, setCurrentQueryUser] = useState<IUserLoginResDto | undefined>();
     const [queryInProgress, setQueryInProgress] = useState<boolean>(false);
+    const modalStateStore = useSelector((state: RootState) => state.layoutReducers.openModal);
 
     const getUsersByFilters = (
         pagination?: IPaginationSetDto,
@@ -135,7 +135,8 @@ export default function TableData() {
     }, [pagination.page])
 
     useEffect(() => {
-        if (currentPage !== pagination.page && currentPage >= 0) {
+        // if (currentPage !== pagination.page && currentPage >= 0) {
+        if (currentPage >= 0) {
             let filters;
             let pagination;
             // CONSULTAS segun TAB VALUE (Administrativos)
@@ -177,7 +178,7 @@ export default function TableData() {
                     break;
             }
         }
-    }, [currentPage]); // si cambio contenido de tabla se actualiza el mismo para mostrar en la tabla
+    }, [currentPage, modalStateStore]); // si cambio contenido de tabla se actualiza el mismo para mostrar en la tabla
 
     return (
         !!rows.length ? // si hay contenido para mostrar en la tabla

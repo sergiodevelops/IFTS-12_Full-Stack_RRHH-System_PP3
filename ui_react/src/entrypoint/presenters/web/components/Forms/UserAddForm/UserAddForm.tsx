@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -14,8 +14,11 @@ import userTypes from "../../../constants/userTypes";
 import UsuarioService from "../../../services/UsuarioService";
 import useStyles from "./styles";
 import IUserCreateReqDto from "@application/usecases/user/create/IUserCreateReqDto";
+import {RootState} from "@redux/reducers/allReducers";
 
 export default function UserAddForm(props:{registerFormTitle?: string}) {
+    const userLoggedStore = useSelector((state: RootState) => state?.userReducers?.currentUser);
+    const [currentLoggedUser, setCurrentLoggedUser] = useState(userLoggedStore);
     const usuarioService = new UsuarioService();
 
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -33,6 +36,10 @@ export default function UserAddForm(props:{registerFormTitle?: string}) {
     const [userExistInDB, setUserExistInDB] = useState(false);
     const [showPassword1, setShowPassword1] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
+
+    useEffect(() => {
+        setCurrentLoggedUser(userLoggedStore)
+    }, [userLoggedStore]);
 
     useEffect(() => {
         const listener = (event: KeyboardEvent) => {
@@ -88,7 +95,7 @@ export default function UserAddForm(props:{registerFormTitle?: string}) {
             .create(newUserPost)
             .then(createdUser => {
                 console.log("createdUser en FE ", createdUser);
-                dispatch(userActions.setCurrentAuthenticatedUser(createdUser));
+                !currentLoggedUser && dispatch(userActions.setCurrentAuthenticatedUser(createdUser));
                 alert(`El usuario "${newUser.username}" se persistió correctamente`);
                 cleanInputValues();
             })

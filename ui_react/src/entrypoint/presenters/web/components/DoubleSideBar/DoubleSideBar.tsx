@@ -58,7 +58,7 @@ export default function DoubleSideBar() {
 
     const [openLeft, setOpenLeft] = React.useState(true);
     const [isWelcomePage, setIsWelcomePage] = useState(true);
-    const [openRight, setOpenRight] = React.useState(true);
+    const [openRight, setOpenRight] = React.useState(false);
     const currentUserType = React.useState(userTypes.map(
         (userType) => {
             if (userType.id === loggedUser?.tipo_usuario && !!userType.description) return (userType.description);
@@ -368,9 +368,9 @@ export default function DoubleSideBar() {
                         </IconButton>
                     </DrawerHeaderRight>
                     <Divider/>
-                    <div onClick={()=>handleClickMenu(0)}>
+                    {/*<div onClick={()=>handleClickMenu(valu)}>*/}
                         <SubMenuTabs/>
-                    </div>
+                    {/*</div>*/}
 
                     {/*<List>*/}
                     {/*    {['Objetivo', 'Vision', 'Misión', 'Alcance'].map((text, index) => (*/}

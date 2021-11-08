@@ -73,7 +73,7 @@ export default function UserUpdateDeleteForm(props: {
             .replace(userToReplace, currentOriginalUser.id)
             .then(createdUser => {
                 console.log("createdUser en FE ", createdUser);
-                dispatch(userActions.setCurrentAuthenticatedUser(null));
+                currentOriginalUser.id === currentUser?.id && dispatch(userActions.setCurrentAuthenticatedUser(null));
                 alert(`El usuario "${updateQueryUser.username}" se MODIFICÓ correctamente`);
                 dispatch(layoutActions.setOpenModal(false));
             })

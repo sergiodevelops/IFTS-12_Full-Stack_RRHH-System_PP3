@@ -11,6 +11,9 @@ import userActions from "@redux/actions/userActions";
 import layoutActions from "@redux/actions/layoutActions";
 import UsuarioService from "@web/services/UsuarioService";
 import IUserFindResDto from "@application/usecases/user/find/IUserFindResDto";
+import IPaginationSetDto
+    from "@application/usecases/pagination/set/IPaginationSetDto";
+import IFilterSetDto from "@application/usecases/filter/add/IFilterSetDto";
 
 export default function Principal() {
     const userIsLoggedIn: boolean = !!useSelector((state: RootState) => state?.userReducers.currentUser);
@@ -21,16 +24,17 @@ export default function Principal() {
     const [foundAnyUserInDb, setFoundAnyUserInDb] = useState<boolean>(true);
 
     const usuarioService = new UsuarioService();
-    const checkIfExistAnyUserInDb = async () => {
+    const checkIfExistAnyAdminUserInDb = async () => {
+        const pagination: IPaginationSetDto = {size: 1,page: 0};
+        const filters: IFilterSetDto[] = [{key: 'tipo_usuario',value: '1'}];
         usuarioService
-            .findAllByUserType()
+            .findAllByUserType(pagination,filters)
             .then((response: IUserFindResDto) => {
-                console.log("checkIfExistAnyUserInDb", response);
+                console.log("checkIfExistAnyAdminUserInDb", response);
                 !!response.users.length ?
                     console.log("ya existe al menos 1 user") :
                     console.log("no existe ningun usuario crea uno");
-                setFoundAnyUserInDb(!!response.users.length);
-                setLoginMode(!!response.users.length);
+                setLoginMode(!!response.users.length ? true : false);
 
             })
             .catch((err: any) => {
@@ -47,7 +51,7 @@ export default function Principal() {
     };
 
     useEffect(() => {
-        checkIfExistAnyUserInDb();
+        checkIfExistAnyAdminUserInDb();
     }, [userIsLoggedIn])
 
     useEffect(() => {

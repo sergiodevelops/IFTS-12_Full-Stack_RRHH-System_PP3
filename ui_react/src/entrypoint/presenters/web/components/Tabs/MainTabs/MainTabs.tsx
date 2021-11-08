@@ -19,6 +19,7 @@ export default function MainTabs(props: { isWelcomePage: boolean }) {
     const [isWelcomePage, setIsWelcomePage] = useState(props.isWelcomePage);
     const classes = useStyles();
     const mainTabValueStore = useSelector((state: RootState) => state.layoutReducers.mainTabValueStore);
+    const [loadTable, setLoadTable] = useState<boolean>(true);
     const [menuTab, setMenuTab] = useState("0");
     const currentUser = useSelector((state: RootState) => state?.userReducers.currentUser);
 

@@ -41,9 +41,9 @@ export default function SubMenuTabs() {
         >
             <TabContext value={subMenuTab}>
                 {/*SubMenues de CONSULTAS [0 a 4]*/}
-                <SwipeableViews index={parseInt(subMenuTab)}>
+                <SwipeableViews index={parseInt(subMenuTab)} className={classes.subMenuItems}>
                     {/*SubMenues de ABM [0 a 4]*/}
-                    <TabPanel className={classes.root} value="0">
+                    <TabPanel tabIndex={parseInt(subMenuTab)} value="0">
                         <List>
                             {[
                                 'Postulantes',
@@ -62,7 +62,7 @@ export default function SubMenuTabs() {
                         </List>
                     </TabPanel>
                     {/*SubMenues de ABM [5 a 8]*/}
-                    <TabPanel value="1">
+                    <TabPanel tabIndex={parseInt(subMenuTab)} value="1">
                         <List>
                             {[
                                 'Solicitudes',

@@ -208,13 +208,21 @@ docker-compose up --build -f docker-compose.yml
 - [x] ALTA NUEVO USUARIO en mysql database (backend)
 - [x] USER LOGIN con mysql database (backend)
 
-- [ ] MENU "Consultas" para USER administrativo (frontend)
-  - [ ] subMENU Postulantes menu Consultas (frontend)
-  - [ ] subMENU Solicitantes menu Consultas (frontend)
-  - [ ] subMENU Solicitudes menu Consultas (frontend)
-  - [ ] subMENU Solicitudes-Postulantes menu Consultas (frontend)
+- [x] MENU "Consultas" para USER administrativo (frontend)
+  - [x] subMENU Postulantes menu Consultas (frontend)
+  - [x] subMENU Solicitantes menu Consultas (frontend)
+  - [x] subMENU Solicitudes menu Consultas (frontend)
+  - [x] subMENU Solicitudes-Postulantes menu Consultas (frontend)
 
-- [ ] MENU "ABM" para USER administrativo (frontend)
-  - [ ] subMENU Solicitudes menu ABM (frontend)
-  - [ ] subMENU Datos menu ABM (frontend)
-  - [ ] subMENU Antecedentes menu ABM (frontend)
+- [x] MENU "ABM" para USER administrativo (frontend)
+  - [x] subMENU Solicitudes menu ABM (frontend)
+  - [x] subMENU Datos menu ABM (frontend)
+  - [x] subMENU Antecedentes menu ABM (frontend)
+- [x] ULTIMO tramo de la materia 
+  - [ ] Listado CVs
+  - [ ] Alta CVs
+  - [ ] Edición de CVs
+  - [ ] Listado anuncios
+  - [ ] Alta anuncio
+  - [ ] Edición de anuncio
+  - [ ] Agregar postulantes a anuncio

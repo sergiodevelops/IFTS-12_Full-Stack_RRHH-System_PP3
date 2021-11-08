@@ -4,7 +4,7 @@ import {TYPES} from "@entrypoint/presenters/web/redux/actions/userActions";
 
 export type UserReducersState = {
     usersList: IUserLoginResDto[],
-    currentUser: IUserLoginResDto | null,
+    currentUser: IUserLoginResDto | undefined,
 }
 
 export type ActionProps = {
@@ -18,7 +18,7 @@ export type ActionProps = {
 export default (
     state: UserReducersState = {
         usersList: [],
-        currentUser: null
+        currentUser: undefined
     },
     action: ActionProps) => {
 
