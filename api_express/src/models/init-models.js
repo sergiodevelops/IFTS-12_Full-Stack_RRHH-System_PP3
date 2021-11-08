@@ -1,12 +1,12 @@
 var DataTypes = require("sequelize").DataTypes;
-var _postulantes = require("./postulantes");
+var _anuncios = require("./anuncios");
 
 function initModels(sequelize) {
-  var postulantes = _postulantes(sequelize, DataTypes);
+  var anuncios = _anuncios(sequelize, DataTypes);
 
 
   return {
-    postulantes,
+    anuncios,
   };
 }
 module.exports = initModels;
