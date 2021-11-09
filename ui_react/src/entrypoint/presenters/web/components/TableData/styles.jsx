@@ -9,10 +9,17 @@ export default makeStyles(() => ({
         fontWeight: 'bold',
     },
     tableBodyRow:{
+        minHeight: '6%',
         cursor:'pointer',
         '&:hover':{
             outline: '-webkit-focus-ring-color auto 1px',
+            background: '#eef1ffc4',
         },
+    },
+    tableBodyCell:{
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center',
     },
     arrowChangeQueryPage:{
         display: 'flex',

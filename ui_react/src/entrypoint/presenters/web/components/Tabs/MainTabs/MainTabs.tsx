@@ -72,7 +72,7 @@ export default function MainTabs(props: { isWelcomePage: boolean }) {
                                                 value={index.toString()}
                                             >
                                                 {!!content.title &&
-                                                <Typography variant={"h3"}
+                                                <Typography variant={"h4"}
                                                             noWrap
                                                             className={classes.spaTitle}
                                                             component={"div"}
@@ -89,7 +89,7 @@ export default function MainTabs(props: { isWelcomePage: boolean }) {
                                                 <TableData/>}
 
                                                 {content.moduleName === 'UserAddForm' &&
-                                                <UserAddForm/>}
+                                                <UserAddForm title={""}/>}
                                             </TabPanel>
                                         )
                                     })

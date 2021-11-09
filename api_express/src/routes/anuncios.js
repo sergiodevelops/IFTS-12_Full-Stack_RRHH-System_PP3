@@ -20,5 +20,5 @@ module.exports = (app) => {
     // URI Delete User by id
     router.delete("/", UsuarioController.delete);
 
-    app.use('/api/applicants', router);
+    app.use('/api/job_ads', router);
 };

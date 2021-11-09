@@ -13,10 +13,12 @@ import userActions from "@redux/actions/userActions";
 import userTypes from "../../../constants/userTypes";
 import UsuarioService from "../../../services/UsuarioService";
 import useStyles from "./styles";
-import IUserCreateReqDto from "@application/usecases/user/create/IUserCreateReqDto";
+import IUserCreateReqDto
+    from "@application/usecases/user/create/IUserCreateReqDto";
 import {RootState} from "@redux/reducers/allReducers";
+import Typography from "@mui/material/Typography";
 
-export default function UserAddForm(props:{registerFormTitle?: string}) {
+export default function UserAddForm(props: { title: string }) {
     const userLoggedStore = useSelector((state: RootState) => state?.userReducers?.currentUser);
     const [currentLoggedUser, setCurrentLoggedUser] = useState(userLoggedStore);
     const usuarioService = new UsuarioService();
@@ -109,12 +111,28 @@ export default function UserAddForm(props:{registerFormTitle?: string}) {
             });
     };
 
+    const validateInputData = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, typeText: string) => {
+        const inputDataChecked = e.target.value.replace(/ /g, "");
+        if (typeText === "username") return inputDataChecked.toLowerCase();
+        return inputDataChecked;
+    }
+
     return (
-        <Container className={classes.container} maxWidth="xs">
-            <Grid>
-                <Grid item xs={12}>
-                    <h1 className={classes.titulo}>{props?.registerFormTitle || "Alta"}</h1>
-                </Grid>
+        <>
+            <Grid item xs={12}>
+                <Typography variant={"h4"}
+                            noWrap
+                            className={classes.addFormTitle}
+                            component={"div"}
+                            textAlign={'center'}
+                            marginY={'2vh'}
+                >
+                    {props?.title}
+                </Typography>
+                {/*<h1 className={classes.titulo}>{props?.title || "Alta de registro"}</h1>*/}
+            </Grid>
+
+            <Container className={classes.container} maxWidth="xs">
                 <Grid item xs={12}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -122,6 +140,7 @@ export default function UserAddForm(props:{registerFormTitle?: string}) {
                                          className={classes.formControl}>
                                 <Autocomplete
                                     className={`userType`}
+                                    disableClearable
                                     disabled={!newUser}
                                     options={userTypes}
                                     getOptionLabel={(option) => option.description || ""}
@@ -172,7 +191,7 @@ export default function UserAddForm(props:{registerFormTitle?: string}) {
                                 onChange={(e) => {
                                     setNewUser({
                                         ...newUser,
-                                        username: e.target.value.toLowerCase()
+                                        username: validateInputData(e, "username"),
                                     });
                                     setUserExistInDB(false);
                                 }}
@@ -196,7 +215,8 @@ export default function UserAddForm(props:{registerFormTitle?: string}) {
                                 variant="outlined"
                                 onChange={(e) => setNewUser({
                                     ...newUser,
-                                    password: e.target.value
+                                    // password: e.target.value
+                                    password: validateInputData(e, "password"),
                                 })}
                                 type={showPassword1 ? "text" : "password"}
                                 InputProps={{
@@ -227,7 +247,10 @@ export default function UserAddForm(props:{registerFormTitle?: string}) {
                                 name="password2"
                                 size="small"
                                 variant="outlined"
-                                onChange={(e) => setPassword2(e.target.value)}
+                                onChange={
+                                    (e) =>
+                                        setPassword2(validateInputData(e, "password2"))
+                                }
                                 type={showPassword2 ? "text" : "password"}
                                 InputProps={{
                                     endAdornment: (
@@ -262,7 +285,7 @@ export default function UserAddForm(props:{registerFormTitle?: string}) {
                         </Button>
                     </Grid>
                 </Grid>
-            </Grid>
-        </Container>
+            </Container>
+        </>
     );
 };

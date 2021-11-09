@@ -4,8 +4,9 @@ export default makeStyles(theme => ({
     container: {
         padding: theme.spacing(3),
     },
-    titulo:{
+    addFormTitle:{
         textAlign: "center",
+        margin:'10px 0px',
     },
     formControl: {
         minWidth: '100%',

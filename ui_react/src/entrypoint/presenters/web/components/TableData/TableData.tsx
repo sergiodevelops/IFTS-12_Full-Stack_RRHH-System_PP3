@@ -44,8 +44,13 @@ export default function TableData() {
     const dispatch = useDispatch();
 
     const classes = useStyles();
+
+    const modalStateStore = useSelector((state: RootState) => state.layoutReducers.openModal);
     const queryNumber = useSelector((state: RootState) => state?.layoutReducers.mainTabValueStore);
+    const [currentQueryCase, setCurrentQueryCase] = useState(queryNumber);
+
     const {viewportHeight} = useWindowDimensions();
+
     const currentMainTabHeight = useSelector((state: RootState) => state.layoutReducers);
     const [minHeightTable, setMinHeightTable] = useState<number>(600);
     // const rowRef = useRef<HTMLDivElement>();
@@ -57,6 +62,7 @@ export default function TableData() {
 
     // const [headCells, setHeadCells] = useState<HeadCell[] | undefined>();
     const [rows, setRows] = useState<IUserLoginResDto[]>([]);
+
     const paginationDefault = {size: 1, page: -1};
     const [pagination, setPagination] = useState<IPaginationSetDto>(paginationDefault);
     const [currentPage, setCurrentPage] = useState<number>(0);
@@ -68,7 +74,6 @@ export default function TableData() {
     // const [filters, setFilters] = useState<IFilterSetDto[] | undefined>();
     const [currentQueryUser, setCurrentQueryUser] = useState<IUserLoginResDto | undefined>();
     const [queryInProgress, setQueryInProgress] = useState<boolean>(false);
-    const modalStateStore = useSelector((state: RootState) => state.layoutReducers.openModal);
 
     const getUsersByFilters = (
         pagination?: IPaginationSetDto,
@@ -97,6 +102,7 @@ export default function TableData() {
                 setQueryInProgress(false);
             });
     }
+
     const handleTableBodyRowClick = (row: any) => {
         setCurrentQueryUser(row);
         dispatch(layoutActions.setOpenModal(true));
@@ -134,28 +140,31 @@ export default function TableData() {
         setCurrentPage(pagination.page);
     }, [pagination.page])
 
+    useEffect(()=>{
+        setCurrentQueryCase(queryNumber)
+    },[queryNumber])
+
     useEffect(() => {
         // if (currentPage !== pagination.page && currentPage >= 0) {
-        if (currentPage >= 0) {
-            let filters;
-            let pagination;
+            let newPagination;
+            let newFilters;
             // CONSULTAS segun TAB VALUE (Administrativos)
-            switch (queryNumber) {
+            switch (currentQueryCase) {
                 case '0':
                     //getUsersByFilters []
-                    pagination = {size: 3, page: currentPage};
-                    filters = [{key: 'tipo_usuario', value: '3'}]; //Postulantes
-                    getUsersByFilters(pagination, filters);
+                    newPagination = {size: 3, page: currentPage};
+                    newFilters = [{key: 'tipo_usuario', value: '3'}]; //Postulantes
+                    getUsersByFilters(newPagination, newFilters);
                     break;
                 case '1':
-                    pagination = {size: 3, page: currentPage};
-                    filters = [{key: 'tipo_usuario', value: '2'}]; //Solicitantes
-                    getUsersByFilters(pagination, filters);
+                    newPagination = {size: 3, page: currentPage};
+                    newFilters = [{key: 'tipo_usuario', value: '2'}]; //Solicitantes
+                    getUsersByFilters(newPagination, newFilters);
                     break;
                 case '2':
-                    pagination = {size: 3, page: currentPage};
-                    filters = [{key: 'tipo_usuario', value: '1'}]; //Administrativos
-                    getUsersByFilters(pagination, filters);
+                    newPagination = {size: 3, page: currentPage};
+                    newFilters = [{key: 'tipo_usuario', value: '1'}]; //Administrativos
+                    getUsersByFilters(newPagination, newFilters);
                     break;
                 case '3':
                     // CONSULTA segun TAB VALUE (Solicitudes)
@@ -177,8 +186,7 @@ export default function TableData() {
                     setRows([]);
                     break;
             }
-        }
-    }, [currentPage, modalStateStore]); // si cambio contenido de tabla se actualiza el mismo para mostrar en la tabla
+    }, [currentPage, currentQueryCase, modalStateStore]); // si cambio contenido de tabla se actualiza el mismo para mostrar en la tabla
 
     return (
         !!rows.length ? // si hay contenido para mostrar en la tabla
@@ -233,20 +241,19 @@ export default function TableData() {
                                 .map((row: IUserLoginResDto, index: number) => {
                                     return (
                                         <Grid
-                                            // ref={rowRef}
+                                            className={classes.tableBodyRow}
                                             key={`tableBodyRow-${index}`}
                                             onClick={() => {handleTableBodyRowClick(row)}}
                                             container
-                                            className={classes.tableBodyRow}
-                                            style={{background: index % 2 == 0 ? '#b6b6b6' : '#eaeaea'}}
+                                            // style={{background: index % 2 == 0 ? '#00ddff' : 'rgba(0,119,255,0.49)'}}
                                         >
                                             {Object
                                                 .values(row)
                                                 .map((cell: string, index: number) =>
                                                     <Grid
+                                                        className={classes.tableBodyCell}
                                                         key={`tableBodyCell-${index}`}
                                                         style={{width: `${100 / Object.keys(row).length}%`}}
-                                                        className={'cell'}
                                                         item
                                                     >{cell}</Grid>)}
                                         </Grid>

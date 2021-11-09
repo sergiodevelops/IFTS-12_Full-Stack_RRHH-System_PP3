@@ -66,7 +66,7 @@ export default function Principal() {
                     {loginMode ?
                         <UserLoginForm/> :
                         <UserAddForm
-                            registerFormTitle={"Crear una nueva cuenta"}/>}
+                            title={"Crear una nueva cuenta"}/>}
                 </div>
             }
         </div>

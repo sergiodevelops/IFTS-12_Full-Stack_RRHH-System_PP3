@@ -31,6 +31,11 @@ export default function SubMenuTabs() {
         dispatch(layoutActions.setMainTabValue(mainTabValue))
     }, [mainTabValue]);
 
+    const handleClickMenu = (index: number) => {
+        setMainTabValue((index).toString());
+        dispatch(layoutActions.setMainTabValue(index === 0 ? '0' : '5'));
+    };
+const colorCurrentButtonMenu = '#007bff26';
 
     return (
         <Box
@@ -55,7 +60,11 @@ export default function SubMenuTabs() {
                                 <ListItem
                                     button
                                     key={`${text}-${index}`}
-                                    onClick={() => setMainTabValue((index).toString())}>
+                                    style={{
+                                        background: index === parseInt(mainTabValue) ? colorCurrentButtonMenu : 'inherit',
+                                    }}
+                                    onClick={() => handleClickMenu(index)}
+                                >
                                     <ListItemText primary={text}/>
                                 </ListItem>
                             ))}
@@ -73,7 +82,11 @@ export default function SubMenuTabs() {
                                 <ListItem
                                     button
                                     key={`${text}-${index}`}
-                                    onClick={() => setMainTabValue((index + 5).toString())}
+                                    style={{
+                                        background: index+5 === parseInt(mainTabValue) ? colorCurrentButtonMenu : 'inherit',
+                                    }}
+                                    onClick={() => handleClickMenu(index+5)}
+                                    // onClick={() => setMainTabValue((index + 5).toString())}
                                 >
                                     <ListItemText primary={text}/>
                                 </ListItem>

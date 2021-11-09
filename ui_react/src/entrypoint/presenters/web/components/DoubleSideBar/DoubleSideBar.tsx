@@ -25,9 +25,9 @@ import MenuItem from "@mui/material/MenuItem";
 import userActions from "@redux/actions/userActions";
 import {RootState} from "@redux/reducers/allReducers";
 import userTypes from "@web/constants/userTypes";
-import MainTabs from "@web/components/Tabs/MainTabs/MainTabs";
 import layoutActions from "@redux/actions/layoutActions";
 import SubMenuTabs from "@web/components/Tabs/SubMenuTabs/SubMenuTabs";
+import MainTabs from "@web/components/Tabs/MainTabs/MainTabs";
 import useStyles from "./styles";
 import Footer from "@components/Footer/Footer";
 // import {useResizeDetector} from "react-resize-detector";
@@ -166,11 +166,12 @@ export default function DoubleSideBar() {
         setOpenLeft(false);
     };
     const handleDrawerOpenRight = () => {
-        setOpenRight(true);
+        !openRight && setOpenRight(true);
     };
     const handleDrawerCloseRight = () => {
         setOpenRight(false);
     };
+    const colorCurrentButtonMenu = '#007bff26';
 
     return (
         <Box className={classes.root}>
@@ -288,10 +289,14 @@ export default function DoubleSideBar() {
                                     'Estudios formales',
                                     'Idiomas',
                                     'Conocimientos',
-                                ].map((text: string/*, index: number*/) => (
+                                ].map((text: string, index: number) => (
                                     <ListItem
-                                        key={text}
                                         button
+                                        key={`${text}-${index}`}
+                                        // style={{
+                                        //     background: index === parseInt(subMenuTabValue) ? colorCurrentButtonMenu : 'inherit',
+                                        // }}
+                                        onClick={() => handleClickMenu(index)}
                                         disabled
                                     >
                                         {/*<ListItemIcon>
@@ -313,6 +318,9 @@ export default function DoubleSideBar() {
                                     <ListItem
                                         button
                                         key={`${text}-${index}`}
+                                        style={{
+                                            background: index === parseInt(subMenuTabValue) ? colorCurrentButtonMenu : 'inherit',
+                                        }}
                                         onClick={() => handleClickMenu(index)}
                                     >
                                         {/*<ListItemIcon>

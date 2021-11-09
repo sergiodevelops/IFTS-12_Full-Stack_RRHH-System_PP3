@@ -1,16 +1,16 @@
 export const singlePageContentList = [
     {
-        title: "Postulantes",
+        title: "Usuarios Postulantes",
         body: "",
         moduleName: "TableData",
     },
     {
-        title: "Solicitantes",
+        title: "Usuarios Solicitantes",
         body: "",
         moduleName: "TableData",
     },
     {
-        title: "Administrativos",
+        title: "Usuarios Administrativos",
         body: "",
         moduleName: "TableData",
     },
