@@ -4,18 +4,17 @@ import UserLoginForm
     from '@components/Forms/UserLoginForm/UserLoginForm';
 import UserAddForm from '@components/Forms/UserAddForm/UserAddForm';
 import DoubleSideBar from "../DoubleSideBar/DoubleSideBar";
-import Footer from "@components/Footer/Footer";
 import {RootState} from "@redux/reducers/allReducers";
 import {ActionButton} from "@components/ActionButton/ActionButton";
-import userActions from "@redux/actions/userActions";
-import layoutActions from "@redux/actions/layoutActions";
 import UsuarioService from "@web/services/UsuarioService";
 import IUserFindResDto from "@application/usecases/user/find/IUserFindResDto";
 import IPaginationSetDto
     from "@application/usecases/pagination/set/IPaginationSetDto";
 import IFilterSetDto from "@application/usecases/filter/add/IFilterSetDto";
+import useStyles from "./styles";
 
 export default function Principal() {
+    const classes = useStyles();
     const userIsLoggedIn: boolean = !!useSelector((state: RootState) => state?.userReducers.currentUser);
     // usuario esta logueado o no?
     const [sesionActiva, setSesionActiva] = useState<boolean>(userIsLoggedIn);
@@ -25,21 +24,21 @@ export default function Principal() {
 
     const usuarioService = new UsuarioService();
     const checkIfExistAnyAdminUserInDb = async () => {
-        const pagination: IPaginationSetDto = {size: 1,page: 0};
-        const filters: IFilterSetDto[] = [{key: 'tipo_usuario',value: '1'}];
+        const pagination: IPaginationSetDto = {size: 1, page: 0};
+        const filters: IFilterSetDto[] = [{key: 'tipo_usuario', value: '1'}];
         usuarioService
-            .findAllByUserType(pagination,filters)
+            .findAllByUserType(pagination, filters)
             .then((response: IUserFindResDto) => {
                 console.log("checkIfExistAnyAdminUserInDb", response);
                 !!response.users.length ?
                     console.log("ya existe al menos 1 user") :
                     console.log("no existe ningun usuario crea uno");
-                setLoginMode(!!response.users.length ? true : false);
-
+                setLoginMode(!!response.users.length);
             })
             .catch((err: any) => {
                 err.then((err: any) => {
-                        setLoginMode(false);
+                        setLoginMode(true);
+                        setSesionActiva(false);
                         console.error("ERROR en FE", err.message);
                     }
                 );
@@ -52,17 +51,23 @@ export default function Principal() {
 
     useEffect(() => {
         checkIfExistAnyAdminUserInDb();
+        setSesionActiva(userIsLoggedIn);
     }, [userIsLoggedIn])
 
-    useEffect(() => {
-        setSesionActiva(userIsLoggedIn);
-    }, [userIsLoggedIn]);
-
     return (
-        <div style={{minHeight: '100vh'}}>
+        <div
+            style={{minHeight: '100vh'}}
+            className={`${classes.backImage} ${loginMode ? 
+                classes.principal : 
+                classes.nosotros}`}
+        >
             {sesionActiva ?
                 <DoubleSideBar/> :
                 <div>
+                    <div onClick={handleClick}>
+                        <ActionButton authMode={loginMode}/>
+                    </div>
+
                     {loginMode ?
                         <UserLoginForm/> :
                         <UserAddForm

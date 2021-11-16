@@ -13,6 +13,7 @@ export function ActionButton(props: { authMode: boolean }) {
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <Button
+                        style={{background: '#dd4895'}}
                         color="secondary"
                         fullWidth
                         type="submit"

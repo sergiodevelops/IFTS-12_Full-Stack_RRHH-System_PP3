@@ -14,6 +14,19 @@ import Building from "@components/Building/Building";
 import Grid from "@material-ui/core/Grid";
 import UserAddForm from "@components/Forms/UserAddForm/UserAddForm";
 import SwipeableViews from "react-swipeable-views";
+import {ClassNameMap} from "@material-ui/styles";
+
+function MainTitle(props: { classes: ClassNameMap<"objetivo" | "singlePageContentList" | "vision" | "parrafo" | "welcomeTitle" | "root" | "nosotros" | "spaTitle" | "mision" | "backImage">, content: ISinglePageContentDto }) {
+    return <Typography variant={"h4"}
+                       noWrap
+                       className={props.classes.spaTitle}
+                       component={"div"}
+                       textAlign={"center"}
+                       paddingY={"2vh"}
+    >
+        {props.content.title}
+    </Typography>;
+}
 
 export default function MainTabs(props: { isWelcomePage: boolean }) {
     const [isWelcomePage, setIsWelcomePage] = useState(props.isWelcomePage);
@@ -31,7 +44,7 @@ export default function MainTabs(props: { isWelcomePage: boolean }) {
 
     function WelcomeUserTitle(props: { fullnameUserAuth?: string }) {
         return (
-            <Grid>
+            <Grid className={`${classes.backImage} ${classes.nosotros}`}>
                 <Typography variant={"h5"}
                             noWrap
                             className={classes.welcomeTitle}
@@ -40,9 +53,9 @@ export default function MainTabs(props: { isWelcomePage: boolean }) {
                             color={'grey'}
                             marginY={'2vh'}
                 >
-                    Bienvenid@
+                    Hola {props.fullnameUserAuth?.toUpperCase()}
                     <br/>
-                    {props.fullnameUserAuth?.toUpperCase()}
+                    Tu oportunidad esta aquí !
                 </Typography>
             </Grid>
         )
@@ -71,25 +84,67 @@ export default function MainTabs(props: { isWelcomePage: boolean }) {
                                                 key={`singlePageContentList-${index}`}
                                                 value={index.toString()}
                                             >
-                                                {!!content.title &&
-                                                <Typography variant={"h4"}
-                                                            noWrap
-                                                            className={classes.spaTitle}
-                                                            component={"div"}
-                                                            textAlign={'center'}
-                                                            marginY={'2vh'}
-                                                >
-                                                    {content.title}
-                                                </Typography>}
-
                                                 {content.moduleName === 'Building' &&
-                                                <Building/>}
+                                                    <div>
+                                                        {!!content.title &&
+                                                        <MainTitle classes={classes}
+                                                                   content={content}/>}
+                                                        <Building/>
+                                                    </div>
+                                                }
 
                                                 {content.moduleName === 'TableData' &&
-                                                <TableData/>}
+                                                <div>
+                                                    {!!content.title &&
+                                                    <MainTitle classes={classes}
+                                                               content={content}/>}
+                                                    <TableData/>
+                                                </div>}
+
 
                                                 {content.moduleName === 'UserAddForm' &&
-                                                <UserAddForm title={""}/>}
+                                                <div>
+                                                    {!!content.title &&
+                                                    <MainTitle classes={classes}
+                                                               content={content}/>}
+                                                    <UserAddForm title={""}/>
+                                                </div>}
+
+                                                {content.moduleName === 'Mision' &&
+                                                <div className={`${classes.backImage} ${classes.mision}`}>
+                                                    {!!content.title &&
+                                                    <MainTitle classes={classes}
+                                                               content={content}/>}
+                                                    <p className={classes.parrafo}>{content.body}</p>
+                                                </div>}
+
+                                                {content.moduleName === 'Vision' &&
+                                                <div
+                                                    className={`${classes.backImage} ${classes.vision}`}>
+                                                    {!!content.title &&
+                                                    <MainTitle classes={classes}
+                                                               content={content}/>}
+                                                    <p className={classes.parrafo}>{content.body}</p>
+                                                </div>}
+
+                                                {content.moduleName === 'Objetivo' &&
+                                                <div
+                                                    className={`${classes.backImage} ${classes.objetivo}`}>
+                                                    {!!content.title &&
+                                                    <MainTitle classes={classes}
+                                                               content={content}/>}
+                                                    <p className={classes.parrafo}>{content.body}</p>
+                                                </div>}
+
+                                                {content.moduleName === 'Nosotros' &&
+                                                <div
+                                                    className={`${classes.backImage} ${classes.nosotros}`}>
+                                                    {!!content.title &&
+                                                    <MainTitle classes={classes}
+                                                               content={content}/>}
+                                                    <p className={classes.parrafo}>{content.body}</p>
+                                                </div>}
+
                                             </TabPanel>
                                         )
                                     })

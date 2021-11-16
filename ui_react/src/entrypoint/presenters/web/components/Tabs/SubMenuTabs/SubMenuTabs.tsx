@@ -47,6 +47,7 @@ const colorCurrentButtonMenu = '#007bff26';
             <TabContext value={subMenuTab}>
                 {/*SubMenues de CONSULTAS [0 a 4]*/}
                 <SwipeableViews index={parseInt(subMenuTab)} className={classes.subMenuItems}>
+
                     {/*SubMenues de ABM [0 a 4]*/}
                     <TabPanel tabIndex={parseInt(subMenuTab)} value="0">
                         <List>
@@ -61,7 +62,7 @@ const colorCurrentButtonMenu = '#007bff26';
                                     button
                                     key={`${text}-${index}`}
                                     style={{
-                                        background: index === parseInt(mainTabValue) ? colorCurrentButtonMenu : 'inherit',
+                                        background: mainTabValue && index === parseInt(mainTabValue) ? colorCurrentButtonMenu : 'inherit',
                                     }}
                                     onClick={() => handleClickMenu(index)}
                                 >
@@ -70,6 +71,7 @@ const colorCurrentButtonMenu = '#007bff26';
                             ))}
                         </List>
                     </TabPanel>
+
                     {/*SubMenues de ABM [5 a 8]*/}
                     <TabPanel tabIndex={parseInt(subMenuTab)} value="1">
                         <List>
@@ -83,16 +85,40 @@ const colorCurrentButtonMenu = '#007bff26';
                                     button
                                     key={`${text}-${index}`}
                                     style={{
-                                        background: index+5 === parseInt(mainTabValue) ? colorCurrentButtonMenu : 'inherit',
+                                        background: mainTabValue && index+5 === parseInt(mainTabValue) ?
+                                            colorCurrentButtonMenu : 'inherit',
                                     }}
                                     onClick={() => handleClickMenu(index+5)}
-                                    // onClick={() => setMainTabValue((index + 5).toString())}
                                 >
                                     <ListItemText primary={text}/>
                                 </ListItem>
                             ))}
                         </List>
                     </TabPanel>
+
+                    {/*SubMenues de ABM [9 a 12]*/}
+                    <TabPanel tabIndex={parseInt(subMenuTab)} value="2">
+                        <List>
+                            {[
+                                'MISIÓN',
+                                'VISIÓN',
+                                'OBJETIVO',
+                                'NOSOTROS',
+                            ].map((text: string, index: number) => (
+                                <ListItem
+                                    button
+                                    key={`${text}-${index}`}
+                                    style={{
+                                        background: mainTabValue &&  index+9 === parseInt(mainTabValue) ? colorCurrentButtonMenu : 'inherit',
+                                    }}
+                                    onClick={() => handleClickMenu(index+9)}
+                                >
+                                    <ListItemText primary={text}/>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </TabPanel>
+
                 </SwipeableViews>
             </TabContext>
         </Box>

@@ -56,7 +56,7 @@ export default function DoubleSideBar() {
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-    const [openLeft, setOpenLeft] = React.useState(true);
+    const [openLeft, setOpenLeft] = React.useState(false);
     const [isWelcomePage, setIsWelcomePage] = useState(true);
     const [openRight, setOpenRight] = React.useState(false);
     const currentUserType = React.useState(userTypes.map(
@@ -147,7 +147,7 @@ export default function DoubleSideBar() {
     const handleClickMenu = (index: number) => {
         setSubMenuTabValue((index).toString());
         setIsWelcomePage(false);
-        dispatch(layoutActions.setMainTabValue(index === 0 ? '0' : '5'));
+        dispatch(layoutActions.setMainTabValue(index === 0 ? '0' : (index === 1 ? '5' : '9')));
     };
     const handleLogOut = () => {
         handleClose();
@@ -207,7 +207,7 @@ export default function DoubleSideBar() {
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" noWrap component="div">
-                                {loggedUser?.nombre_completo} ({currentUserType})
+                            {loggedUser?.nombre_completo} ({currentUserType})
                         </Typography>
                         {loggedUser && (
                             <div>
@@ -294,14 +294,16 @@ export default function DoubleSideBar() {
                                         button
                                         key={`${text}-${index}`}
                                         // style={{
-                                        //     background: index === parseInt(subMenuTabValue) ? colorCurrentButtonMenu : 'inherit',
+                                        //     background: index ===
+                                        // parseInt(subMenuTabValue) ?
+                                        // colorCurrentButtonMenu : 'inherit',
                                         // }}
                                         onClick={() => handleClickMenu(index)}
                                         disabled
                                     >
                                         {/*<ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
-                                </ListItemIcon>*/}
+                                         {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
+                                         </ListItemIcon>*/}
                                         <ListItemText primary={text}/>
                                     </ListItem>
                                 ))}
@@ -314,6 +316,7 @@ export default function DoubleSideBar() {
                                 {[
                                     'CONSULTAS',
                                     'ALTA',
+                                    'QUIENES SOMOS',
                                 ].map((text: string, index: number) => (
                                     <ListItem
                                         button
@@ -324,8 +327,8 @@ export default function DoubleSideBar() {
                                         onClick={() => handleClickMenu(index)}
                                     >
                                         {/*<ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
-                                </ListItemIcon>*/}
+                                         {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
+                                         </ListItemIcon>*/}
                                         <ListItemText primary={text}/>
                                     </ListItem>
                                 ))}
@@ -335,15 +338,15 @@ export default function DoubleSideBar() {
 
                     {/*<Divider/>*/}
                     {/*<List>
-                        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
-                                </ListItemIcon>
-                                <ListItemText primary={text}/>
-                            </ListItem>
-                        ))}
-                    </List>*/}
+                     {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                     <ListItem button key={text}>
+                     <ListItemIcon>
+                     {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
+                     </ListItemIcon>
+                     <ListItemText primary={text}/>
+                     </ListItem>
+                     ))}
+                     </List>*/}
                 </Drawer>
 
                 <Main style={{/*paddingBottom: '240px'*/}} openLeft={openLeft}
@@ -377,7 +380,7 @@ export default function DoubleSideBar() {
                     </DrawerHeaderRight>
                     <Divider/>
                     {/*<div onClick={()=>handleClickMenu(valu)}>*/}
-                        <SubMenuTabs/>
+                    <SubMenuTabs/>
                     {/*</div>*/}
 
                     {/*<List>*/}
@@ -392,16 +395,16 @@ export default function DoubleSideBar() {
                     {/*</List>*/}
 
                     {/*<Divider/>
-                    <List>
-                        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
-                                </ListItemIcon>
-                                <ListItemText primary={text}/>
-                            </ListItem>
-                        ))}
-                    </List>*/}
+                     <List>
+                     {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                     <ListItem button key={text}>
+                     <ListItemIcon>
+                     {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
+                     </ListItemIcon>
+                     <ListItemText primary={text}/>
+                     </ListItem>
+                     ))}
+                     </List>*/}
                 </Drawer>
             </Box>
             <Footer {...{openLeft, openRight, drawerWidth}}/>

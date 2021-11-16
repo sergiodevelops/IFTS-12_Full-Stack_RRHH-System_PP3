@@ -118,7 +118,7 @@ export default function UserAddForm(props: { title: string }) {
     }
 
     return (
-        <>
+        <Grid container>
             <Grid item xs={12}>
                 <Typography variant={"h4"}
                             noWrap
@@ -132,7 +132,7 @@ export default function UserAddForm(props: { title: string }) {
                 {/*<h1 className={classes.titulo}>{props?.title || "Alta de registro"}</h1>*/}
             </Grid>
 
-            <Container className={classes.container} maxWidth="xs">
+            <Container className={classes.root} maxWidth="xs">
                 <Grid item xs={12}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -141,6 +141,7 @@ export default function UserAddForm(props: { title: string }) {
                                 <Autocomplete
                                     className={`userType`}
                                     disableClearable
+                                    aria-readonly={'true'}
                                     disabled={!newUser}
                                     options={userTypes}
                                     getOptionLabel={(option) => option.description || ""}
@@ -286,6 +287,6 @@ export default function UserAddForm(props: { title: string }) {
                     </Grid>
                 </Grid>
             </Container>
-        </>
+        </Grid>
     );
 };
