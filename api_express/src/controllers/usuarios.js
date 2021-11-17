@@ -1,18 +1,18 @@
-// *** import modules ***
-// const db = require("../models");
-// const UsuarioModel = db.usuarios;
-const Sequelize = require('sequelize');
-const UsuarioModel = require('../models').usuarios;
-const db = require("../models");
-const {where} = require("sequelize");
-const Op = db.Sequelize.Op;
+/*
+ * Copyright (c) 2021.
+ * All Rights Reserved
+ * This product is protected by copyright and distributed under
+ * licenses restricting copying, distribution, and decompilation.
+ * @SergioArielJuárez (https://github.com/sergioarieljuarez)
+ * @JoseLuisGlavic
+ *
+ */
 
-// UsuarioModel.sync({force: true});
+const UsuarioModel = require('../models/allModels').usuarios;
 
 const getPagination = (size, page) => {
     const limit = size ? +size : 10;
     const offset = page ? page * limit : 0;
-
     return {limit, offset};
 };
 
@@ -20,7 +20,6 @@ const getPagingData = (data, page, limit) => {
     const {count: totalItems, rows: users} = data;
     const currentPage = page ? +page : 0;
     const totalPages = Math.ceil(totalItems / limit);
-
     return {totalItems, users, totalPages, currentPage};
 };
 
@@ -63,17 +62,11 @@ exports.create = (req, res) => {
     }
 
     // Create a User
-    const fechaActual = formatoFecha(new Date(), 'YYYY-MM-DD');
-
     const newDbUser = {
-        // id: req.body.id, // lo autoincrementa la API
-
         tipo_usuario: req.body.tipo_usuario,
         nombre_completo: req.body.nombre_completo,
         username: req.body.username,
         password: req.body.password,
-
-        // startDate: fechaActual || "" // lo genera la API
     };
 
     // Save User in the database if "username" not exist
@@ -100,6 +93,7 @@ exports.login = (req, res) => {
         });
         return;
     }
+
     // Validate "password"
     if (!req.body.password) {
         res.status(400).send({
@@ -149,8 +143,6 @@ exports.findAllByUserType = (req, res) => {
                     err.message || "Some error occurred while retrieving users."
             });
         });
-
-    // other CRUD functions
 };
 
 // MODIFICACIÓN DE USUARIO COMPLETO (reemplazo)
@@ -208,7 +200,7 @@ exports.delete = (req, res) => {
     const {id} = req.query;
 
     UsuarioModel.destroy({
-        where: { id: id }
+        where: {id: id}
     })
         .then(num => {
             if (num == 1) {

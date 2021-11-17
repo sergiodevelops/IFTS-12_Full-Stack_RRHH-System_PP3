@@ -1,10 +1,15 @@
-// << Initialize Sequelize >>
-
-//importa Sequelize
+/*
+ * Copyright (c) 2021.
+ * All Rights Reserved
+ * This product is protected by copyright and distributed under
+ * licenses restricting copying, distribution, and decompilation.
+ * @SergioArielJuárez (https://github.com/sergioarieljuarez)
+ * @JoseLuisGlavic
+ *
+ */
 const {Sequelize} = require("sequelize");
-//importa config para conexión a la base con sequelize
 const dbConfig = require("../dbConfig");
-//importa los modelos para virtualizar la DB con sequelize
+
 const UsuarioModel = require("./usuarios");
 const PostulanteModel = require("./postulantes");
 const AnuncioModel = require("./anuncios");
@@ -24,10 +29,13 @@ const sequelize = new Sequelize(
         }
     });
 
-const db = {}; //TODO cambiar por "const" una vez que funcione dar un alta
+const db = {};
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
 db.usuarios = UsuarioModel(sequelize, Sequelize);
+db.postulantes = PostulanteModel(sequelize, Sequelize);
+db.anuncios = AnuncioModel(sequelize, Sequelize);
 
 module.exports = db;

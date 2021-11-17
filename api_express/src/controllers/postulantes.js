@@ -1,13 +1,15 @@
-// *** import modules ***
-// const db = require("../models");
-// const PostulantesModel = db.postulantes;
-const Sequelize = require('sequelize');
-const PostulantesModel = require('../models').postulantes;
-const db = require("../models");
-const {where} = require("sequelize");
-const Op = db.Sequelize.Op;
+/*
+ * Copyright (c) 2021.
+ * All Rights Reserved
+ * This product is protected by copyright and distributed under
+ * licenses restricting copying, distribution, and decompilation.
+ * @SergioArielJuárez (https://github.com/sergioarieljuarez)
+ * @JoseLuisGlavic
+ *
+ */
 
-// PostulantesModel.sync({force: true});
+const {usuarios: UsuarioModel} = require("../models/allModels");
+const PostulanteModel = require('../models/allModels').postulantes;
 
 const getPagination = (size, page) => {
     const limit = size ? +size : 10;
@@ -24,33 +26,39 @@ const getPagingData = (data, page, limit) => {
     return {totalItems, users, totalPages, currentPage};
 };
 
-// ALTA (crea nuevo postulante)
 exports.create = (req, res) => {
-    // Validate "tipo_postulante"
-    if (!req.body.tipo_postulante) {
+    // Validate "dni"
+    if (!req.body.dni) {
         res.status(400).send({
-            message: "Debe enviar un 'tipo_postulante' para crear el User!"
+            message: "Debe enviar un 'dni' para crear el User!"
         });
         return;
     }
-    // Validate "nombre_completo"
+    // Validate "apellido"
     if (!req.body.nombre_completo) {
         res.status(400).send({
-            message: "Debe enviar un 'nombre_completo' para crear el User!"
+            message: "Debe enviar un 'apellido' para crear el User!"
         });
         return;
     }
-    // Validate "username"
-    if (!req.body.username) {
+    // Validate "nombres"
+    if (!req.body.nombres) {
         res.status(400).send({
-            message: "Debe enviar un 'username' para crear el User!"
+            message: "Debe enviar un 'nombres' para crear el User!"
         });
         return;
     }
-    // Validate "password"
-    if (!req.body.password) {
+    // Validate "tel"
+    if (!req.body.tel) {
         res.status(400).send({
-            message: "Debe enviar un 'password' para crear el User!"
+            message: "Debe enviar un 'tel' para crear el User!"
+        });
+        return;
+    }
+    // Validate "email"
+    if (!req.body.email) {
+        res.status(400).send({
+            message: "Debe enviar un 'email' para crear el User!"
         });
         return;
     }
@@ -63,21 +71,15 @@ exports.create = (req, res) => {
     }
 
     // Create a User
-    const fechaActual = formatoFecha(new Date(), 'YYYY-MM-DD');
-
     const newDbUser = {
-        // id: req.body.id, // lo autoincrementa la API
-
-        tipo_postulante: req.body.tipo_postulante,
+        tipo_usuario: req.body.tipo_usuario,
         nombre_completo: req.body.nombre_completo,
         username: req.body.username,
         password: req.body.password,
-
-        // startDate: fechaActual || "" // lo genera la API
     };
 
     // Save User in the database if "username" not exist
-    PostulantesModel
+    PostulanteModel
         .create(newDbUser, {username: req.body.username})
         .then(data => {
             res.status(201).send(data);
@@ -85,60 +87,23 @@ exports.create = (req, res) => {
         .catch(err => {
             res.status(409).send({
                 name: "Duplicate Username Entry",
-                message: `El postulante "${req.body.username}" ya existe, intente con uno diferente.`
+                message: `El usuario "${req.body.username}" ya existe, intente con uno diferente.`
             });
         });
 };
 
-// LOGIN (recupera si existe el postulante que coincida por username y pass)
-exports.login = (req, res) => {
-    // Validate "username"
-    if (!req.body.username) {
-        res.status(400).send({
-            name: "UsernameEmptyEntry",
-            message: "Debe enviar un 'username' para poder iniciar sesión!"
-        });
-        return;
-    }
-    // Validate "password"
-    if (!req.body.password) {
-        res.status(400).send({
-            name: "PasswordEmptyEntry",
-            message: "Debe ingresar una 'password' para poder iniciar sesión!"
-        });
-        return;
-    }
-
-    // Find User in the database by "username" and "password"
-    PostulantesModel
-        .findOne({where: {username: req.body.username}})
-        .then((user) => {
-                if (user && user.password === req.body.password) {
-                    res.status(200).send(user);
-                }
-                res.status(404).send({
-                    name: "Credentials Wrong",
-                    message: `Las credenciales ingresadas para autenticarse no son validas, intente nuevamente`
-                });
-            }
-        )
-        .catch((err) => {
-            res.status(500).send({
-                name: `${err.name}`,
-                message: `${err.message}`
-            });
-        });
-};
-
-// CONSULTA (obtiene los postulantes segun filtros)
-exports.findAllByUserType = (req, res) => {
-    let {size, page, tipo_postulante} = req.query;
-    const userTypeIsValid = (tipo_postulante > 0 && tipo_postulante < 4);
-    const condition = tipo_postulante ? {tipo_postulante: userTypeIsValid ? tipo_postulante : null} : null;
+exports.findAllByFilters = (req, res) => {
+    let {size, page, tipo_usuario} = req.query;
+    const userTypeIsValid = (tipo_usuario > 0 && tipo_usuario < 4);
+    const condition = tipo_usuario ? {tipo_usuario: userTypeIsValid ? tipo_usuario : null} : null;
     const {limit, offset} = getPagination(size, page);
 
-    PostulantesModel
-        .findAndCountAll({where: condition, limit, offset})
+    PostulanteModel
+        .findAndCountAll(/*{
+                where: condition,
+                limit,
+                offset
+            }*/)
         .then(data => {
             const response = getPagingData(data, page, limit);
             res.send(response);
@@ -151,79 +116,4 @@ exports.findAllByUserType = (req, res) => {
         });
 
     // other CRUD functions
-};
-
-// MODIFICACIÓN DE USUARIO COMPLETO (reemplazo)
-exports.update = (req, res) => {
-    const id = req.params.id;
-
-    PostulantesModel
-        .update(req.body, {where: {id: id}})
-        .then(data => {
-            if (data == 1) {
-                res.send({
-                    message: "User was updated successfully."
-                });
-            } else {
-                res.send({
-                    message: `Cannot update Tutorial with id=${id}. Maybe User was not found or req.body is empty!`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error updating User with id=" + id + err.message
-            });
-        });
-};
-
-// MODIFICACIÓN DE USUARIO PARCIAL (actualización)
-exports.replace = (req, res) => {
-    const {id} = req.query;
-
-    PostulantesModel
-        .update(
-            req.body,
-            {where: {id: id}})
-        .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "User was updated successfully."
-                });
-            } else {
-                res.send({
-                    message: `Cannot update Tutorial with id=${id}. Maybe User was not found or req.body is empty!`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error updating User with id=" + id
-            });
-        });
-};
-
-// BAJA (elimina el postulante)
-exports.delete = (req, res) => {
-    const {id} = req.query;
-
-    PostulantesModel.destroy({
-        where: { id: id }
-    })
-        .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "User was deleted successfully!" + id
-                });
-            } else {
-                res.send({
-                    message: `Cannot delete User with id=${id}. Maybe User was not found!`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Could not delete User with id=" + id
-            });
-        });
 };
