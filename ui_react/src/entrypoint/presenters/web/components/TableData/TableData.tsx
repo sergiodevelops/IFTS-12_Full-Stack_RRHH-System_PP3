@@ -74,6 +74,7 @@ export default function TableData() {
     // const [filters, setFilters] = useState<IFilterSetDto[] | undefined>();
     const [currentQueryUser, setCurrentQueryUser] = useState<IUserLoginResDto | undefined>();
     const [queryInProgress, setQueryInProgress] = useState<boolean>(false);
+    const [color, setColor] = useState<string>('#2a77d263');
 
     const getUsersByFilters = (
         pagination?: IPaginationSetDto,
@@ -152,16 +153,19 @@ export default function TableData() {
             switch (currentQueryCase) {
                 case '0':
                     //getUsersByFilters []
+                    setColor('#ffb8b8');
                     newPagination = {size: 3, page: currentPage};
                     newFilters = [{key: 'tipo_usuario', value: '3'}]; //Postulantes
                     getUsersByFilters(newPagination, newFilters);
                     break;
                 case '1':
+                    setColor('#d2e3fd');
                     newPagination = {size: 3, page: currentPage};
                     newFilters = [{key: 'tipo_usuario', value: '2'}]; //Solicitantes
                     getUsersByFilters(newPagination, newFilters);
                     break;
                 case '2':
+                    setColor('#d6ffb5');
                     newPagination = {size: 3, page: currentPage};
                     newFilters = [{key: 'tipo_usuario', value: '1'}]; //Administrativos
                     getUsersByFilters(newPagination, newFilters);
@@ -220,7 +224,7 @@ export default function TableData() {
                             key={`tableHeaderRow`}
                             container
                             className={classes.tableHeaderRow}
-                            style={{width: '100%', background: '#2a77d263'}}
+                            style={{width: '100%', background: color}}
                         >
                             {
                                 Object

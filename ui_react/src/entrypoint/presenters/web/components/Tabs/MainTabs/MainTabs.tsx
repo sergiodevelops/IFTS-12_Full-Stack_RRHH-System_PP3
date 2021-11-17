@@ -90,8 +90,7 @@ export default function MainTabs(props: { isWelcomePage: boolean }) {
                                                         <MainTitle classes={classes}
                                                                    content={content}/>}
                                                         <Building/>
-                                                    </div>
-                                                }
+                                                    </div>}
 
                                                 {content.moduleName === 'TableData' &&
                                                 <div>
