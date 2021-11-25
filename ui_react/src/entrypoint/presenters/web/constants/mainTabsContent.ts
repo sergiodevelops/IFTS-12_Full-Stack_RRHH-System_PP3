@@ -15,14 +15,14 @@ export const singlePageContentList = [
         moduleName: "TableData",
     },
     {
-        title: "Consulta de Solicitudes",
+        title: "Consulta de Postulantes",
         body: "",
-        moduleName: "Building",
+        moduleName: "TableData",
     },
     {
-        title: "Consulta de Solicitudes-Postulantes",
+        title: "Consulta de Anuncios",
         body: "",
-        moduleName: "Building",
+        moduleName: "TableData",
     },
     {
         title: "Alta de Solicitudes",

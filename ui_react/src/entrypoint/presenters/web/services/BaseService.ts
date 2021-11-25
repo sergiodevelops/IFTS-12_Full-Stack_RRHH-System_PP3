@@ -40,37 +40,6 @@ export default class BaseService {
         return this.headers;
     }
 
-    async findAnyUser() {
-        const url = `${this.api_url}/${this.getResource()}/find`;
-
-        const params = {
-            method: "GET",
-            headers: this.headers,
-        };
-
-        const checkResp = (resp: Response) => {
-            if (resp.status !== 200) throw resp.json();
-        }
-
-        const throwError = (err: ApiResponse) => {
-            throw err;
-        }
-
-        const results = await fetch(url, params)
-            .then((resp: Response) => {
-                checkResp(resp);
-                return resp.json();
-            })
-            .catch(throwError);
-
-        if (typeof results === 'undefined' || results.errors) {
-            if (typeof results === 'undefined') throw Error(`La API REST se encunetra fuera de servicio, puede comprobar su funcionamiento ingresando a ${this.api_url}`);
-            return null;
-        }
-
-        return results;
-    }
-
     async create(baseModel: IUserCreateReqDto) {
         const url = `${this.api_url}/${this.getResource()}/create`;
 
@@ -135,7 +104,7 @@ export default class BaseService {
         return results;
     }
 
-    async findAllByUserType(pagination?: IPaginationSetDto, filters?: IFilterSetDto[]) {
+    async findAllByFilters(pagination?: IPaginationSetDto, filters?: IFilterSetDto[]) {
         console.log("pagination",pagination,"filters",filters);
         let url = new URL(`${this.api_url}/${this.getResource()}`);
         pagination?.size && url.searchParams.append("size", pagination?.size.toString());

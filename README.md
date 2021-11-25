@@ -2,8 +2,6 @@
 - [Sintaxis elegante para esta documentación](https://docs.github.com/es/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 - [Repositorio en GITHUB](https://github.com/sergioarieljuarez/rrhh-express-react)
 
-![alt text](./docs/pepe-docs.png)
-
 ## Ambiente de DESARROLLO
 
 #### Puertos de conexión utilizados para "localhost" (127.0.0.1)
@@ -219,10 +217,10 @@ docker-compose up --build -f docker-compose.yml
   - [x] subMENU Datos menu ABM (frontend)
   - [x] subMENU Antecedentes menu ABM (frontend)
 - [x] ULTIMO tramo de la materia 
-  - [ ] Listado CVs
-  - [ ] Alta CVs
-  - [ ] Edición de CVs
-  - [ ] Listado anuncios
-  - [ ] Alta anuncio
-  - [ ] Edición de anuncio
-  - [ ] Agregar postulantes a anuncio
+  - [x] Listado CVs
+  - [x] Alta CVs
+  - [x] Edición de CVs
+  - [x] Listado anuncios
+  - [x] Alta anuncio
+  - [x] Edición de anuncio
+  - [x] Agregar postulantes a anuncio

@@ -18,27 +18,27 @@ module.exports = function(sequelize, DataTypes) {
     },
     dni: {
       type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: true,
+      allowNull: false,
       comment: "Nro de documento"
     },
     apellido: {
       type: DataTypes.STRING(100),
-      allowNull: true,
+      allowNull: false,
       comment: "Apellidos"
     },
     nombres: {
       type: DataTypes.STRING(100),
-      allowNull: true,
+      allowNull: false,
       comment: "Nombres"
     },
     tel: {
       type: DataTypes.STRING(100),
-      allowNull: true,
+      allowNull: false,
       comment: "teléfonos"
     },
     email: {
       type: DataTypes.STRING(100),
-      allowNull: true,
+      allowNull: false,
       comment: "direcciones de correos electrónicos"
     }
   }, {

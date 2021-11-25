@@ -10,8 +10,8 @@ import IconButton from "@mui/material/IconButton";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import Container from "@material-ui/core/Container";
 import userActions from "@redux/actions/userActions";
-import userTypes from "../../../constants/userTypes";
-import UsuarioService from "../../../services/UsuarioService";
+import userTypes from "../../../../constants/userTypes";
+import UsuarioService from "../../../../services/UsuarioService";
 import useStyles from "./styles";
 import IUserCreateReqDto
     from "@application/usecases/user/create/IUserCreateReqDto";
@@ -57,6 +57,7 @@ export default function UserAddForm(props: { title: string }) {
     const handleClickShowPassword1 = () => setShowPassword1(!showPassword1);
     const handleClickShowPassword2 = () => setShowPassword2(!showPassword2);
     const cleanInputValues = () => {
+
         setNewUser(emptyUser);
         setPassword2("");
         setUserExistInDB(false);
@@ -142,10 +143,10 @@ export default function UserAddForm(props: { title: string }) {
                                     className={`userType`}
                                     disableClearable
                                     aria-readonly={'true'}
-                                    disabled={!newUser}
+                                    disabled={!newUser.userType}
                                     options={userTypes}
                                     getOptionLabel={(option) => option.description || ""}
-                                    // value={newUser?. || ""}
+                                    // value={userTypes.find((userType)=>)}
                                     onChange={(e, selectedOption) => setNewUser({
                                         ...newUser,
                                         userType: selectedOption?.id || 0,

@@ -10,8 +10,8 @@ import IconButton from "@mui/material/IconButton";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import Container from "@material-ui/core/Container";
 import userActions from "@redux/actions/userActions";
-import userTypes from "../../../constants/userTypes";
-import UsuarioService from "../../../services/UsuarioService";
+import userTypes from "../../../../constants/userTypes";
+import UsuarioService from "../../../../services/UsuarioService";
 import useStyles from "./styles";
 import IUserUpdateReqDto
     from "@application/usecases/user/update/IUserUpdateReqDto";
@@ -19,12 +19,23 @@ import IUserLoginResDto
     from "@application/usecases/user/login/IUserLoginResDto";
 import layoutActions from "@redux/actions/layoutActions";
 import {RootState} from "@redux/reducers/allReducers";
+import IUserCreateResDto
+    from "@application/usecases/user/create/IUserCreateResDto";
+// import { IsNumber, IsString, IsOptional, ValidateNested, IsNotEmpty, ArrayNotEmpty } from "class-validator";
 
-export default function UserUpdateDeleteForm(props: {
-    registerFormTitle: string,
-    currentOriginalUser: IUserLoginResDto,
-}) {
-    const {registerFormTitle, currentOriginalUser} = props;
+export default function UserUpdateDeleteForm(props: { row: IUserCreateResDto }) {
+
+    const title = "Modificar o eliminar";
+    const row = props;
+    const {
+        id,
+        nombre_completo,
+        username,
+        password,
+        tipo_usuario,
+        fecha_alta,
+    } = props.row as IUserCreateResDto;
+
     const usuarioService = new UsuarioService();
 
     const dispatch = useDispatch();
@@ -46,7 +57,7 @@ export default function UserUpdateDeleteForm(props: {
     const [showPassword2, setShowPassword2] = useState(false);
     const [updateButtonDisable, setUpdateButtonDisable] = useState(false);
     // const currentUserType = React.useState(userTypes.map((userType) => userType.id === currentOriginalUser?.tipo_usuario && userType) || userTypes[0]);
-    const currentUserType = userTypes.find(element => element.id === currentOriginalUser?.tipo_usuario);
+    const currentUserType = userTypes.find(element => element.id === tipo_usuario);
 
     const handleClickShowPassword1 = () => setShowPassword1(!showPassword1);
     const handleClickShowPassword2 = () => setShowPassword2(!showPassword2);
@@ -66,14 +77,14 @@ export default function UserUpdateDeleteForm(props: {
             tipo_usuario: updateQueryUser?.tipo_usuario, // mapeo para la base, envia un number
             nombre_completo: updateQueryUser?.nombre_completo,
             username: updateQueryUser?.username,
-            password: !!updateQueryUser?.password ? updateQueryUser?.password :  currentOriginalUser?.password,
+            password: !!updateQueryUser?.password ? updateQueryUser?.password :  password,
         };
 
         usuarioService
-            .replace(userToReplace, currentOriginalUser.id)
+            .replace(userToReplace, id)
             .then(createdUser => {
                 console.log("createdUser en FE ", createdUser);
-                currentOriginalUser.id === currentUser?.id && dispatch(userActions.setCurrentAuthenticatedUser(null));
+                id === currentUser?.id && dispatch(userActions.setCurrentAuthenticatedUser(null));
                 alert(`El usuario "${updateQueryUser.username}" se MODIFICÓ correctamente`);
                 dispatch(layoutActions.setOpenModal(false));
             })
@@ -90,10 +101,10 @@ export default function UserUpdateDeleteForm(props: {
 
     const handleClickDeleteRow = async () => {
         usuarioService
-            .delete(currentOriginalUser.id)
+            .delete(id)
             .then(createdUser => {
                 console.log("createdUser en FE ", createdUser);
-                currentUser?.id === currentOriginalUser.id && dispatch(userActions.setCurrentAuthenticatedUser(null));
+                currentUser?.id === id && dispatch(userActions.setCurrentAuthenticatedUser(null));
                 alert(`El usuario "${updateQueryUser.username}" se ELIMINÓ correctamente`);
                 dispatch(layoutActions.setOpenModal(false));
             })
@@ -111,17 +122,19 @@ export default function UserUpdateDeleteForm(props: {
     useEffect(() => {
         // !!currentOriginalUser && setOriginalUser(currentOriginalUser);
         setUpdateQueryUser({
-            ...currentOriginalUser,
-            password: "",
+            nombre_completo,
+            tipo_usuario,
+            username,
+            password: ""
         });
         setPassword2("");
-    }, [currentOriginalUser])
+    }, [row])
 
     useEffect(() => {
         const originalAt = JSON.stringify({
-            a: currentOriginalUser.tipo_usuario,
-            b: currentOriginalUser.nombre_completo,
-            c: currentOriginalUser.username,
+            a: tipo_usuario,
+            b: nombre_completo,
+            c: username,
         })
         const updateAt = JSON.stringify({
             a: updateQueryUser.tipo_usuario,
@@ -130,14 +143,14 @@ export default function UserUpdateDeleteForm(props: {
         })
         const validateFieldsPass = (
             originalAt !==  updateAt ?
-            (!!currentOriginalUser.tipo_usuario &&
-                currentOriginalUser.tipo_usuario !== updateQueryUser.tipo_usuario)
-            ||
-            (!!currentOriginalUser.nombre_completo &&
-                currentOriginalUser.nombre_completo !== updateQueryUser.nombre_completo)
-            ||
-            (!!currentOriginalUser.username && !!updateQueryUser.username &&
-                currentOriginalUser.username !== updateQueryUser.username) :
+                (!!tipo_usuario &&
+                    tipo_usuario !== updateQueryUser.tipo_usuario)
+                ||
+                (!!nombre_completo &&
+                    nombre_completo !== updateQueryUser.nombre_completo)
+                ||
+                (!!username && !!updateQueryUser.username &&
+                    username !== updateQueryUser.username) :
                 false
         );
         const validatePasswordPass = (
@@ -150,7 +163,7 @@ export default function UserUpdateDeleteForm(props: {
             "validateFieldsPass", validateFieldsPass,
             "validatePasswordPass", validatePasswordPass,
             "\n",
-            currentOriginalUser,
+            row,
             "\n",
             updateQueryUser,
             "\n",
@@ -163,7 +176,7 @@ export default function UserUpdateDeleteForm(props: {
         <Container className={classes.container} maxWidth="xs">
             <Grid>
                 <Grid item xs={12}>
-                    <h3 className={classes.titulo}>{registerFormTitle}</h3>
+                    <h3 className={classes.titulo}>{title}</h3>
                 </Grid>
                 <Grid item xs={12}>
                     <Grid container spacing={2}>
@@ -186,7 +199,7 @@ export default function UserUpdateDeleteForm(props: {
                                         <TextField
                                             {...params}
                                             error={!updateQueryUser?.tipo_usuario}
-                                            style={{background: updateQueryUser.tipo_usuario !== currentOriginalUser.tipo_usuario ? '#e8ffe9' : 'inherit'}}
+                                            style={{background: updateQueryUser.tipo_usuario !== tipo_usuario ? '#e8ffe9' : 'inherit'}}
                                             label="Seleccionar una opción"
                                             variant="outlined"
                                         />}
@@ -196,7 +209,7 @@ export default function UserUpdateDeleteForm(props: {
                         <Grid item xs={12}>
                             <TextField
                                 className={`nombre_completo`}
-                                style={{background: updateQueryUser.nombre_completo !== currentOriginalUser.nombre_completo ? '#e8ffe9' : 'inherit'}}
+                                style={{background: updateQueryUser.nombre_completo !== nombre_completo ? '#e8ffe9' : 'inherit'}}
                                 autoComplete={"off"}
                                 fullWidth
                                 disabled={!updateQueryUser?.tipo_usuario}
@@ -204,7 +217,7 @@ export default function UserUpdateDeleteForm(props: {
                                 error={!!updateQueryUser?.tipo_usuario && !updateQueryUser?.nombre_completo}
                                 onChange={(e) => setUpdateQueryUser({
                                     ...updateQueryUser,
-                                    nombre_completo: e.target.value === "" ? currentOriginalUser.nombre_completo : e.target.value.toLowerCase()
+                                    nombre_completo: e.target.value === "" ? nombre_completo : e.target.value.toLowerCase()
                                 })}
                                 label="Nombres y apellidos"
                                 name="nombre_completo"
@@ -216,7 +229,7 @@ export default function UserUpdateDeleteForm(props: {
                         <Grid item xs={12}>
                             <TextField
                                 className={`username`}
-                                style={{background: updateQueryUser.username !== currentOriginalUser.username ? '#e8ffe9' : 'inherit'}}
+                                style={{background: updateQueryUser.username !== username ? '#e8ffe9' : 'inherit'}}
                                 autoComplete={"off"}
                                 fullWidth
                                 disabled={!updateQueryUser?.nombre_completo}
@@ -226,7 +239,7 @@ export default function UserUpdateDeleteForm(props: {
                                 onChange={(e) => {
                                     setUpdateQueryUser({
                                         ...updateQueryUser,
-                                        username:  e.target.value === "" ? currentOriginalUser.username : e.target.value.toLowerCase()
+                                        username:  e.target.value === "" ? username : e.target.value.toLowerCase()
                                     });
                                     setUserExistInDB(false);
                                 }}

@@ -39,6 +39,21 @@ import BasicModal from "@components/BasicModal/BasicModal";
 import layoutActions from "@redux/actions/layoutActions";
 import Typography from "@mui/material/Typography";
 import Spinner from "@components/ModalSpinner/Spinner/Spinner";
+import PostulanteService from "@web/services/PostulanteService";
+import AnuncioService from "@web/services/AnuncioService";
+import IApplicantFindResDto
+    from "@application/usecases/applicant/find/IApplicantFindResDto";
+import IJobAdFindResDto
+    from "@application/usecases/jobad/find/IJobAdFindResDto";
+import IJobAdCreateResDto
+    from "@application/usecases/jobad/create/IJobAdCreateResDto";
+import IApplicantCreateResDto
+    from "@application/usecases/applicant/create/IApplicantCreateResDto";
+import UserUpdateDeleteForm
+    from "@components/Forms/UserForms/UserUpdateDeleteForm/UserUpdateDeleteForm";
+import {queriesEnum} from "@constants/queriesEnum";
+import IUserCreateResDto
+    from "@application/usecases/user/create/IUserCreateResDto";
 
 export default function TableData() {
     const dispatch = useDispatch();
@@ -47,7 +62,7 @@ export default function TableData() {
 
     const modalStateStore = useSelector((state: RootState) => state.layoutReducers.openModal);
     const queryNumber = useSelector((state: RootState) => state?.layoutReducers.mainTabValueStore);
-    const [currentQueryCase, setCurrentQueryCase] = useState(queryNumber);
+    const [currentQueryCase, setCurrentQueryCase] = useState<number>(parseInt(queryNumber));
 
     const {viewportHeight} = useWindowDimensions();
 
@@ -61,9 +76,14 @@ export default function TableData() {
     // const [dense, setDense] = useState<boolean>(false);
 
     // const [headCells, setHeadCells] = useState<HeadCell[] | undefined>();
-    const [rows, setRows] = useState<IUserLoginResDto[]>([]);
+    const [rows, setRows] = useState<
+        (IUserCreateResDto
+            |
+            IApplicantCreateResDto
+            |
+            IJobAdCreateResDto)[]>([]);
 
-    const paginationDefault = {size: 1, page: -1};
+    const paginationDefault = {size: 1, page: 0};
     const [pagination, setPagination] = useState<IPaginationSetDto>(paginationDefault);
     const [currentPage, setCurrentPage] = useState<number>(0);
     const [arrowPage, setArrowPage] = useState<number>(0);
@@ -72,9 +92,15 @@ export default function TableData() {
     const [totalPages, setTotalPages] = useState<number>(0);
     const [totalItems, setTotalItems] = useState<number>(0);
     // const [filters, setFilters] = useState<IFilterSetDto[] | undefined>();
-    const [currentQueryUser, setCurrentQueryUser] = useState<IUserLoginResDto | undefined>();
+    const [bodyComponent, setBodyComponent] = useState<React.ReactHTML>();
+    const [clickedRow, setClickedRow] = useState<(IUserLoginResDto
+        |
+        IApplicantCreateResDto
+        |
+        IJobAdCreateResDto)>();
+    const [currentForm, setCurrentForm] = useState();
     const [queryInProgress, setQueryInProgress] = useState<boolean>(false);
-    const [color, setColor] = useState<string>('#2a77d263');
+    const [backColor, setBackColor] = useState<string>('#2a77d263');
 
     const getUsersByFilters = (
         pagination?: IPaginationSetDto,
@@ -82,13 +108,14 @@ export default function TableData() {
     ) => {
         const usuarioService = new UsuarioService();
         setQueryInProgress(true);
+
         usuarioService
-            .findAllByUserType(pagination, filters)
+            .findAllByFilters(pagination, filters)
             .then((response: IUserFindResDto) => {
                 console.log("response", response);
                 const {users, totalPages, totalItems, currentPage} = response;
                 if (!!users.length) {
-                    setRows(users);
+                    setRows(users as IUserCreateResDto[]);
                     setTotalPages(totalPages);
                     setTotalItems(totalItems);
                     setCurrentPage(currentPage);
@@ -96,22 +123,83 @@ export default function TableData() {
                 setQueryInProgress(false);
             })
             .catch((err: any) => {
-                err.then((err: any) => {
-                        console.error("ERROR en FE", err.message);
-                    }
-                );
+                // err.then((err: any) => {
+                console.error("ERROR en FE", err.message);
+                // });
+                setQueryInProgress(false);
+            });
+    }
+
+    const getPostulantesByFilters = (
+        pagination?: IPaginationSetDto,
+        filters?: IFilterSetDto[],
+    ) => {
+        const postulanteService = new PostulanteService();
+        setQueryInProgress(true);
+
+        postulanteService
+            .findAllByFilters(pagination, filters)
+            .then((response: IApplicantFindResDto) => {
+                console.log("response", response);
+                const {
+                    applicants,
+                    totalPages,
+                    totalItems,
+                    currentPage
+                } = response;
+                if (!!applicants.length) {
+                    setRows(applicants as IApplicantCreateResDto[]);
+                    setTotalPages(totalPages);
+                    setTotalItems(totalItems);
+                    setCurrentPage(currentPage);
+                }
+                setQueryInProgress(false);
+            })
+            .catch((err: any) => {
+                // err.then((err: any) => {
+                console.error("ERROR en FE", err.message);
+                // });
+                setQueryInProgress(false);
+            });
+    }
+
+    const getAnunciosByFilters = (
+        pagination?: IPaginationSetDto,
+        filters?: IFilterSetDto[],
+    ) => {
+        const anuncioService = new AnuncioService();
+        setQueryInProgress(true);
+
+        anuncioService
+            .findAllByFilters(pagination, filters)
+            .then((response: IJobAdFindResDto) => {
+                console.log("response", response);
+                const {jobads, totalPages, totalItems, currentPage} = response;
+                if (!!jobads.length) {
+                    setRows(jobads as IJobAdCreateResDto[]);
+                    setTotalPages(totalPages);
+                    setTotalItems(totalItems);
+                    setCurrentPage(currentPage);
+                }
+                setQueryInProgress(false);
+            })
+            .catch((err: any) => {
+                // err.then((err: any) => {
+                console.error("ERROR en FE", err.message);
+                // });
                 setQueryInProgress(false);
             });
     }
 
     const handleTableBodyRowClick = (row: any) => {
-        setCurrentQueryUser(row);
+        setClickedRow(row);
+        // setCurrentForm(<UserUpdateDeleteForm row={clickedRow}/>);
         dispatch(layoutActions.setOpenModal(true));
     }
     const handleArrowChangePage = (intervalPage: number) => { // -5 , + 5 , +1 , -1
         const sumatoria = currentPage + intervalPage;
         const validateNewPage = (): boolean => {
-            return (sumatoria >= 0 && sumatoria <= totalPages - 1) // dentro del rango valido? [0,lim]
+            return (sumatoria >= 0 && sumatoria <= totalPages - 1)
         };
         const calcNewPage = (): number => {
             if (!validateNewPage()) { // si se fue del rango poner al inicio o al final
@@ -141,59 +229,88 @@ export default function TableData() {
         setCurrentPage(pagination.page);
     }, [pagination.page])
 
-    useEffect(()=>{
-        setCurrentQueryCase(queryNumber)
-    },[queryNumber])
+    useEffect(() => {
+        setCurrentQueryCase(parseInt(queryNumber))
+        console.log("case",queryNumber)
+    }, [queryNumber])
 
     useEffect(() => {
         // if (currentPage !== pagination.page && currentPage >= 0) {
-            let newPagination;
-            let newFilters;
-            // CONSULTAS segun TAB VALUE (Administrativos)
-            switch (currentQueryCase) {
-                case '0':
-                    //getUsersByFilters []
-                    setColor('#ffb8b8');
-                    newPagination = {size: 3, page: currentPage};
-                    newFilters = [{key: 'tipo_usuario', value: '3'}]; //Postulantes
-                    getUsersByFilters(newPagination, newFilters);
-                    break;
-                case '1':
-                    setColor('#d2e3fd');
-                    newPagination = {size: 3, page: currentPage};
-                    newFilters = [{key: 'tipo_usuario', value: '2'}]; //Solicitantes
-                    getUsersByFilters(newPagination, newFilters);
-                    break;
-                case '2':
-                    setColor('#d6ffb5');
-                    newPagination = {size: 3, page: currentPage};
-                    newFilters = [{key: 'tipo_usuario', value: '1'}]; //Administrativos
-                    getUsersByFilters(newPagination, newFilters);
-                    break;
-                case '3':
-                    // CONSULTA segun TAB VALUE (Solicitudes)
-                    break;
-                case '4':
-                    // CONSULTA segun TAB VALUE (Solicitudes-Postulantes)
-                    break;
-                case '5':
-                    // CONSULTA segun TAB VALUE (Solicitudes)
-                    break;
-                case '6':
-                    // CONSULTA segun TAB VALUE (Datos)
-                    break;
-                case '7':
-                    // CONSULTA segun TAB VALUE (Antecedentes)
-                    break;
-                default:
-                    // default
-                    setRows([]);
-                    break;
-            }
-    }, [currentPage, currentQueryCase, modalStateStore]); // si cambio contenido de tabla se actualiza el mismo para mostrar en la tabla
+        let newPagination;
+        let newFilters;
+        // CONSULTAS segun TAB VALUE (Administrativos)
+        switch (currentQueryCase) {
+            // 0 CONSULTA Users --> filtra por Postulantes (applicants) (value:
+            // '3')
+            case (queriesEnum.applicantUsersList):
+                setBackColor('#ffb8b8');
+                newPagination = {size: 3, page: currentPage};
+                newFilters = [{key: 'tipo_usuario', value: '3'}];
+                getUsersByFilters(newPagination, newFilters);
+                break;
+            // 1 CONSULTA Users --> filtra por Solicitantes (clients) (value:
+            // '2')
+            case (queriesEnum.clientUsersList):
+                setBackColor('#d2e3fd');
+                newPagination = {size: 3, page: currentPage};
+                newFilters = [{key: 'tipo_usuario', value: '2'}];
+                getUsersByFilters(newPagination, newFilters);
+                break;
+            // 2 CONSULTA Users --> filtra por Administrativos (selectors)
+            // (value: '1')
+            case (queriesEnum.selectorUsersList):
+                setBackColor('#ffd5b5');
+                newPagination = {size: 3, page: currentPage};
+                newFilters = [{key: 'tipo_usuario', value: '1'}];
+                getUsersByFilters(newPagination, newFilters);
+                break;
+            // 3 CONSULTA Info de Postulantes (Applicants)
+            case (queriesEnum.applicantUsersInfoList):
+                // CONSULTA segun TAB VALUE (Postulantes)
+                setBackColor('#acfedc');
+                newPagination = {size: 5, page: currentPage};
+                // newFilters = [{key: 'tipo_usuario', value: '1'}];
+                getPostulantesByFilters(newPagination, newFilters); //Applicants
+                break;
+            // 4 CONSULTA Info de Avisos (JobAds)
+            case (queriesEnum.jobAdsList):
+                // CONSULTA segun TAB VALUE (Anuncios)
+                setBackColor('#fdffb5');
+                newPagination = {size: 5, page: currentPage};
+                // newFilters = [{key: 'tipo_usuario', value: '1'}];
+                getAnunciosByFilters(newPagination, newFilters); //JobAds
+                break;
+            default:
+                // default
+                setRows([]);
+                break;
+        }
+    }, [currentPage, currentQueryCase, modalStateStore]); // si cambio
+                                                          // contenido de tabla
+                                                          // se actualiza el
+                                                          // mismo para mostrar
+                                                          // en la tabla
+
+    const renderBodyComponent = () => {
+        return (
+            <>
+                {
+                    (
+                        currentQueryCase === queriesEnum.applicantUsersInfoList
+                        ||
+                        currentQueryCase === queriesEnum.clientUsersList
+                        ||
+                        currentQueryCase === queriesEnum.selectorUsersList
+                    )
+                    &&
+                    <UserUpdateDeleteForm row={clickedRow as IUserCreateResDto}/>}
+            </>
+        )
+    }
 
     return (
-        !!rows.length ? // si hay contenido para mostrar en la tabla
+        !!rows.length
+            ? // si hay contenido para mostrar en la tabla
             (
                 <Grid
                     container
@@ -224,7 +341,7 @@ export default function TableData() {
                             key={`tableHeaderRow`}
                             container
                             className={classes.tableHeaderRow}
-                            style={{width: '100%', background: color}}
+                            style={{width: '100%', background: backColor}}
                         >
                             {
                                 Object
@@ -242,18 +359,23 @@ export default function TableData() {
                         </Grid>
                         {
                             rows
-                                .map((row: IUserLoginResDto, index: number) => {
+                                .map((row: any, index: number) => {
                                     return (
                                         <Grid
                                             className={classes.tableBodyRow}
                                             key={`tableBodyRow-${index}`}
-                                            onClick={() => {handleTableBodyRowClick(row)}}
+                                            onClick={() => {
+                                                handleTableBodyRowClick(row)
+                                            }}
                                             container
-                                            // style={{background: index % 2 == 0 ? '#00ddff' : 'rgba(0,119,255,0.49)'}}
+                                            // style={{background: index % 2 ==
+                                            // 0 ? '#00ddff' :
+                                            // 'rgba(0,119,255,0.49)'}}
                                         >
                                             {Object
                                                 .values(row)
-                                                .map((cell: string, index: number) =>
+                                                .map((cell: any,
+                                                      index: number) =>
                                                     <Grid
                                                         className={classes.tableBodyCell}
                                                         key={`tableBodyCell-${index}`}
@@ -276,8 +398,8 @@ export default function TableData() {
                             style={{color: currentPage < totalPages - 1 ? '#b3b3b3' : '#2a77d20d'}}
                         />
                     </Grid>
-                    {currentQueryUser &&
-                    <BasicModal currentOriginalUser={currentQueryUser}/>}
+                    {clickedRow && currentQueryCase &&
+                    <BasicModal bodyComponent={renderBodyComponent()}/>}
                 </Grid>
             ) :
             (

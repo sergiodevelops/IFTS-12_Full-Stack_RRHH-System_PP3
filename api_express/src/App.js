@@ -11,27 +11,32 @@ const router = require("./routes/allRoutes");
 //logger
 app.use(logger('dev'));
 
+//------------------------------------------
 //MODO desarrollo
+//----------------------
+/*
 DB
     .sequelize
     .query('SET FOREIGN_KEY_CHECKS=0', {raw: true})
-    .then(function(results) {
+    .then(()=> {
         DB
             .sequelize
             .sync({force: true});
     });
-/*DB
-    .sequelize
-    .sync({force: true})*/ //MODO desarrollo, fuerza la sincronización con la DB
+*/
 
+//------------------------------------------
 // MODO produccion
-/*db.sequelize.sync() //MODO produccion
-    .then((data) => { //modo dev
+//----------------------
+DB
+    .sequelize.sync() //MODO produccion
+    .then(() => { //modo dev
         console.log("Drop and re-sync db.");
     })
     .catch((error) => {
         console.log('el error es:', error)
-    });*/
+    });
+//------------------------------------------
 
 const webPort = WEB_PORT || 3005;
 let corsOptions = {

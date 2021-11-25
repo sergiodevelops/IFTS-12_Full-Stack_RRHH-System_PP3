@@ -5,11 +5,13 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@redux/reducers/allReducers";
-import {useEffect} from "react";
+import {JSXElementConstructor, useEffect} from "react";
 import layoutActions from "@redux/actions/layoutActions";
-import UserLoginForm from "@components/Forms/UserLoginForm/UserLoginForm";
-import UserAddForm from "@components/Forms/UserAddForm/UserAddForm";
-import UserUpdateDeleteForm from "@components/Forms/UserUpdateDeleteForm/UserUpdateDeleteForm";
+import UserLoginForm
+    from "@components/Forms/UserForms/UserLoginForm/UserLoginForm";
+import UserAddForm from "@components/Forms/UserForms/UserAddForm/UserAddForm";
+import UserUpdateDeleteForm
+    from "@components/Forms/UserForms/UserUpdateDeleteForm/UserUpdateDeleteForm";
 import IUserLoginResDto
     from "@application/usecases/user/login/IUserLoginResDto";
 
@@ -25,7 +27,8 @@ const style = {
     p: 4,
 };
 
-export default function BasicModal(props:{currentOriginalUser:IUserLoginResDto}) {
+export default function BasicModal(props: { bodyComponent: React.ReactElement }) {
+    const {bodyComponent} = props;
     const dispatch = useDispatch();
     const modalIsOpen = useSelector((state: RootState) => state?.layoutReducers.openModal);
 
@@ -45,7 +48,8 @@ export default function BasicModal(props:{currentOriginalUser:IUserLoginResDto})
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <UserUpdateDeleteForm registerFormTitle={"Modificar o eliminar"} {...props}/>
+                    {bodyComponent}
+                    {/*<UserUpdateDeleteForm registerFormTitle={"Modificar o eliminar"} {...props}/>*/}
                 </Box>
             </Modal>
         </div>

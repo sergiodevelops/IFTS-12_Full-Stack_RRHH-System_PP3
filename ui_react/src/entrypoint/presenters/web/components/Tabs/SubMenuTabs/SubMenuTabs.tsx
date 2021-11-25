@@ -52,11 +52,11 @@ const colorCurrentButtonMenu = '#007bff26';
                     <TabPanel tabIndex={parseInt(subMenuTab)} value="0">
                         <List>
                             {[
+                                'Usuarios Postulantes',
+                                'Usuarios Solicitantes',
+                                'Usuarios Administrativos',
                                 'Postulantes',
-                                'Solicitantes',
-                                'Administrativos',
-                                'Solicitudes',
-                                'Solicitudes-Postulantes',
+                                'Anuncios',
                             ].map((text, index) => (
                                 <ListItem
                                     button

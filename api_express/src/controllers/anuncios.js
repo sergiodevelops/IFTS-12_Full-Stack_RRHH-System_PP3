@@ -18,11 +18,11 @@ const getPagination = (size, page) => {
 };
 
 const getPagingData = (data, page, limit) => {
-    const {count: totalItems, rows: users} = data;
+    const {count: totalItems, rows: jobads} = data;
     const currentPage = page ? +page : 0;
     const totalPages = Math.ceil(totalItems / limit);
 
-    return {totalItems, users, totalPages, currentPage};
+    return {totalItems, jobads, totalPages, currentPage};
 };
 
 // ALTA (crea nuevo recurso)
@@ -110,7 +110,7 @@ exports.findAllByFilters = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving users."
+                    err.message || "Some error occurred while retrieving jobads."
             });
         });
 

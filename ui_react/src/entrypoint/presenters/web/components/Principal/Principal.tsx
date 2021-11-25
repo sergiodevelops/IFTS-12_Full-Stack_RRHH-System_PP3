@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import UserLoginForm
-    from '@components/Forms/UserLoginForm/UserLoginForm';
-import UserAddForm from '@components/Forms/UserAddForm/UserAddForm';
+    from '@components/Forms/UserForms/UserLoginForm/UserLoginForm';
+import UserAddForm from '@components/Forms/UserForms/UserAddForm/UserAddForm';
 import DoubleSideBar from "../DoubleSideBar/DoubleSideBar";
 import {RootState} from "@redux/reducers/allReducers";
 import {ActionButton} from "@components/ActionButton/ActionButton";
@@ -27,7 +27,7 @@ export default function Principal() {
         const pagination: IPaginationSetDto = {size: 1, page: 0};
         const filters: IFilterSetDto[] = [{key: 'tipo_usuario', value: '1'}];
         usuarioService
-            .findAllByUserType(pagination, filters)
+            .findAllByFilters(pagination, filters)
             .then((response: IUserFindResDto) => {
                 console.log("checkIfExistAnyAdminUserInDb", response);
                 !!response.users.length ?

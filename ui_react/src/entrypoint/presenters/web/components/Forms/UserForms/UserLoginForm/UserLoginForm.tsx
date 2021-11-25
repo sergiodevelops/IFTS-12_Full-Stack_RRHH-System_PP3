@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import userActions from "@redux/actions/userActions";
 import Container from "@material-ui/core/Container";
-import UsuarioService from "../../../services/UsuarioService";
+import UsuarioService from "../../../../services/UsuarioService";
 import useStyles from "./styles";
 import allActions from "@redux/actions";
 

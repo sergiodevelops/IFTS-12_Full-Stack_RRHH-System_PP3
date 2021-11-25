@@ -12,7 +12,7 @@ import useStyles from "./styles";
 import TableData from "@components/TableData/TableData";
 import Building from "@components/Building/Building";
 import Grid from "@material-ui/core/Grid";
-import UserAddForm from "@components/Forms/UserAddForm/UserAddForm";
+import UserAddForm from "@components/Forms/UserForms/UserAddForm/UserAddForm";
 import SwipeableViews from "react-swipeable-views";
 import {ClassNameMap} from "@material-ui/styles";
 
