@@ -96,7 +96,7 @@ export default function UserAddForm(props: { title: string }) {
         usuarioService
             .create(newUserPost)
             .then(createdUser => {
-                console.log("createdUser en FE ", createdUser);
+                // console.log("createdUser en FE ", createdUser);
                 !currentLoggedUser && dispatch(userActions.setCurrentAuthenticatedUser(createdUser));
                 alert(`El usuario "${newUser.username}" se persistió correctamente`);
                 cleanInputValues();

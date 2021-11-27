@@ -15,6 +15,9 @@ import Grid from "@material-ui/core/Grid";
 import UserAddForm from "@components/Forms/UserForms/UserAddForm/UserAddForm";
 import SwipeableViews from "react-swipeable-views";
 import {ClassNameMap} from "@material-ui/styles";
+import JobAdAddForm from '@web/components/Forms/JobAdForms/JobAdAddForm/JobAdAddForm';
+import ApplicantAddForm
+    from "@components/Forms/ApplicantForms/ApplicantAddForm/ApplicantAddForm";
 
 function MainTitle(props: { classes: ClassNameMap<"objetivo" | "singlePageContentList" | "vision" | "parrafo" | "welcomeTitle" | "root" | "nosotros" | "spaTitle" | "mision" | "backImage">, content: ISinglePageContentDto }) {
     return <Typography variant={"h4"}
@@ -100,13 +103,28 @@ export default function MainTabs(props: { isWelcomePage: boolean }) {
                                                     <TableData/>
                                                 </div>}
 
-
                                                 {content.moduleName === 'UserAddForm' &&
                                                 <div>
                                                     {!!content.title &&
                                                     <MainTitle classes={classes}
                                                                content={content}/>}
                                                     <UserAddForm title={""}/>
+                                                </div>}
+
+                                                {content.moduleName === 'JobAdAddForm' &&
+                                                <div>
+                                                    {!!content.title &&
+                                                    <MainTitle classes={classes}
+                                                               content={content}/>}
+                                                    <JobAdAddForm title={""}/>
+                                                </div>}
+
+                                                {content.moduleName === 'ApplicantAddForm' &&
+                                                <div>
+                                                    {!!content.title &&
+                                                    <MainTitle classes={classes}
+                                                               content={content}/>}
+                                                    <ApplicantAddForm title={""}/>
                                                 </div>}
 
                                                 {content.moduleName === 'Mision' &&

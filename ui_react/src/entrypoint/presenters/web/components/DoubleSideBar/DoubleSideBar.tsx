@@ -147,7 +147,7 @@ export default function DoubleSideBar() {
     const handleClickMenu = (index: number) => {
         setSubMenuTabValue((index).toString());
         setIsWelcomePage(false);
-        dispatch(layoutActions.setMainTabValue(index === 0 ? '0' : (index === 1 ? '5' : '9')));
+        // dispatch(layoutActions.setMainTabValue(index === 0 ? '0' : (index === 1 ? '5' : '9')));
     };
     const handleLogOut = () => {
         handleClose();

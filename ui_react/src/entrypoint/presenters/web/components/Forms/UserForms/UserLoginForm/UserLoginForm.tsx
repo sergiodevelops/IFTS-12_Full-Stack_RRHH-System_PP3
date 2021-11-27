@@ -74,7 +74,7 @@ export default function UserLoginForm() {
             .login(userToLogin)
             .then(foundUser => {
                 // console.log("foundUser en FE ",foundUser)
-                console.log("foundUser", foundUser)
+                // console.log("foundUser", foundUser);
                 dispatch(allActions.userActions.setCurrentAuthenticatedUser(foundUser));
             })
             .catch(err => {

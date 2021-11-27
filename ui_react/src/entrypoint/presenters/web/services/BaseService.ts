@@ -9,6 +9,12 @@ import IUserUpdateReqDto
     from "@application/usecases/user/update/IUserUpdateReqDto";
 import IUserDeleteReqDto
     from "@application/usecases/user/delete/IUserDeleteReqDto";
+import IApplicantCreateResDto
+    from "@application/usecases/applicant/create/IApplicantCreateResDto";
+import IApplicantCreateReqDto
+    from "@application/usecases/applicant/create/IApplicantCreateReqDto";
+import IJobAdCreateReqDto
+    from "@application/usecases/jobad/create/IJobAdCreateReqDto";
 
 type ApiResponse = {
     name: string;
@@ -40,7 +46,7 @@ export default class BaseService {
         return this.headers;
     }
 
-    async create(baseModel: IUserCreateReqDto) {
+    async create(baseModel: IUserCreateReqDto | IApplicantCreateReqDto | IJobAdCreateReqDto) {
         const url = `${this.api_url}/${this.getResource()}/create`;
 
         const params = {
@@ -105,13 +111,13 @@ export default class BaseService {
     }
 
     async findAllByFilters(pagination?: IPaginationSetDto, filters?: IFilterSetDto[]) {
-        console.log("pagination",pagination,"filters",filters);
+        // console.log("pagination",pagination,"filters",filters);
         let url = new URL(`${this.api_url}/${this.getResource()}`);
         pagination?.size && url.searchParams.append("size", pagination?.size.toString());
         pagination?.page && url.searchParams.append("page", pagination?.page.toString());
         !!filters?.length && filters.map((filter: IFilterSetDto )=>{
             if(!!filter.key && !!filter.value) {
-                console.log("filter", filter);
+                // console.log("filter", filter);
                 url.searchParams.append(filter.key, filter.value);
             }
         })
@@ -144,7 +150,9 @@ export default class BaseService {
         return results;
     }
 
-    async replace(baseModel: IUserUpdateReqDto, userId: number) {
+    async replace(
+        baseModel:  IUserCreateReqDto | IApplicantCreateReqDto | IJobAdCreateReqDto,
+        userId: number) {
         let url = new URL(`${this.api_url}/${this.getResource()}`);
         url.searchParams.append('id', userId.toString());
 

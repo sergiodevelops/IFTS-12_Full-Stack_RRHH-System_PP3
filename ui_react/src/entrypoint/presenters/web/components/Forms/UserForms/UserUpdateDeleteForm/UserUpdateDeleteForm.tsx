@@ -15,8 +15,6 @@ import UsuarioService from "../../../../services/UsuarioService";
 import useStyles from "./styles";
 import IUserUpdateReqDto
     from "@application/usecases/user/update/IUserUpdateReqDto";
-import IUserLoginResDto
-    from "@application/usecases/user/login/IUserLoginResDto";
 import layoutActions from "@redux/actions/layoutActions";
 import {RootState} from "@redux/reducers/allReducers";
 import IUserCreateResDto
@@ -83,7 +81,7 @@ export default function UserUpdateDeleteForm(props: { row: IUserCreateResDto }) 
         usuarioService
             .replace(userToReplace, id)
             .then(createdUser => {
-                console.log("createdUser en FE ", createdUser);
+                // console.log("createdUser en FE ", createdUser);
                 id === currentUser?.id && dispatch(userActions.setCurrentAuthenticatedUser(null));
                 alert(`El usuario "${updateQueryUser.username}" se MODIFICÓ correctamente`);
                 dispatch(layoutActions.setOpenModal(false));
@@ -103,7 +101,7 @@ export default function UserUpdateDeleteForm(props: { row: IUserCreateResDto }) 
         usuarioService
             .delete(id)
             .then(createdUser => {
-                console.log("createdUser en FE ", createdUser);
+                // console.log("createdUser en FE ", createdUser);
                 currentUser?.id === id && dispatch(userActions.setCurrentAuthenticatedUser(null));
                 alert(`El usuario "${updateQueryUser.username}" se ELIMINÓ correctamente`);
                 dispatch(layoutActions.setOpenModal(false));
@@ -159,15 +157,15 @@ export default function UserUpdateDeleteForm(props: { row: IUserCreateResDto }) 
                 false
         );
         const validateForm =  validatePasswordPass || (validateFieldsPass && updateQueryUser.password === password2)
-        console.log(
-            "validateFieldsPass", validateFieldsPass,
-            "validatePasswordPass", validatePasswordPass,
-            "\n",
-            row,
-            "\n",
-            updateQueryUser,
-            "\n",
-            "password2", password2);
+        // console.log(
+        //     "validateFieldsPass", validateFieldsPass,
+        //     "validatePasswordPass", validatePasswordPass,
+        //     "\n",
+        //     row,
+        //     "\n",
+        //     updateQueryUser,
+        //     "\n",
+        //     "password2", password2);
         setUpdateButtonDisable(!(validateForm));
     }, [updateQueryUser, password2])
 
@@ -243,7 +241,7 @@ export default function UserUpdateDeleteForm(props: { row: IUserCreateResDto }) 
                                     });
                                     setUserExistInDB(false);
                                 }}
-                                label="Usuario"
+                                label="Nombre de usuario"
                                 name="username"
                                 size="small"
                                 variant="outlined"

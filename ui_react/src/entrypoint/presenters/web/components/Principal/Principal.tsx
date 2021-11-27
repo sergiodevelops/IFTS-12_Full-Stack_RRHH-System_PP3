@@ -29,10 +29,10 @@ export default function Principal() {
         usuarioService
             .findAllByFilters(pagination, filters)
             .then((response: IUserFindResDto) => {
-                console.log("checkIfExistAnyAdminUserInDb", response);
-                !!response.users.length ?
-                    console.log("ya existe al menos 1 user") :
-                    console.log("no existe ningun usuario crea uno");
+                // console.log("checkIfExistAnyAdminUserInDb", response);
+                // !!response.users.length ?
+                //     console.log("ya existe al menos 1 user") :
+                //     console.log("no existe ningun usuario crea uno");
                 setLoginMode(!!response.users.length);
             })
             .catch((err: any) => {

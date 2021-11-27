@@ -25,19 +25,19 @@ export const singlePageContentList = [
         moduleName: "TableData",
     },
     {
-        title: "Alta de Solicitudes",
+        title: "Alta de Usuarios",
         body: "",
-        moduleName: "Building",
+        moduleName: "UserAddForm",
     },
     {
-        title: "Alta de Datos",
+        title: "Alta de Anuncios",
         body: "",
-        moduleName: "Building",
+        moduleName: "JobAdAddForm",
     },
     {
-        title: "Alta de Antecedentes",
+        title: "Alta de Información de Postulantes",
         body: "",
-        moduleName: "Building",
+        moduleName: "ApplicantAddForm",
     },
     {
         title: "Alta de Usuarios",
