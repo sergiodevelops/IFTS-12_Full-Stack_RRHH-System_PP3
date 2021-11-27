@@ -31,7 +31,6 @@ export default function UserUpdateDeleteForm(props: { row: IUserCreateResDto }) 
         username,
         password,
         tipo_usuario,
-        fecha_alta,
     } = props.row as IUserCreateResDto;
 
     const usuarioService = new UsuarioService();
@@ -61,16 +60,7 @@ export default function UserUpdateDeleteForm(props: { row: IUserCreateResDto }) 
     const handleClickShowPassword2 = () => setShowPassword2(!showPassword2);
 
     const handleClickReplaceRow = async () => {
-        // let message;
-        // if (!updateQueryUser?.tipo_usuario ||
-        //     !updateQueryUser.nombre_completo ||
-        //     !updateQueryUser.username ||
-        //     !updateQueryUser.password) {
-        //     message = "Por favor complete los campos requeridos";
-        //     alert(message);
-        //     // store.dispatch(notifierActions.enqueueNotification(new Notification('error', 'Error', 'Por favor complete los campos requeridos')));
-        //     return;
-        // }
+
         const userToReplace: IUserUpdateReqDto = {
             tipo_usuario: updateQueryUser?.tipo_usuario, // mapeo para la base, envia un number
             nombre_completo: updateQueryUser?.nombre_completo,

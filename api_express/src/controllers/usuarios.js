@@ -7,7 +7,6 @@
  * @JoseLuisGlavic
  *
  */
-
 const UsuarioModel = require('../models/allModels').usuarios;
 
 const getPagination = (size, page) => {
@@ -83,6 +82,58 @@ exports.create = (req, res) => {
         });
 };
 
+// MODIFICACIÓN DE USUARIO TOTAL (actualización)
+exports.replace = (req, res) => {
+    const {id} = req.query;
+
+    UsuarioModel
+        .update(
+            req.body,
+            {where: {id: id}})
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "User was updated successfully."
+                });
+            } else {
+                res.send({
+                    message: `Cannot update Tutorial with id=${id}. Maybe User was not found or req.body is empty!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating User with id=" + id
+            });
+        });
+};
+
+// BAJA (elimina el usuario)
+exports.delete = (req, res) => {
+    const {id} = req.query;
+
+    UsuarioModel.destroy({
+        where: {id: id}
+    })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "User was deleted successfully!" + id
+                });
+            } else {
+                res.send({
+                    message: `Cannot delete User with id=${id}. Maybe User was not found!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Could not delete User with id=" + id
+            });
+        });
+};
+
+
 // LOGIN (recupera si existe el usuario que coincida por username y pass)
 exports.login = (req, res) => {
     // Validate "username"
@@ -145,6 +196,7 @@ exports.findAllByFilters = (req, res) => {
         });
 };
 
+/*
 // MODIFICACIÓN DE USUARIO COMPLETO (reemplazo)
 exports.update = (req, res) => {
     const id = req.params.id;
@@ -167,55 +219,4 @@ exports.update = (req, res) => {
                 message: "Error updating User with id=" + id + err.message
             });
         });
-};
-
-// MODIFICACIÓN DE USUARIO PARCIAL (actualización)
-exports.replace = (req, res) => {
-    const {id} = req.query;
-
-    UsuarioModel
-        .update(
-            req.body,
-            {where: {id: id}})
-        .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "User was updated successfully."
-                });
-            } else {
-                res.send({
-                    message: `Cannot update Tutorial with id=${id}. Maybe User was not found or req.body is empty!`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error updating User with id=" + id
-            });
-        });
-};
-
-// BAJA (elimina el usuario)
-exports.delete = (req, res) => {
-    const {id} = req.query;
-
-    UsuarioModel.destroy({
-        where: {id: id}
-    })
-        .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "User was deleted successfully!" + id
-                });
-            } else {
-                res.send({
-                    message: `Cannot delete User with id=${id}. Maybe User was not found!`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Could not delete User with id=" + id
-            });
-        });
-};
+};*/

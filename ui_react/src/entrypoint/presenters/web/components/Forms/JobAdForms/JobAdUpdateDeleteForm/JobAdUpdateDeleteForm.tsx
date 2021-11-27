@@ -11,10 +11,8 @@ import IJobAdCreateResDto
 import AnuncioService from "@web/services/AnuncioService";
 import IJobAdCreateReqDto
     from "@application/usecases/jobad/create/IJobAdCreateReqDto";
-// import { IsNumber, IsString, IsOptional, ValidateNested, IsNotEmpty, ArrayNotEmpty } from "class-validator";
 
 export default function JobAdUpdateDeleteForm(props: { row: IJobAdCreateResDto }) {
-
     const title = "Modificar o eliminar";
     const row = props;
     const {
@@ -26,30 +24,19 @@ export default function JobAdUpdateDeleteForm(props: { row: IJobAdCreateResDto }
     const dispatch = useDispatch();
 
     const classes = useStyles();
-    const emptyJobAdModify: any = {
-        tipo_usuario: undefined,
-        nombre_completo: undefined,
-        username: undefined,
-        password: undefined,
+    const emptyJobAdModify: IJobAdCreateReqDto = {
+        descripcion_tareas: "",
+        estudios: "",
+        experiencia: "",
+        puesto_vacante: "",
     }
 
     const [updateQueryJobAd, setUpdateQueryJobAd] = useState<IJobAdCreateReqDto>(emptyJobAdModify);
-    const [password2, setPassword2] = useState("");
 
-    const [userExistInDB, setJobAdExistInDB] = useState(false);
     const [updateButtonDisable, setUpdateButtonDisable] = useState(false);
 
     const handleClickReplaceRow = async () => {
-        // let message;
-        // if (!updateQueryJobAd?.tipo_usuario ||
-        //     !updateQueryJobAd.nombre_completo ||
-        //     !updateQueryJobAd.username ||
-        //     !updateQueryJobAd.password) {
-        //     message = "Por favor complete los campos requeridos";
-        //     alert(message);
-        //     // store.dispatch(notifierActions.enqueueNotification(new Notification('error', 'Error', 'Por favor complete los campos requeridos')));
-        //     return;
-        // }
+
         const jobAdToReplace: IJobAdCreateReqDto = {
             descripcion_tareas: updateQueryJobAd?.descripcion_tareas, // mapeo para la base, envia un number
             estudios: updateQueryJobAd?.estudios,
@@ -60,7 +47,7 @@ export default function JobAdUpdateDeleteForm(props: { row: IJobAdCreateResDto }
         anuncioService
             .replace(jobAdToReplace, id)
             .then(createdJobAd => {
-                // console.log("createdJobAd en FE ", createdJobAd);
+                console.log("createdJobAd en FE ", createdJobAd);
                 alert(`El anuncio para "${updateQueryJobAd.puesto_vacante}" se MODIFICÓ correctamente`);
                 dispatch(layoutActions.setOpenModal(false));
             })
@@ -68,7 +55,6 @@ export default function JobAdUpdateDeleteForm(props: { row: IJobAdCreateResDto }
                 err.then((err: Error) => {
                         console.error("ERROR en FE", err.message);
                         alert(`${err.message}`);
-                        setJobAdExistInDB(true);
                         dispatch(layoutActions.setOpenModal(false));
                     }
                 )
@@ -87,7 +73,6 @@ export default function JobAdUpdateDeleteForm(props: { row: IJobAdCreateResDto }
                 err.then((err: Error) => {
                         console.error("ERROR en FE", err.message);
                         alert(`${err.message}`);
-                        setJobAdExistInDB(true);
                         dispatch(layoutActions.setOpenModal(false));
                     }
                 )
@@ -123,7 +108,7 @@ export default function JobAdUpdateDeleteForm(props: { row: IJobAdCreateResDto }
                                 error={!updateQueryJobAd?.puesto_vacante}
                                 onChange={(e) => setUpdateQueryJobAd({
                                     ...updateQueryJobAd,
-                                    // puesto_vacante: e.target.value === "" ? puesto_vacante : e.target.value.toLowerCase()
+                                    puesto_vacante: e.target.value === "" ? puesto_vacante : e.target.value,
                                 })}
                                 label="Puesto vacante"
                                 name="puesto_vacante"
@@ -143,7 +128,7 @@ export default function JobAdUpdateDeleteForm(props: { row: IJobAdCreateResDto }
                                 error={!updateQueryJobAd?.descripcion_tareas}
                                 onChange={(e) => setUpdateQueryJobAd({
                                     ...updateQueryJobAd,
-                                    // descripcion_tareas: e.target.value === "" ? descripcion_tareas : e.target.value.toLowerCase()
+                                    descripcion_tareas: e.target.value === "" ? descripcion_tareas : e.target.value,
                                 })}
                                 label="Descripcion tareas"
                                 name="descripcion_tareas"
@@ -163,7 +148,7 @@ export default function JobAdUpdateDeleteForm(props: { row: IJobAdCreateResDto }
                                 error={!updateQueryJobAd?.experiencia}
                                 onChange={(e) => setUpdateQueryJobAd({
                                     ...updateQueryJobAd,
-                                    // experiencia: e.target.value === "" ? experiencia : e.target.value.toLowerCase()
+                                    experiencia: e.target.value === "" ? experiencia : e.target.value,
                                 })}
                                 label="Experiencia"
                                 name="experiencia"
@@ -183,7 +168,7 @@ export default function JobAdUpdateDeleteForm(props: { row: IJobAdCreateResDto }
                                 error={!updateQueryJobAd?.estudios}
                                 onChange={(e) => setUpdateQueryJobAd({
                                     ...updateQueryJobAd,
-                                    // estudios: e.target.value === "" ? estudios : e.target.value.toLowerCase()
+                                    estudios: e.target.value === "" ? estudios : e.target.value,
                                 })}
                                 label="Estudios"
                                 name="estudios"

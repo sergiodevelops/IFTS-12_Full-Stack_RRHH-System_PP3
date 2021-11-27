@@ -34,6 +34,7 @@ export default function UserAddForm(props: { title: string }) {
         password: "",
     };
     const [newUser, setNewUser] = useState(emptyUser);
+    const [userType, setUserType] = useState<{id:number,name:string,description:string}>(userTypes[0] || {id:0,name:"",description:""});
     const [password2, setPassword2] = useState("");
     const [userExistInDB, setUserExistInDB] = useState(false);
     const [showPassword1, setShowPassword1] = useState(false);
@@ -42,6 +43,10 @@ export default function UserAddForm(props: { title: string }) {
     useEffect(() => {
         setCurrentLoggedUser(userLoggedStore)
     }, [userLoggedStore]);
+
+    useEffect(() => {
+        setUserType(userTypes.find((userType:{id:number,name:string,description:string})=>userType.id === newUser.userType) || {id:0,name:"",description:""});
+    }, [newUser]);
 
     useEffect(() => {
         const listener = (event: KeyboardEvent) => {
@@ -60,6 +65,7 @@ export default function UserAddForm(props: { title: string }) {
         setNewUser(emptyUser);
         setPassword2("");
         setUserExistInDB(false);
+        setUserType({id:0,name:"",description:""});
     }
     // const handleClick = async () => {
     //     const userExist = await usersListStore && usersListStore.findIndex((user) =>
@@ -136,8 +142,10 @@ export default function UserAddForm(props: { title: string }) {
                 <Grid item xs={12}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <FormControl variant="outlined"
-                                         className={classes.formControl}>
+                            <FormControl
+                                variant="outlined"
+                                className={classes.formControl}
+                            >
                                 <Autocomplete
                                     className={`userType`}
                                     disableClearable
@@ -145,7 +153,7 @@ export default function UserAddForm(props: { title: string }) {
                                     disabled={!newUser}
                                     options={userTypes}
                                     getOptionLabel={(option) => option.description || ""}
-                                    // value={newUser?. || ""}
+                                    value={userType}
                                     onChange={(e, selectedOption) => setNewUser({
                                         ...newUser,
                                         userType: selectedOption?.id || 0,
@@ -282,7 +290,7 @@ export default function UserAddForm(props: { title: string }) {
                             disabled={!newUser.userType || !newUser.userFullname || !newUser.username || !newUser.password || newUser.password !== password2}
                             onClick={saveUser}
                         >
-                            crear cuenta
+                            crear
                         </Button>
                     </Grid>
                 </Grid>

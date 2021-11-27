@@ -48,11 +48,11 @@ export default function ApplicantAddForm(props: { title: string }) {
             return;
         }
         const newApplicantPost: IApplicantCreateReqDto = {
-            apellido: "",
-            dni: 0,
-            email: "",
-            nombres: "",
-            tel: "",
+            apellido: newApplicant.apellido,
+            dni: newApplicant.dni,
+            email: newApplicant.email,
+            nombres: newApplicant.nombres,
+            tel: newApplicant.tel,
         };
 
         postulanteService
@@ -98,7 +98,6 @@ export default function ApplicantAddForm(props: { title: string }) {
                                 fullWidth
                                 value={newApplicant?.dni || ""}
                                 error={!newApplicant?.dni }
-
                                 onChange={(e) => {
                                     setNewApplicant({
                                         ...newApplicant,
@@ -223,7 +222,7 @@ export default function ApplicantAddForm(props: { title: string }) {
                             }
                             onClick={saveApplicant}
                         >
-                            crear cuenta
+                            crear
                         </Button>
                     </Grid>
                 </Grid>

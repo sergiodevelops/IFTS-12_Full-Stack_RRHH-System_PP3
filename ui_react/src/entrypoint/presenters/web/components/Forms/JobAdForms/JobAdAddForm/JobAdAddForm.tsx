@@ -49,15 +49,15 @@ export default function ApplicantAddForm(props: { title: string }) {
             alert(message);
             return;
         }
-        const newApplicantPost: IJobAdCreateReqDto = {
-            descripcion_tareas: "",
-            estudios: "",
-            experiencia: "",
-            puesto_vacante: "",
+        const newJobAdPost: IJobAdCreateReqDto = {
+            puesto_vacante: newJobAd.puesto_vacante,
+            descripcion_tareas: newJobAd.descripcion_tareas,
+            estudios: newJobAd.estudios,
+            experiencia: newJobAd.experiencia,
         };
 
         jobAdService
-            .create(newApplicantPost)
+            .create(newJobAdPost)
             .then(createdApplicant => {
                 console.log("createdApplicant en FE ", createdApplicant);
                 alert(`El anuncio para "${newJobAd.puesto_vacante}" se persistió correctamente`);
@@ -98,12 +98,12 @@ export default function ApplicantAddForm(props: { title: string }) {
                                 autoComplete={"off"}
                                 fullWidth
                                 value={newJobAd?.puesto_vacante || ""}
-                                error={!newJobAd?.puesto_vacante }
+                                error={!newJobAd?.puesto_vacante}
 
                                 onChange={(e) => {
                                     setNewJobAd({
                                         ...newJobAd,
-                                        puesto_vacante:  e.target.value,
+                                        puesto_vacante: e.target.value,
                                     });
                                 }}
                                 label="Puesto vacante"
@@ -124,12 +124,12 @@ export default function ApplicantAddForm(props: { title: string }) {
                                 fullWidth
                                 disabled={!newJobAd.puesto_vacante}
                                 value={!!newJobAd?.puesto_vacante && newJobAd?.descripcion_tareas || ""}
-                                error={!!newJobAd?.puesto_vacante && !newJobAd?.descripcion_tareas }
+                                error={!!newJobAd?.puesto_vacante && !newJobAd?.descripcion_tareas}
 
                                 onChange={(e) => {
                                     setNewJobAd({
                                         ...newJobAd,
-                                        descripcion_tareas:  e.target.value,
+                                        descripcion_tareas: e.target.value,
                                     });
                                 }}
                                 label="Descripción de tareas"
@@ -150,12 +150,12 @@ export default function ApplicantAddForm(props: { title: string }) {
                                 fullWidth
                                 disabled={!newJobAd?.descripcion_tareas}
                                 value={!!newJobAd?.descripcion_tareas && newJobAd?.experiencia || ""}
-                                error={!!newJobAd?.descripcion_tareas && !newJobAd?.experiencia }
+                                error={!!newJobAd?.descripcion_tareas && !newJobAd?.experiencia}
 
                                 onChange={(e) => {
                                     setNewJobAd({
                                         ...newJobAd,
-                                        experiencia:  e.target.value,
+                                        experiencia: e.target.value,
                                     });
                                 }}
                                 label="Experiencia"
@@ -178,7 +178,7 @@ export default function ApplicantAddForm(props: { title: string }) {
                                 error={!!newJobAd?.experiencia && !newJobAd?.estudios}
                                 onChange={(e) => setNewJobAd({
                                     ...newJobAd,
-                                    estudios:  e.target.value,
+                                    estudios: e.target.value,
                                 })}
                                 label="Estudios"
                                 name="email"
@@ -206,7 +206,7 @@ export default function ApplicantAddForm(props: { title: string }) {
                             }
                             onClick={saveApplicant}
                         >
-                            crear cuenta
+                            crear
                         </Button>
                     </Grid>
                 </Grid>

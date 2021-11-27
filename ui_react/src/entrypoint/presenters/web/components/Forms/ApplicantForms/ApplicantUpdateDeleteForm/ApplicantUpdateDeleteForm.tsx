@@ -27,7 +27,7 @@ export default function ApplicantUpdateDeleteForm(props: { row: IApplicantCreate
         email,
     } = props.row as IApplicantCreateResDto;
 
-    const usuarioService = new UsuarioService();
+    const postulanteService = new PostulanteService();
 
     const dispatch = useDispatch();
     // const applicantsListStore = useSelector((state) => state?.applicantReducers.applicantsList);
@@ -42,7 +42,6 @@ export default function ApplicantUpdateDeleteForm(props: { row: IApplicantCreate
 
     const [updateQueryApplicant, setUpdateQueryApplicant] = useState<IApplicantCreateReqDto>(emptyApplicantModify);
 
-    const [applicantExistInDB, setApplicantExistInDB] = useState(false);
     const [updateButtonDisable, setUpdateButtonDisable] = useState(false);
 
     const handleClickReplaceRow = async () => {
@@ -53,7 +52,6 @@ export default function ApplicantUpdateDeleteForm(props: { row: IApplicantCreate
             tel: updateQueryApplicant?.tel,
             email: updateQueryApplicant?.email,
         };
-        const postulanteService = new PostulanteService();
 
         postulanteService
             .replace(applicantToReplace, id)
@@ -66,7 +64,6 @@ export default function ApplicantUpdateDeleteForm(props: { row: IApplicantCreate
                 err.then((err: Error) => {
                         console.error("ERROR en FE", err.message);
                         alert(`${err.message}`);
-                        setApplicantExistInDB(true);
                         dispatch(layoutActions.setOpenModal(false));
                     }
                 )
@@ -74,17 +71,16 @@ export default function ApplicantUpdateDeleteForm(props: { row: IApplicantCreate
     };
 
     const handleClickDeleteRow = async () => {
-        usuarioService
+        postulanteService
             .delete(id)
             .then(createdApplicant => {
-                alert(`El usuario "${updateQueryApplicant.apellido}" se ELIMINÓ correctamente`);
+                alert(`La información del postulante "${updateQueryApplicant.apellido}" se ELIMINÓ correctamente`);
                 dispatch(layoutActions.setOpenModal(false));
             })
             .catch(err => {
                 err.then((err: Error) => {
                         console.error("ERROR en FE", err.message);
                         alert(`${err.message}`);
-                        setApplicantExistInDB(true);
                         dispatch(layoutActions.setOpenModal(false));
                     }
                 )
@@ -92,7 +88,6 @@ export default function ApplicantUpdateDeleteForm(props: { row: IApplicantCreate
     };
 
     useEffect(() => {
-        // !!currentOriginalApplicant && setOriginalApplicant(currentOriginalApplicant);
         setUpdateQueryApplicant({
             dni,
             apellido,
@@ -100,45 +95,7 @@ export default function ApplicantUpdateDeleteForm(props: { row: IApplicantCreate
             tel,
             email,
         });
-        // setPassword2("");
     }, [row])
-
-    useEffect(() => {
-        const originalAt = JSON.stringify({
-            a: dni,
-            b: apellido,
-            c: nombres,
-            d: tel,
-            e: email,
-        })
-        const updateAt = JSON.stringify({
-            a: updateQueryApplicant.dni,
-            b: updateQueryApplicant.apellido,
-            c: updateQueryApplicant.nombres,
-            d: updateQueryApplicant.tel,
-            e: updateQueryApplicant.email,
-
-        });
-        // const validateFieldsPass = (
-        //     originalAt !==  updateAt ?
-        //         (!!dni &&
-        //             dni !== updateQueryApplicant.dni)
-        //         ||
-        //         (!!email &&
-        //             email !== updateQueryApplicant.email)
-        //         ||
-        //         (!!tel && !!updateQueryApplicant.tel &&
-        //             tel !== updateQueryApplicant.tel)
-        //         ||
-        //         (!!apellido && !!updateQueryApplicant.apellido &&
-        //             apellido !== updateQueryApplicant.apellido)
-        //         ||
-        //         (!!nombres && !!updateQueryApplicant.nombres &&
-        //             nombres !== updateQueryApplicant.nombres)
-        //         :
-        //         false
-        // );
-    }, [updateQueryApplicant, nombres])
 
 
     return (
@@ -157,14 +114,12 @@ export default function ApplicantUpdateDeleteForm(props: { row: IApplicantCreate
                                 autoComplete={"off"}
                                 fullWidth
                                 value={updateQueryApplicant?.dni || ""}
-                                error={!updateQueryApplicant?.dni || applicantExistInDB}
-                                helperText={applicantExistInDB && "Este usuario ya existe, ingrese otro por favor"}
+                                error={!updateQueryApplicant?.dni}
                                 onChange={(e) => {
                                     setUpdateQueryApplicant({
                                         ...updateQueryApplicant,
                                         dni:  parseInt(e.target.value),
                                     });
-                                    setApplicantExistInDB(false);
                                 }}
                                 label="DNI"
                                 name="dni"
@@ -182,14 +137,12 @@ export default function ApplicantUpdateDeleteForm(props: { row: IApplicantCreate
                                 fullWidth
                                 disabled={!updateQueryApplicant?.nombres}
                                 value={!!updateQueryApplicant?.nombres && updateQueryApplicant?.apellido || ""}
-                                error={!!updateQueryApplicant?.nombres && !updateQueryApplicant?.apellido || applicantExistInDB}
-                                helperText={applicantExistInDB && "Este usuario ya existe, ingrese otro por favor"}
+                                error={!!updateQueryApplicant?.nombres && !updateQueryApplicant?.apellido}
                                 onChange={(e) => {
                                     setUpdateQueryApplicant({
                                         ...updateQueryApplicant,
-                                        apellido:  e.target.value === "" ? apellido : e.target.value.toLowerCase()
+                                        apellido:  e.target.value === "" ? apellido : e.target.value,
                                     });
-                                    setApplicantExistInDB(false);
                                 }}
                                 label="Apellido"
                                 name="apellido"
@@ -207,14 +160,12 @@ export default function ApplicantUpdateDeleteForm(props: { row: IApplicantCreate
                                 fullWidth
                                 disabled={!updateQueryApplicant?.apellido}
                                 value={!!updateQueryApplicant?.apellido && updateQueryApplicant?.nombres || ""}
-                                error={!!updateQueryApplicant?.apellido && !updateQueryApplicant?.nombres || applicantExistInDB}
-                                helperText={applicantExistInDB && "Este usuario ya existe, ingrese otro por favor"}
+                                error={!!updateQueryApplicant?.apellido && !updateQueryApplicant?.nombres}
                                 onChange={(e) => {
                                     setUpdateQueryApplicant({
                                         ...updateQueryApplicant,
-                                        apellido:  e.target.value === "" ? apellido : e.target.value.toLowerCase()
+                                        nombres:  e.target.value === "" ? nombres : e.target.value,
                                     });
-                                    setApplicantExistInDB(false);
                                 }}
                                 label="Nombres"
                                 name="apellido"
@@ -238,9 +189,12 @@ export default function ApplicantUpdateDeleteForm(props: { row: IApplicantCreate
                                     tel: e.target.value === "" ? tel : e.target.value.toLowerCase()
                                 })}
                                 label="Teléfono"
-                                name="email"
                                 size="small"
-                                type="text"
+                                type="tel"
+                                name="telephone"
+                                inputProps={{ pattern: "\\([0-9]{3}\\) [0-9]{3}[ -][0-9]{4}" }}
+                                title="A valid telephone number consist of a 3 digits code area between brackets, a space, the three first digits of the number, a space or hypen (-), and four more digits"
+                                required
                                 variant="outlined"
                             />
                         </Grid>
@@ -261,8 +215,9 @@ export default function ApplicantUpdateDeleteForm(props: { row: IApplicantCreate
                                 })}
                                 label="Correo electrónico"
                                 name="email"
+                                inputProps={{ pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" }}
                                 size="small"
-                                type="text"
+                                type="email"
                                 variant="outlined"
                             />
                         </Grid>

@@ -7,7 +7,6 @@
  * @JoseLuisGlavic
  *
  */
-const {postulantes: PostulanteModel} = require("../models/allModels");
 const AnuncioModel = require('../models/allModels').anuncios;
 
 const getPagination = (size, page) => {
@@ -25,68 +24,106 @@ const getPagingData = (data, page, limit) => {
     return {totalItems, jobads, totalPages, currentPage};
 };
 
-// ALTA (crea nuevo recurso)
+// CREA ANUNCIO (alta)
 exports.create = (req, res) => {
-    // Validate "dni"
-    if (!req.body.dni) {
+    // Validate "puesto_vacante"
+    if (!req.body.puesto_vacante) {
         res.status(400).send({
-            message: "Debe enviar un 'dni' para crear el User!"
+            message: "Debe enviar un 'puesto_vacante' para crear el JobAd!"
         });
         return;
     }
-    // Validate "apellido"
-    if (!req.body.nombre_completo) {
+    // Validate "descripcion_tareas"
+    if (!req.body.descripcion_tareas) {
         res.status(400).send({
-            message: "Debe enviar un 'apellido' para crear el User!"
+            message: "Debe enviar un 'descripcion_tareas' para crear el JobAd!"
         });
         return;
     }
-    // Validate "nombres"
-    if (!req.body.nombres) {
+    // Validate "experiencia"
+    if (!req.body.experiencia) {
         res.status(400).send({
-            message: "Debe enviar un 'nombres' para crear el User!"
+            message: "Debe enviar un 'experiencia' para crear el JobAd!"
         });
         return;
     }
-    // Validate "tel"
-    if (!req.body.tel) {
+    // Validate "estudios"
+    if (!req.body.estudios) {
         res.status(400).send({
-            message: "Debe enviar un 'tel' para crear el User!"
+            message: "Debe enviar un 'estudios' para crear el JobAd!"
         });
         return;
-    }
-    // Validate "email"
-    if (!req.body.email) {
-        res.status(400).send({
-            message: "Debe enviar un 'email' para crear el User!"
-        });
-        return;
-    }
-    // Generate "startDate"
-    const formatoFecha = (fecha, formato) => {
-        return formato
-            .replace('YYYY', fecha.getFullYear())
-            .replace('MM', fecha.getMonth() + 1)
-            .replace('DD', fecha.getDate());
     }
 
-    // Create a User
-    const newDbUser = {
-        tipo_usuario: req.body.tipo_usuario,
-        nombre_completo: req.body.nombre_completo,
-        username: req.body.username,
-        password: req.body.password,
+    // Create a JobAd
+    const newDbJobAd = {
+        puesto_vacante: req.body.puesto_vacante,
+        descripcion_tareas: req.body.descripcion_tareas,
+        experiencia: req.body.experiencia,
+        estudios: req.body.estudios,
     };
 
     AnuncioModel
-        .create(newDbUser, {username: req.body.username})
+        .create(newDbJobAd, {})
         .then(data => {
             res.status(201).send(data);
         })
         .catch(err => {
             res.status(409).send({
-                name: "Duplicate Username Entry",
-                message: `El usuario "${req.body.username}" ya existe, intente con uno diferente.`
+                name: "Duplicate JobAd Entry",
+                message: `${err}`
+            });
+        });
+};
+
+// MODIFICACIÓN DE USUARIO TOTAL (actualización)
+exports.replace = (req, res) => {
+    const {id} = req.query;
+
+    AnuncioModel
+        .update(
+            req.body,
+            {where: {id: id}})
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "JobAd was updated successfully."
+                });
+            } else {
+                res.send({
+                    message: `Cannot update Tutorial with id=${id}. Maybe JobAd was not found or req.body is empty!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating JobAd with id=" + id
+            });
+        });
+};
+
+// BAJA (elimina el usuario)
+exports.delete = (req, res) => {
+    const {id} = req.query;
+
+    AnuncioModel
+        .destroy({
+        where: {id: id}
+    })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: `JobAd was deleted successfully! ID=${id}`,
+                });
+            } else {
+                res.send({
+                    message: `Cannot delete JobAd with ID=${id}. Maybe JobAd was not found!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: `Could not delete JobAd with ID=${id}`,
             });
         });
 };

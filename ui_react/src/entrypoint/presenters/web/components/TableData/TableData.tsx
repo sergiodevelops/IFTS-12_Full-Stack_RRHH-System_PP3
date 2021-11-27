@@ -58,6 +58,7 @@ import ApplicantUpdateDeleteForm
     from "@components/Forms/ApplicantForms/ApplicantUpdateDeleteForm/ApplicantUpdateDeleteForm";
 import JobAdUpdateDeleteForm
     from "@components/Forms/JobAdForms/JobAdUpdateDeleteForm/JobAdUpdateDeleteForm";
+import moment from "moment";
 
 export default function TableData() {
     const dispatch = useDispatch();
@@ -117,12 +118,12 @@ export default function TableData() {
             .then((response: IUserFindResDto) => {
                 // console.log("response", response);
                 const {users, totalPages, totalItems, currentPage} = response;
-                if (!!users.length) {
+                // if (!!users.length) {
                     setRows(users as IUserCreateResDto[]);
                     setTotalPages(totalPages);
                     setTotalItems(totalItems);
                     setCurrentPage(currentPage);
-                }
+                // }
                 setQueryInProgress(false);
             })
             .catch((err: any) => {
@@ -150,12 +151,12 @@ export default function TableData() {
                     totalItems,
                     currentPage
                 } = response;
-                if (!!applicants.length) {
+                // if (!!applicants.length) {
                     setRows(applicants as IApplicantCreateResDto[]);
                     setTotalPages(totalPages);
                     setTotalItems(totalItems);
                     setCurrentPage(currentPage);
-                }
+                // }
                 setQueryInProgress(false);
             })
             .catch((err: any) => {
@@ -178,12 +179,12 @@ export default function TableData() {
             .then((response: IJobAdFindResDto) => {
                 // console.log("response", response);
                 const {jobads, totalPages, totalItems, currentPage} = response;
-                if (!!jobads.length) {
+                // if (!!jobads.length) {
                     setRows(jobads as IJobAdCreateResDto[]);
                     setTotalPages(totalPages);
                     setTotalItems(totalItems);
                     setCurrentPage(currentPage);
-                }
+                // }
                 setQueryInProgress(false);
             })
             .catch((err: any) => {
@@ -233,7 +234,7 @@ export default function TableData() {
     }, [pagination.page])
 
     useEffect(() => {
-        if (queryNumber !== undefined && currentQueryCase != parseInt(queryNumber)) {
+        if (queryNumber !== undefined /*&& currentQueryCase != parseInt(queryNumber)*/) {
             setCurrentQueryCase(parseInt(queryNumber));
             console.log("case ", queryNumber);
         }
@@ -393,17 +394,23 @@ export default function TableData() {
                                             // 'rgba(0,119,255,0.49)'}}
                                         >
                                             {Object
-                                                .values(row)
-                                                .map((cell: any,
-                                                      index: number) =>
+                                                .entries(row)
+                                                .map((
+                                                    cell: any,
+                                                    index: number,
+                                                ) =>
                                                     <Grid
                                                         className={classes.tableBodyCell}
                                                         key={`tableBodyCell-${index}`}
                                                         style={{width: `${100 / Object.keys(row).length}%`}}
                                                         item
-                                                    >{cell}</Grid>)}
+                                                    >{cell[0] === 'fecha_alta'
+                                                        ?
+                                                        moment(cell[1]).format("DD-MM-YYYY HH:mm")
+                                                        :
+                                                        cell[1]}</Grid>)}
                                         </Grid>
-                                    )
+                                )
                                 })
                         }
                     </Grid>

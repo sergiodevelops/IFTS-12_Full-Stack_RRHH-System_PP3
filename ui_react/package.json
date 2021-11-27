@@ -24,6 +24,7 @@
     "@types/webfontloader": "^1.6.33",
     "inversify": "^6.0.1",
     "module-alias": "^2.2.2",
+    "moment": "^2.29.1",
     "mysql": "^2.18.1",
     "path": "^0.12.7",
     "react": "^17.0.2",

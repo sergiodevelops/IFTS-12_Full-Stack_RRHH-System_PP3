@@ -7,8 +7,6 @@
  * @JoseLuisGlavic
  *
  */
-
-const {usuarios: UsuarioModel} = require("../models/allModels");
 const PostulanteModel = require('../models/allModels').postulantes;
 
 const getPagination = (size, page) => {
@@ -26,68 +24,122 @@ const getPagingData = (data, page, limit) => {
     return {totalItems, applicants, totalPages, currentPage};
 };
 
+// CREA POSTULANTE (alta)
 exports.create = (req, res) => {
     // Validate "dni"
     if (!req.body.dni) {
         res.status(400).send({
-            message: "Debe enviar un 'dni' para crear el User!"
+            message: "Debe enviar un 'dni' para crear el ApplicantInfo!"
         });
         return;
     }
     // Validate "apellido"
-    if (!req.body.nombre_completo) {
+    if (!req.body.apellido) {
         res.status(400).send({
-            message: "Debe enviar un 'apellido' para crear el User!"
+            message: "Debe enviar un 'apellido' para crear el ApplicantInfo!"
         });
         return;
     }
     // Validate "nombres"
     if (!req.body.nombres) {
         res.status(400).send({
-            message: "Debe enviar un 'nombres' para crear el User!"
+            message: "Debe enviar un 'nombres' para crear el ApplicantInfo!"
         });
         return;
     }
     // Validate "tel"
     if (!req.body.tel) {
         res.status(400).send({
-            message: "Debe enviar un 'tel' para crear el User!"
+            message: "Debe enviar un 'tel' para crear el ApplicantInfo!"
         });
         return;
     }
     // Validate "email"
     if (!req.body.email) {
         res.status(400).send({
-            message: "Debe enviar un 'email' para crear el User!"
+            message: "Debe enviar un 'email' para crear el ApplicantInfo!"
         });
         return;
     }
-    // Generate "startDate"
-    const formatoFecha = (fecha, formato) => {
-        return formato
-            .replace('YYYY', fecha.getFullYear())
-            .replace('MM', fecha.getMonth() + 1)
-            .replace('DD', fecha.getDate());
-    }
 
-    // Create a User
-    const newDbUser = {
-        tipo_usuario: req.body.tipo_usuario,
-        nombre_completo: req.body.nombre_completo,
-        username: req.body.username,
-        password: req.body.password,
+    // Create a ApplicantInfo
+    const newDbApplicantInfo = {
+        dni: req.body.dni,
+        apellido: req.body.apellido,
+        nombres: req.body.nombres,
+        tel: req.body.tel,
+        email: req.body.email,
     };
 
-    // Save User in the database if "username" not exist
+    // Save ApplicantInfo in the database if "username" not exist
     PostulanteModel
-        .create(newDbUser, {username: req.body.username})
+        .create(
+            newDbApplicantInfo,
+            {
+                dni: req.body.dni,
+                email: req.body.email,
+            }
+        )
         .then(data => {
             res.status(201).send(data);
         })
         .catch(err => {
             res.status(409).send({
-                name: "Duplicate Username Entry",
-                message: `El usuario "${req.body.username}" ya existe, intente con uno diferente.`
+                name: "Duplicate DNI or EMAIL Entry",
+                message: `El info de postulante "${req.body.dni} ${req.body.email}" ya existe, intente con uno diferente.`,
+                error: err,
+            });
+        });
+};
+
+// MODIFICACIÓN DE USUARIO TOTAL (actualización)
+exports.replace = (req, res) => {
+    const {id} = req.query;
+
+    PostulanteModel
+        .update(
+            req.body,
+            {where: {id: id}})
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "Applicant was updated successfully."
+                });
+            } else {
+                res.send({
+                    message: `Cannot update Tutorial with id=${id}. Maybe Applicant was not found or req.body is empty!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating Applicant with id=" + id
+            });
+        });
+};
+
+// BAJA (elimina el info de postulante)
+exports.delete = (req, res) => {
+    const {id} = req.query;
+
+    PostulanteModel
+        .destroy({
+            where: {id: id}
+        })
+        .then(num => {
+            if (num == 1) {
+                res.send({
+                    message: "Applicant was deleted successfully!" + id
+                });
+            } else {
+                res.send({
+                    message: `Cannot delete Applicant with id=${id}. Maybe Applicant was not found!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Could not delete Applicant with id=" + id
             });
         });
 };

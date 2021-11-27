@@ -19,7 +19,8 @@ module.exports = function(sequelize, DataTypes) {
     dni: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
-      comment: "Nro de documento"
+      comment: "Nro de documento",
+      unique: "dni"
     },
     apellido: {
       type: DataTypes.STRING(100),
@@ -69,6 +70,15 @@ module.exports = function(sequelize, DataTypes) {
           { name: "nombres" },
         ]
       },
+      {
+        name: "dni",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "dni" },
+        ]
+      },
+
     ]
   });
 };
