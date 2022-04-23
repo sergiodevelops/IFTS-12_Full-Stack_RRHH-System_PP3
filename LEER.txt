@@ -1,0 +1,15 @@
+LA ESTRUCTURA DONDE VA CADA .ENV
+
+RRHH (donde van cada .env)
+|
+|__ .env
+|
+|
+|__ db_mysql
+|         |__ .env
+|
+|__ api_express
+|         |__ .env
+|
+|__ ui_react
+          |__ .env
