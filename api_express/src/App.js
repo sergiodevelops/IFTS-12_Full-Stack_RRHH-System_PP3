@@ -14,7 +14,7 @@ app.use(logger('dev'));
 //------------------------------------------
 //MODO desarrollo
 //----------------------
-/*
+
 DB
     .sequelize
     .query('SET FOREIGN_KEY_CHECKS=0', {raw: true})
@@ -23,19 +23,22 @@ DB
             .sequelize
             .sync({force: true});
     });
-*/
+
 
 //------------------------------------------
 // MODO produccion
 //----------------------
-DB
-    .sequelize.sync() //MODO produccion
-    .then(() => { //modo dev
-        console.log("Drop and re-sync db.");
-    })
-    .catch((error) => {
-        console.log('el error es:', error)
-    });
+
+// DB
+//     .sequelize
+//     .sync() //MODO produccion
+//     .then(() => { //modo dev
+//         console.log("Drop and re-sync db.");
+//     })
+//     .catch((error) => {
+//         console.log('el error es:', error)
+//     });
+
 //------------------------------------------
 
 const webPort = WEB_PORT || 3005;

@@ -20,14 +20,16 @@ services:
   # DB - MYSQL server
   db_mysql:
     container_name: 'db_mysql'
+    image: 'mysql:5.7.35'
+    command: '--init-file /docker-entrypoint-initdb.d/init.sql'
+    #    command: /bin/sh -c "./db_mysql/setup.sh"
     #    build:
     #      dockerfile: 'Dockerfile'
     #      context: 'db_mysql'
     #    cap_add:
     #      - SYS_NICE
-    image: 'mysql:5.7.35'
     volumes:
-      - './db_mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql'
+      - './db_mysql/init.sql:/docker-entrypoint-initdb.d/init.sql'
       - './db_mysql/my-datavolume:/var/lib/mysql'
     hostname: 'localhost'
     env_file:
