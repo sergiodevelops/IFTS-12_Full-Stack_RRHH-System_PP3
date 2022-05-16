@@ -1,10 +1,16 @@
 version: '3'
-# PROXY (nginx) + UI (react) + API (express) + DB (mysql + adminer)
+# PROXY (nginx) <-- disabled
+# MYSQL (database server)
+# ADMINER (database administrator client)
+# UI (react)
+# API REST (express)
 
 services:
-  # PROXY - NGINX server
+  # PROXY (nginx) <-- disabled
   #  proxy_nginx:
-  #    container_name: 'proxy_nginx'
+  #    env_file:
+  #      - '.env'
+  #      - './proxy_nginx/.env'
   #    ports:
   #      - ${HTTP_PORT}:${HTTP_PORT}
   #      - ${HTTPS_PORT}:${HTTPS_PORT}
@@ -16,18 +22,10 @@ services:
   #    image: 'nginx:latest'
   #    restart: 'unless-stopped'
 
-
-  # DB - MYSQL server
+  # MYSQL (database server)
   db_mysql:
-    container_name: 'db_mysql'
     image: 'mysql:5.7.35'
     command: '--init-file /docker-entrypoint-initdb.d/init.sql'
-    #    command: /bin/sh -c "./db_mysql/setup.sh"
-    #    build:
-    #      dockerfile: 'Dockerfile'
-    #      context: 'db_mysql'
-    #    cap_add:
-    #      - SYS_NICE
     volumes:
       - './db_mysql/init.sql:/docker-entrypoint-initdb.d/init.sql'
       - './db_mysql/my-datavolume:/var/lib/mysql'
@@ -39,27 +37,24 @@ services:
       - ${REAL_DB_PORT}:${VIRTUAL_DB_PORT}
     restart: 'always'
 
-
-  # DB - ADMINER client
+  # ADMINER (database administrator client)
   db_adminer:
     depends_on:
       - 'db_mysql'
-    container_name: 'db_adminer'
     #    build:
     #      dockerfile: 'Dockerfile'
     #      context: 'db_adminer'
     image: 'adminer:latest'
     hostname: 'localhost'
+    env_file:
+      - '.env'
+      - './db_adminer/.env'
     ports:
       - ${REAL_ADMINER_PORT}:${VIRTUAL_ADMINER_PORT}
-    env_file:
-      - './db_adminer/.env'
     restart: 'unless-stopped'
 
-
-  # UI - REACT JS client
+  # UI (react)
   ui_react:
-    container_name: 'ui_react'
     #    build:
     #      dockerfile: 'Dockerfile'
     #      context: 'ui_react'
@@ -72,21 +67,19 @@ services:
       - '8.8.8.8'
       - '8.8.4.4'
     hostname: 'localhost'
-    ports:
-      - ${UI_PORT}:${UI_PORT}
     env_file:
       - '.env'
       - 'ui_react/.env'
+    ports:
+      - ${UI_PORT}:${UI_PORT}
     tty: true
     stdin_open: true
     restart: 'always'
 
-
-  # API - EXPRESS JS server
+  # API REST (express)
   api_express:
     depends_on:
       - 'db_mysql'
-    container_name: 'api_express'
     #    build:
     #      dockerfile: 'Dockerfile'
     #      context: 'api_express'
@@ -99,10 +92,10 @@ services:
       - '8.8.8.8'
       - '8.8.4.4'
     hostname: 'localhost'
-    ports:
-      - ${API_PORT}:${API_PORT}
     env_file:
       - '.env'
       - 'api_express/.env'
+    ports:
+      - ${API_PORT}:${API_PORT}
     tty: true
     restart: 'always'
