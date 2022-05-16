@@ -13,3 +13,12 @@ RRHH (donde van cada .env)
 |
 |__ ui_react
           |__ .env
+
+23/04/2022
+para probar entre cliente mysql local y base en contenedor
+instale el paquete
+mysql-workbench-community_8.0.27-1ubuntu20.04_amd64.deb
+luego tuve que hacer un sudo apt install -f para
+instalar las dependencias faltantes en ubuntu 20.04 LTS
+
+

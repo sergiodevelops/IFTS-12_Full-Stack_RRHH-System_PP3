@@ -567,3 +567,16 @@ INPUT TEXT FIELD NOT REMEMBER MATERIAL UI
 https://stackoverflow.com/questions/48304062/material-ui-textfield-disable-browser-autocomplete
 RUTAS EN REACT
 https://v5.reactrouter.com/web/guides/quick-start
+
+ejecutar script desde el compose yml para que la base se borre y vuelva a armar sola
+https://stackoverflow.com/questions/57840820/run-a-shell-script-from-docker-compose-command-inside-the-container
+
+NO SE EJECUTA SCRIPT cuando se inicia el contenedor de la base
+https://stackoverflow.com/questions/38504257/mysql-scripts-in-docker-entrypoint-initdb-are-not-executed
+docker volume rm data_volume (my-datavolume)
+
+ERROR DOCKER
+ERROR: for db_mysql  Cannot create container for service db_mysql: Conflict. The container name "/db_mysql" is already in use by container "3bc56a936cb8f4fd5c91f7e31740b8bde6d72d778c872ea65934f2cdf5202f18". You have to remove (or rename) that container to be able to reuse tha
+Creating ui_react ... error
+solución quitar container_name en yml:
+https://stackoverflow.com/questions/57361075/docker-compose-command-is-failing-with-conflict
